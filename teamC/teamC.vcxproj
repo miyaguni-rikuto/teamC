@@ -151,10 +151,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Customer.h" />
+    <ClInclude Include="FPS.h" />
+    <ClInclude Include="FpsControl.h" />
+    <ClInclude Include="GameMain.h" />
+    <ClInclude Include="PadInput.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="AbstractScene.h" />
+    <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="Title.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Customer.cpp" />
+    <ClCompile Include="FpsControl.cpp" />
+    <ClCompile Include="GameMain.cpp" />
+    <ClCompile Include="PadInput.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="Title.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

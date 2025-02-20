@@ -1,0 +1,49 @@
+﻿2025/02/20 17:01:54 にビルドを開始しました。
+ログの詳細度は次のように設定されています: Normal。     1>ノード 2 上のプロジェクト "C:\teamC\teamC\teamC.vcxproj" (Build ターゲット)。
+     1>InitializeBuildStatus:
+         "AlwaysCreate" が指定されたため "x64\Debug\teamC.tlog\unsuccessfulbuild" を作成しています。
+       ClCompile:
+         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\bin\HostX64\x64\CL.exe /c /IC:\dxlib /ZI /JMC /nologo /W3 /WX- /diagnostics:column /sdl /Od /D _DEBUG /D _WINDOWS /D _MBCS /Gm- /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /permissive- /Fo"x64\Debug\\" /Fd"x64\Debug\vc143.pdb" /external:W3 /Gd /TP /FC /errorReport:prompt GameMain.cpp Title.cpp
+         GameMain.cpp
+     1>C:\dxlib\DxFunctionWin.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+     1>C:\dxlib\DxFunctionWin.h(134,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+     1>C:\dxlib\DxFunctionWin.h(279,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+     1>C:\dxlib\DxFunctionWin.h(482,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+         Title.cpp
+     1>C:\dxlib\DxFunctionWin.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+     1>C:\dxlib\DxFunctionWin.h(134,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+     1>C:\dxlib\DxFunctionWin.h(279,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+     1>C:\dxlib\DxFunctionWin.h(482,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+         コードを生成中...
+       Link:
+         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\bin\HostX64\x64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\teamC\teamC\x64\Debug\teamC.exe" /INCREMENTAL /ILK:"x64\Debug\teamC.ilk" /NOLOGO /LIBPATH:C:\dxlib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\teamC\teamC\x64\Debug\teamC.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\teamC\teamC\x64\Debug\teamC.lib" /MACHINE:X64 x64\Debug\Customer.obj
+         x64\Debug\FpsControl.obj
+         x64\Debug\GameMain.obj
+         x64\Debug\PadInput.obj
+         x64\Debug\main.obj
+         x64\Debug\Player.obj
+         x64\Debug\SceneManager.obj
+         x64\Debug\Title.obj
+         teamC.vcxproj -> C:\teamC\teamC\x64\Debug\teamC.exe
+       FinalizeBuildStatus:
+         ファイル "x64\Debug\teamC.tlog\unsuccessfulbuild" を削除しています。
+         "x64\Debug\teamC.tlog\teamC.lastbuildstate" のタッチ タスクを実行しています。
+     1>プロジェクト "C:\teamC\teamC\teamC.vcxproj" (Build ターゲット) のビルドが完了しました。
+
+ビルドに成功しました。
+
+       "C:\teamC\teamC\teamC.vcxproj" (Build ターゲット) (1) ->
+       (ClCompile ターゲット) -> 
+         C:\dxlib\DxFunctionWin.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+         C:\dxlib\DxFunctionWin.h(134,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+         C:\dxlib\DxFunctionWin.h(279,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+         C:\dxlib\DxFunctionWin.h(482,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+         C:\dxlib\DxFunctionWin.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+         C:\dxlib\DxFunctionWin.h(134,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+         C:\dxlib\DxFunctionWin.h(279,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+         C:\dxlib\DxFunctionWin.h(482,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+
+    8 個の警告
+    0 エラー
+
+経過時間 00:00:12.54
