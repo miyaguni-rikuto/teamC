@@ -159,7 +159,8 @@ void Player::Movement(float delta_second)
 	}
 	else if (input->GetKey(KEY_INPUT_LEFT))
 	{
-		flip_flag = true;
+		flip_flag = true
+
 		player_state = ePlayerState::MOVE;
 		target_velocity_x = -5.0f; // 左向きの速度
 	}
@@ -234,7 +235,7 @@ void Player::Movement(float delta_second)
 	float current_offset_x = 0.0f;
 	if (owner_scene != nullptr)
 	{
-		current_offset_x = owner_scene->GetScreenOffset().x;
+		//current_offset_x = owner_scene->GetScreenOffset().x;
 	}
 
 	//プレイヤーが移動できる座標範囲制限
@@ -319,7 +320,7 @@ void Player::SetScreenOffset(const Vector2D& offset)
 {
 	if (owner_scene != nullptr)
 	{
-		owner_scene->screen_offset = offset;
+		//owner_scene->screen_offset = offset;
 	}
 }
 
@@ -329,7 +330,7 @@ void Player::ApplyScreenScroll(float velocity_x, float delta_second)
 	float current_offset_x = 0.0f;
 	if (owner_scene != nullptr)
 	{
-		current_offset_x = owner_scene->GetScreenOffset().x;
+		//current_offset_x = owner_scene->GetScreenOffset().x;
 	}
 
 	float scroll_amount = velocity_x * delta_second;

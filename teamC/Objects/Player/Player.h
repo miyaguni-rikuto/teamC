@@ -70,7 +70,7 @@ public:
 	/// 当たり判定通知処理
 	/// </summary>
 	/// <param name="hit_object">当たったゲームオブジェクトのポインタ</param>
-	virtual void OnHitCollision(GameObjectManager* hit_object) override;
+	virtual void OnHitCollision(GameObjectManager* hit_object);
 
 public:
 	/// <summary>
@@ -101,6 +101,7 @@ public:
 	/// </summary>
 	/// <returns>プレイヤーの状態</returns>
 	bool GetDestroy() const;
+
 
 private:
 	/// <summary>
