@@ -30,6 +30,10 @@ InGameScene::~InGameScene()
 
 void InGameScene::Initialize()
 {
+	//// ”wŒi‰æ‘œ‚Ì“Ç‚Ýž‚Ý
+	ResourceManager* rm = ResourceManager::CreateInstance();
+	back_ground_image = rm->GetImages("Resource/Images/yuka.png", 16, 16, 1, 32, 32);
+
 	////ƒXƒe[ƒW‚Ì“Ç‚Ýž‚Ý
 	LoadStageMapCSV();
 
@@ -48,9 +52,7 @@ void InGameScene::Initialize()
 	//camera_x = 0.0f;
 	////screen_offset.x = player->GetLocation().x - (640 / 2);
 
-	//// ”wŒi‰æ‘œ‚Ì“Ç‚Ýž‚Ý
-	ResourceManager* rm = ResourceManager::CreateInstance();
-	back_ground_image = rm->GetImages("Resource/Images/yuka.png",16,16,1,32,32);
+
 	////// BGM‚Ì“Ç‚Ýž‚Ý
 	////back_ground_sound = rm->GetSounds("Resource/Sounds/start-music.mp3");
 
@@ -239,7 +241,7 @@ void InGameScene::LoadStageMapCSV()
 		{
 			Vector2D generate_location = (Vector2D((float)x, (float)y) * D_OBJECT_SIZE) + (D_OBJECT_SIZE / 2.0f);
 
-			//DrawGraphF(generate_location.x, generate_location.y, back_ground_image[4], TRUE);
+			DrawGraphF(generate_location.x, generate_location.y, back_ground_image[4], TRUE);
 
 			//CreateObject<BrickBlock>(generate_location);
 			x++;
