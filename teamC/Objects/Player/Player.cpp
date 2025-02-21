@@ -26,7 +26,8 @@ Player::Player() :
 	dying_animation(),
 	p_velocity(0.0f),
 	player_state(ePlayerState::MOVE),
-	now_direction_state(eDirectionState::LEFT),
+	/*now_direction_state(eDirectionState::LEFT),*/
+	now_direction_state(eDirectionState::NONE),
 	next_direction_state(eDirectionState::LEFT),
 	food_count(0),
 	animation_time(0.0f),
@@ -71,15 +72,15 @@ void Player::Update(float delta_second)
 	//入力状態の取得
 	Movement(delta_second);
 	//アニメーションの取得
-	if (player_state == MOVE)
-	{
-		AnimationControl(delta_second);
-	}
-	//止まってるとき
-	else
-	{
-		//image = move_animation[0];
-	}
+	//if (player_state == MOVE)
+	//{
+	//	AnimationControl(delta_second);
+	//}
+	////止まってるとき
+	//else
+	//{
+	//	//image = move_animation[0];
+	//}
 
 	is_grounded = false;
 }
@@ -89,6 +90,21 @@ void Player::Draw(const Vector2D& screen_offset) const
 	// 親クラスの描画処理を呼び出す
 	__super::Draw(screen_offset);
 
+	
+	// デバッグ用：入力状態を表示
+	InputManager* input = InputManager::GetInstance();
+	/*if (input->GetButtonState(XINPUT_BUTTON_DPAD_LEFT) == eInputState::Held)
+	{
+		DrawString(10, 10, "LEFT KEY PRESSED", GetColor(255, 0, 0));
+	}
+	if (input->GetButtonState(XINPUT_BUTTON_DPAD_RIGHT) == eInputState::Held)
+	{
+		DrawString(10, 30, "RIGHT KEY PRESSED", GetColor(0, 255, 0));
+	}
+	if (input->GetButtonState(XINPUT_BUTTON_A) == eInputState::Held)
+	{
+		DrawString(10, 50, "A BUTTON PRESSED", GetColor(0, 0, 255));
+	}*/
 	//デバッグ用
 	float left = location.x - PLAYER_CENTER_OFFSET + screen_offset.x;
 	float top = location.y - PLAYER_CENTER_OFFSET + screen_offset.y;
@@ -96,20 +112,6 @@ void Player::Draw(const Vector2D& screen_offset) const
 	float bottom = location.y + PLAYER_CENTER_OFFSET + screen_offset.y;
 
 	DrawBox(left, top, right, bottom, GetColor(255, 255, 255), TRUE);
-	// デバッグ用：入力状態を表示
-	InputManager* input = InputManager::GetInstance();
-	if (input->GetKeyState(KEY_INPUT_LEFT))
-	{
-		DrawString(10, 10, "LEFT KEY PRESSED", GetColor(255, 0, 0));
-	}
-	if (input->GetKeyState(KEY_INPUT_RIGHT))
-	{
-		DrawString(10, 30, "RIGHT KEY PRESSED", GetColor(0, 255, 0));
-	}
-	if (input->GetButtonState(XINPUT_BUTTON_A) == eInputState::Pressed)
-	{
-		DrawString(10, 50, "A BUTTON PRESSED", GetColor(0, 0, 255));
-	}
 }
 
 void Player::Finalize()
@@ -148,38 +150,67 @@ void Player::Movement(float delta_second)
 	InputManager* input = InputManager::GetInstance();
 
 	//初期速度の変数
-	float target_velocity_x = 0.0f;
+	float acceleration = acceleration_rate * delta_second;
+	float deceleration = deceleration_rate * delta_second;
 
 	//右移動
-	if (input->GetKeyState(KEY_INPUT_RIGHT))
+	if (input->GetKeyState(KEY_INPUT_RIGHT)||input->GetButtonState(XINPUT_BUTTON_DPAD_RIGHT) == eInputState::Held)
 	{
-		target_velocity_x = max_speed;
+		//target_velocity_x = max_speed;
 		now_direction_state = eDirectionState::RIGHT;
-		player_state = ePlayerState::MOVE;
+		//player_state = ePlayerState::MOVE;
 	}
 	//左移動
-	else if (input->GetKeyState(KEY_INPUT_LEFT))
+	else if (input->GetKeyState(KEY_INPUT_LEFT) || input->GetButtonState(XINPUT_BUTTON_DPAD_LEFT))
 	{
-		target_velocity_x = max_speed;
+		//target_velocity_x = max_speed;
 		now_direction_state = eDirectionState::LEFT;
-		player_state = ePlayerState::MOVE;
+		//player_state = ePlayerState::MOVE;
 	}
-	else
+	/*else
 	{
 		player_state = ePlayerState::IDLE;
 		target_velocity_x = 0.0f;
+	}*/
+	
+	switch (now_direction_state)
+	{
+	case Player::UP:
+		break;
+	case Player::RIGHT:
+		p_velocity.x = 5.0f;
+		if (input->GetButtonState(XINPUT_BUTTON_DPAD_RIGHT) == eInputState::None)now_direction_state = NONE;
+		break;
+	case Player::DOWN:
+		break;
+	case Player::LEFT:
+		p_velocity.x -= 5.0f;
+		if (input->GetButtonState(XINPUT_BUTTON_DPAD_LEFT) == eInputState::None)now_direction_state = NONE;
+		break;
+	case Player::NONE:
+		p_velocity = 0.0f;
+		//右移動
+		if (input->GetButtonState(XINPUT_BUTTON_DPAD_RIGHT))
+		{
+			//target_velocity_x = max_speed;
+			now_direction_state = eDirectionState::RIGHT;
+			//player_state = ePlayerState::MOVE;
+		}
+		//左移動
+		else if (input->GetButtonState(XINPUT_BUTTON_DPAD_LEFT) == eInputState::Held)
+		{
+			//target_velocity_x = max_speed;
+			now_direction_state = eDirectionState::LEFT;
+			//player_state = ePlayerState::MOVE;
+		}
+		break;
+	default:
+		break;
 	}
-	
 
-	
 
-	//次と前の位置の値を持つ変数
-	Vector2D next_location = location + (p_velocity * delta_second);
-	old_location = location;
-
-	//プレイヤー座標を更新
-	location.x = next_location.x;
-	location.y = next_location.y;
+	location.x += p_velocity.x;
+	location.y += p_velocity.y;
 }
 
 
