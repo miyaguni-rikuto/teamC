@@ -54,15 +54,15 @@ void Player::Initialize()
 	z_layer = 5;
 
 	// 可動性の設定
-	mobility = eMobilityType::Movable;
+	is_mobility = true;
 
-	image = move_animation[0];
+	//image = NULL;//move_animation[0];
 
-	//エラーチェック
-	if (move_animation[0] == -1)
-	{
-		throw("\n");
-	}
+	////エラーチェック
+	//if (move_animation[0] == -1)
+	//{
+	//	throw("\n");
+	//}
 }
 
 void Player::Update(float delta_second)
@@ -78,7 +78,7 @@ void Player::Update(float delta_second)
 	//止まってるとき
 	else
 	{
-		image = move_animation[0];
+		//image = move_animation[0];
 	}
 
 	is_grounded = false;
@@ -98,11 +98,11 @@ void Player::Draw(const Vector2D& screen_offset) const
 	DrawBox(left, top, right, bottom, GetColor(255, 255, 255), TRUE);
 	// デバッグ用：入力状態を表示
 	InputManager* input = InputManager::GetInstance();
-	if (input->GetKey(KEY_INPUT_LEFT))
+	if (input->GetKeyState(KEY_INPUT_LEFT))
 	{
 		DrawString(10, 10, "LEFT KEY PRESSED", GetColor(255, 0, 0));
 	}
-	if (input->GetKey(KEY_INPUT_RIGHT))
+	if (input->GetKeyState(KEY_INPUT_RIGHT))
 	{
 		DrawString(10, 30, "RIGHT KEY PRESSED", GetColor(0, 255, 0));
 	}
@@ -114,9 +114,6 @@ void Player::Finalize()
 	move_animation.clear();
 	dying_animation.clear();
 }
-
-
-
 
 
 /// <summary>
@@ -150,14 +147,14 @@ void Player::Movement(float delta_second)
 	float target_velocity_x = 0.0f;
 
 	//右移動
-	if (input->GetKey(KEY_INPUT_RIGHT))
+	if (input->GetKeyState(KEY_INPUT_RIGHT))
 	{
 		target_velocity_x = max_speed;
 		now_direction_state = eDirectionState::RIGHT;
 		player_state = ePlayerState::MOVE;
 	}
 	//左移動
-	else if (input->GetKey(KEY_INPUT_LEFT))
+	else if (input->GetKeyState(KEY_INPUT_LEFT))
 	{
 		target_velocity_x = max_speed;
 		now_direction_state = eDirectionState::LEFT;
@@ -175,53 +172,6 @@ void Player::Movement(float delta_second)
 	Vector2D next_location = location + (p_velocity * delta_second);
 	old_location = location;
 
-
-	//現在の画面オフセットを計算
-	float current_offset_x = 0.0f;
-	if (owner_scene != nullptr)
-	{
-		//current_offset_x = owner_scene->GetScreenOffset().x;
-	}
-
-	//プレイヤーが移動できる座標範囲制限
-	float screen_limit_left = 0.0f + -current_offset_x + PLAYER_CENTER_OFFSET;
-	float screen_limit_right = SCREEN_CENTER_X + -current_offset_x + PLAYER_CENTER_OFFSET;
-
-	if (next_location.x < screen_limit_left)
-	{
-		next_location.x = screen_limit_left;
-	}
-	else if (next_location.x > screen_limit_right)
-	{
-		next_location.x = screen_limit_right;
-	}
-
-	//ステージスクロールする分の変数
-	float target_scroll_amount = 0.0f;
-
-	//プレイヤーが画面中心 かつ 右へ移動していればステージをスクロールする
-	if (abs(location.x - screen_limit_right) <= D_OBJECT_SIZE && p_velocity.x > 0)
-	{
-		target_scroll_amount = p_velocity.x;
-	}
-	else
-	{
-		target_scroll_amount = 0;
-	}
-
-
-	//ステージスクロールが必要であれば実装する
-	if (target_scroll_amount != 0)
-	{
-		scroll_velocity = -target_scroll_amount;
-	}
-	else
-	{
-		scroll_velocity = 0.0f;
-	}
-
-	ApplyScreenScroll(scroll_velocity, delta_second);
-
 	//プレイヤー座標を更新
 	location.x = next_location.x;
 	location.y = next_location.y;
@@ -236,18 +186,18 @@ void Player::Movement(float delta_second)
 void Player::AnimationControl(float delta_second)
 {
 	// 移動中のアニメーション
-	animation_time += delta_second;
-	if (animation_time >= (1.0f / 8.0f))
-	{
-		animation_time = 0.0f;
-		animation_count++;
-		if (animation_count >= 4)
-		{
-			animation_count = 0;
-		}
-		// 画像の設定
-		image = move_animation[animation_num[animation_count]];
-	}
+	//animation_time += delta_second;
+	//if (animation_time >= (1.0f / 8.0f))
+	//{
+	//	animation_time = 0.0f;
+	//	animation_count++;
+	//	if (animation_count >= 4)
+	//	{
+	//		animation_count = 0;
+	//	}
+	//	// 画像の設定
+	//	image = move_animation[animation_num[animation_count]];
+	//}
 }
 
 //プレイヤーのインスタンス取得
@@ -263,25 +213,25 @@ Player* Player::GetInstance()
 //画面オフセットを設置
 void Player::SetScreenOffset(const Vector2D& offset)
 {
-	if (owner_scene != nullptr)
-	{
-		//owner_scene->screen_offset = offset;
-	}
+	//if (owner_scene != nullptr)
+	//{
+	//	//owner_scene->screen_offset = offset;
+	//}
 }
 
 //ステージをスクロールさせる
 void Player::ApplyScreenScroll(float velocity_x, float delta_second)
 {
-	float current_offset_x = 0.0f;
-	if (owner_scene != nullptr)
-	{
-		//current_offset_x = owner_scene->GetScreenOffset().x;
-	}
+	//float current_offset_x = 0.0f;
+	//if (owner_scene != nullptr)
+	//{
+	//	//current_offset_x = owner_scene->GetScreenOffset().x;
+	//}
 
-	float scroll_amount = velocity_x * delta_second;
+	//float scroll_amount = velocity_x * delta_second;
 
-	Vector2D new_offset(current_offset_x + scroll_amount, 0.0f);
-	SetScreenOffset(new_offset);
+	//Vector2D new_offset(current_offset_x + scroll_amount, 0.0f);
+	//SetScreenOffset(new_offset);
 }
 
 void Player::OnHitCollision(GameObjectManager* hit_Object)

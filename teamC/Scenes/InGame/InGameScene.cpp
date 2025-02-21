@@ -1,7 +1,7 @@
 #include "InGameScene.h"
 #include "../../Utility/InputManager.h"
 #include "../../Utility/ResourceManager.h"
-//#include "../Object/Player/Player.h"
+#include "../../Objects/Player/Player.h"
 #include "../../Utility/Collision.h"
 //#include "../Object/Enemy/Kuribo.h"
 //#include "../Object/Enemy/Nokonoko.h"
@@ -14,6 +14,7 @@
 void InGameScene::Initialize()
 {
 	objm = GameObjectManager::GetInstance();
+	objm->CreateGameObject<Player>(Vector2D(320, 400));
 
 	//LoadStageMapCSV();
 }
