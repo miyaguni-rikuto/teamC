@@ -1,50 +1,43 @@
 #pragma once
-
 #include "../SceneBase.h"
-//#include "../../Objects/Player/Player.h"
-#include "../../Utility/InputManager.h"
-#include "../../Utility/ResourceManager.h"
+#include "../../Objects/GameObjectManager.h"
 
 class InGameScene : public SceneBase
 {
 private:
-	//class Player* player;				// プレイヤー情報
-	//class EnemyBase* enemy;			//　敵情報
-	int e_count;						//敵生成数
-	std::vector<int> back_ground_image;		// 背景画像
-	int back_ground_sound;					// BGM
-	int score;							//スコア
-	bool pause_flag;					// 一時停止フラグ
-		
-	Vector2D location;
+	class GameObjectManager* objm;
+
+	int sky_image;	//空の背景画像
+	int leaf_image[3];	//草の背景画像格能配列
+	int cloud_image[6];
+	int mountain_image[6];
+	int coin_image[1];
+	int time_remaining = 500;  // 初期時間500秒
+	float time_counter = 0.0f;
+	//Player* p;
+
+
+	std::vector<int> UI_num;
+	std::vector<int> UI_string;
+	std::vector<int>UI_time;
+	int num_image;
+	int num_time;
+	int num_world;
+	int time_set;
+	int time_add;
+	int now_count;
 
 public:
-	InGameScene();
-	virtual ~InGameScene();
-
 	virtual void Initialize() override;
-	virtual eSceneType Update(const float& delta_second) override;
+	virtual eSceneType Update(float delta_second) override;
 	virtual void Draw() const override;
 	virtual void Finalize() override;
+	virtual eSceneType GetNowSceneType() const override;
+	virtual void CheckCollision(GameObject* target, GameObject* partner) override;
 
-	// 現在のシーンタイプ情報を取得する
-	virtual const eSceneType GetNowSceneType() const override;
-
-	/// <summary>
-	/// 当たり判定確認処理
-	/// </summary>
-	/// <param name="target">1つ目のゲームオブジェクト</param>
-	/// <param name="partner">2つ目のゲームオブジェクト</param>
-	virtual void HitCheckObject(GameObject* target, GameObject* partner) override;
-
-	//private:
-		/// <summary>
-		// ステージマップ（壁）読み込み処理
-		// </summary>
+private:
 	void LoadStageMapCSV();
-
-	/// <summary>
-	/// ステージマップ餌読み込み処理
-	/// </summary>
-	///void LoadStageMapFoodsCSV();
+	void DrawBackGroundCSV() const;
+	void DeleteObject();
 };
+

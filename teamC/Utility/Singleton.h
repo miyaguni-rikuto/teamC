@@ -1,36 +1,23 @@
 #pragma once
+#include "DxLib.h"
 
-template <class T>
-
+template <class Type>
 class Singleton
 {
+
 protected:
 
-	//コンストラクタをprivateにすることで、
-	//自クラスのメンバ関数でしかインスタンスを生成できないようにする
 	Singleton() = default;
 
-	//コピーガード
-	//クラス外でインスタンスを生成して渡すことができないようにする
-	Singleton(Singleton& v) = delete;
-	Singleton& operator = (const Singleton& v) = delete;
-	//～コピーガード
+	Singleton(const Singleton& s) = delete;
+	Singleton& operator = (const Singleton& s) = delete;
 
-public:
 	~Singleton() = default;
 
-	/// <summary>
-	/// インスタンス削除処理
-	/// </summary>
-	//static void DeleteInstance();
-
 public:
-	static T* CreateInstance()
+	static Type* GetInstance()
 	{
-		//指定したクラスを生成する
-		//staticはプログラムが終了するまで情報を持ち続けるやつ
-		static T new_instance;
-
-		return &new_instance;
+		static Type* instance = new Type();
+		return instance;
 	}
 };

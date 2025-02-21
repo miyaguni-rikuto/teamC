@@ -3,66 +3,39 @@
 #include "../../Utility/ResourceManager.h"
 #include "DxLib.h"
 
-TitleScene::TitleScene() :
-	title_image(NULL)
-{
-
-}
-
-TitleScene::~TitleScene()
-{
-
-}
-
 void TitleScene::Initialize()
 {
-	// 背景画像の読み込み
-	/*ResourceManager* rm = ResourceManager::CreateInstance();
-	title_image = rm->GetImages("Resource/Images/title.png")[0];*/
-
-	//// BGMの読み込み
-	//title_image = rm->GetSounds("Resource/Sounds/start-music.mp3");
+	__super::Initialize();
 }
 
-eSceneType TitleScene::Update(const float& delta_second)
+eSceneType TitleScene::Update(float delta_second)
 {
-	// 入力情報を取得
-	InputManager* input = InputManager::CreateInstance();
+	InputManager* input = InputManager::GetInstance();
 
-	// インゲームシーンに遷移する
-	if (input->GetKeyDown(KEY_INPUT_SPACE))
+	if (input->GetKeyState(KEY_INPUT_SPACE) == eInputState::Pressed)
 	{
-		return eSceneType::in_game;
-	}
-	if (input->GetButtonDown(XINPUT_BUTTON_START))
-	{
-		return eSceneType::in_game;
+		return eSceneType::eInGame;
 	}
 
-	// 親クラスの更新処理を呼び出す
 	return __super::Update(delta_second);
 }
 
 void TitleScene::Draw() const
 {
-	// 親クラスの描画処理を呼び出す
-	//__super::Draw();
+	//タイトル背景画像の描画
 
-	DrawFormatString(50, 50, GetColor(255, 255, 255), "タイトル画面");
+	SetFontSize(40);
 
-	// UIの描画
-	//DrawRotaGraph(320, 240, 1.0, 0.0, title_image, TRUE);
-	DrawFormatString(10, 640, GetColor(255, 0, 0), "Space key pressed game start");
-	SetFontSize(16);
+	DrawFormatString(210, 300, GetColor(255, 255, 255), "PUSH SPASE");
+
+	__super::Draw();
 }
 
 void TitleScene::Finalize()
 {
-	// 親クラスの終了時処理を呼び出す
 	__super::Finalize();
 }
-
-const eSceneType TitleScene::GetNowSceneType() const
+eSceneType TitleScene::GetNowSceneType() const
 {
-	return eSceneType::title;
+	return eSceneType::eTitle;
 }

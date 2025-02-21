@@ -1,216 +1,306 @@
 #include "InGameScene.h"
-//#include "../../Objects/Player/Player.h"
-//#include "../../Objects/Enemy/EnemyBase.h"
-//#include "../../Objects/Enemy/Kuribo.h"
 #include "../../Utility/InputManager.h"
 #include "../../Utility/ResourceManager.h"
-//#include "../../Objects/Block/BrickBlock.h"
-//#include "../../Objects/Block/Block.h"
-//#include "../../Objects/Block/Hatena.h"
-//#include "../../Objects/Block/ClayPipe.h"
-#include "DxLib.h"
+//#include "../Object/Player/Player.h"
+#include "../../Utility/Collision.h"
+//#include "../Object/Enemy/Kuribo.h"
+//#include "../Object/Enemy/Nokonoko.h"
+#include "../../Objects/Floor/Floor.h"
 #include <fstream>
 
-InGameScene::InGameScene()
-/*: player(nullptr)
-, enemy(nullptr)*/
-	: back_ground_image(NULL)
-	, back_ground_sound(NULL)
-	, e_count(0)
-	, pause_flag(false)
-	, location(0.0f, 0.0f)
-{
-
-}
-
-InGameScene::~InGameScene()
-{
-
-}
+#define MAX_LOAD_LINE	20;
+#define MAX_LOAD_COLUMN	(15);
 
 void InGameScene::Initialize()
 {
-	//// 背景画像の読み込み
-	ResourceManager* rm = ResourceManager::CreateInstance();
-	back_ground_image = rm->GetImages("Resource/Images/yuka.png", 16, 16, 1, 32, 32);
+	objm = GameObjectManager::GetInstance();
 
-	////ステージの読み込み
-	LoadStageMapCSV();
-
-	////カメラ座標の設定
-	////screen_origin_position.x = (640 / 2);
-	////screen_origin_position.y = (480 / 2);
-
-	////screen_offestは描画だけを変えているから実際のlocationは変わらないはず
-	//player = CreateObject<Player>(Vector2D(100.0f, 60.0f));
-
-	//CreateObject<Kuribo>(Vector2D(200.f, 400.0f));
-
-	//// スクリーンオフセットを設定
-	////screen_offset.y = D_OBJECT_SIZE * 3.0f;
-	//screen_offset.x = 0.0f;
-	//camera_x = 0.0f;
-	////screen_offset.x = player->GetLocation().x - (640 / 2);
-
-
-	////// BGMの読み込み
-	////back_ground_sound = rm->GetSounds("Resource/Sounds/start-music.mp3");
-
-	////PlaySoundMem(back_ground_sound, DX_PLAYTYPE_BACK);
+	//LoadStageMapCSV();
 }
 
-//入力処理
-eSceneType InGameScene::Update(const float& delta_second)
+eSceneType InGameScene::Update(float delta_second)
 {
-	////入力情報の取得
-	//InputManager* input = InputManager::CreateInstance();
+	objm->HitCheck();
 
-	////プレイヤーが真ん中より右側にいたら
-	//if (player->GetLocation().x > 320 + camera_x)
-	//{
-	//	//画面の真ん中 - プレイヤーの座標 = 右側にどれだけずれているか
-	//	camera_x = player->GetLocation().x - 320;
-	//	//数値をスクリーンオフセットに代入
-	//	screen_offset.x = -(camera_x);
-	//}
+	InputManager* input = InputManager::GetInstance();
 
-	////プレイヤーが画面左側に行かないようにする処理
-	//if (player->GetLocation().x < screen_offset.x * -1)
-	//{
-	//	//playerの座標
-	//	Vector2D player_loc;
-	//	player_loc.x = abs(screen_offset.x) + 0.01f;		//座標をカメラ座標の左端に設定
-	//	player_loc.y = player->GetLocation().y;				//y座標を変えずに代入
-	//	player->SetLocation(player_loc);
-	//	player->velocity.x = 0.0f;
-	//}
+	/*if (p->Get_DeathCount() >= 1)
+	{
+		return eSceneType::eResult;
+	}*/
 
-	////PAUSE画面への遷移
-	//if (input->GetKeyDown(KEY_INPUT_P) || input->GetButtonDown(XINPUT_BUTTON_START))
-	//{
-	//	pause_flag = !pause_flag;
-	//}
+	// タイマー更新処理
+	time_counter += delta_second;  // フレームごとに経過時間を加算
 
-	////PAUSE画面ではなければ
-	//if (!pause_flag)
-	//{
-	//	// 親クラスの更新処理を呼び出す
-	//	__super::Update(delta_second);
+	if (time_counter >= 1.0f)  // 1秒経過した場合
+	{
+		time_remaining -= 1;  // 1秒減らす
+		time_counter = 0.0f;  // カウンターをリセット
+	}
 
-	//	//// プレイヤーが死んだら、再スタート
-	//	//if (player->GetDestroy())
-	//	//{
-	//	//	return eSceneType::re_start;
-	//	//}
-	//}
+	// 残り時間が0になったら、必要な処理を追加
+	if (time_remaining <= 0)
+	{
+		time_remaining = 0;
+		// ゲームオーバーや別の処理を追加することも可能
+	}
 
-	///*if (screen_offset.x > END_POINT)
-	//{
-	//	if((player->GetLocation().x / 2) > )
-	//	screen_offset.x -= 0.1f;
-	//}*/
+	__super::Update(delta_second);
 
-	//if (abs(player->GetLocation().x) > 640 / 2)
-	//{
-	//	//screen_offset.x += 0.01f;
-	//}
+	//DeleteObject();
 
-	// シーン情報を返却する
+	Draw();
+
 	return GetNowSceneType();
 }
 
 void InGameScene::Draw() const
 {
-	// 背景画像の描画
-	//DrawRotaGraph(0, 480, 2.0, 0.0, back_ground_image, TRUE);
+	DrawBackGroundCSV();
 
-	// オフセット値を基に画像の描画を行う
-	Vector2D graph_location = this->location.x + screen_offset.x;
-
-	//float center = abs((graph_location.x / 2));
-	//float p_loc = abs(player->GetLocation().x);
-
-	//if (player != nullptr)
-	//{
-	//	if (p_loc > center)
-	//	{
-	//		
-	//	}
-	//}
-
-	//DrawGraphF(0, 480, back_ground_image, TRUE);
-
-	//DrawFormatString(0, 90, GetColor(255, 255, 255), "%f", this->location.x);
-
-	// 親クラスの描画処理を呼び出す
 	__super::Draw();
-
-	DrawBox(D_LEFT_LANE - 10, 0, D_LEFT_LANE + 10, 640, GetColor(255, 255, 255), TRUE);
-	DrawBox(D_MID_LANE - 10, 0, D_MID_LANE + 10, 640, GetColor(255, 255, 255), TRUE);
-	DrawBox(D_RIGHT_LANE - 10, 0, D_RIGHT_LANE + 10, 640, GetColor(255, 255, 255), TRUE);
-
-	DrawString(50, 50, "ゲーム画面です", GetColor(255, 255, 255), TRUE);
-
-	// UI系の描画処理
-	if (pause_flag)
-	{
-		DrawString(10, 10, " P A U S E ", GetColor(255, 255, 255), TRUE);
-	}
 }
 
 void InGameScene::Finalize()
 {
-	// 親クラスの終了時処理を呼び出す
-	__super::Finalize();
+
 }
 
-const eSceneType InGameScene::GetNowSceneType() const
+eSceneType InGameScene::GetNowSceneType() const
 {
-	return eSceneType::in_game;
+	return eSceneType::eInGame;
 }
 
-/// <summary>
-/// 当たり判定確認処理
-/// </summary>
-/// <param name="target">1つ目のゲームオブジェクト</param>
-/// <param name="partner">2つ目のゲームオブジェクト</param>
-void InGameScene::HitCheckObject(GameObject* target, GameObject* partner)
+void InGameScene::CheckCollision(GameObject* target, GameObject* partner)
 {
-	// ヌルポチェック
 	if (target == nullptr || partner == nullptr)
 	{
 		return;
 	}
 
-	// 当たり判定情報を取得
 	Collision tc = target->GetCollision();
 	Collision pc = partner->GetCollision();
 
 	if (tc.IsCheckHitTarget(pc.object_type) || pc.IsCheckHitTarget(tc.object_type))
 	{
+		tc.pivot += target->GetLocation();
+		pc.pivot += partner->GetLocation();
 
-		// 線分の始点と終点を設定する
-		tc.box_location[0] = target->GetLocation();
-		pc.box_location[0] = partner->GetLocation();
-
-		// 矩形同士の当たり判定
-		if (IsCheckCollision(tc, pc))
+		if (tc.IsCheckHitCollision(tc, pc))
 		{
-			// 当たっていることを通知する
 			target->OnHitCollision(partner);
 			partner->OnHitCollision(target);
 		}
-
 	}
 
 }
 
-/// <summary>
-/// ステージマップ（壁）読み込み処理
-/// </summary>
-void InGameScene::LoadStageMapCSV()
+//void InGameScene::LoadStageMapCSV()
+//{
+//
+//	FILE* fp = NULL;
+//
+//	std::string file_name = "Resource/Map/Stage_Object.csv";
+//
+//
+//	// 指定されたファイルを開く
+//	errno_t result = fopen_s(&fp, file_name.c_str(), "r");
+//
+//	// エラーチェック
+//	if (result != 0)
+//	{
+//		throw (file_name + "が開けません");
+//	}
+//
+//	int x = 0;
+//	int y = 0;
+//	Ground* ground = nullptr;
+//	Cloud* cloud = nullptr;
+//	Kuribo* k = nullptr;
+//	Nokonoko* n = nullptr;
+//	Pipe* pipe = nullptr;
+//	GoalFlag* f = nullptr;
+//
+//	// ファイル内の文字を確認していく
+//	while (true)
+//	{
+//
+//		// ファイルから1文字抽出する
+//		int c = fgetc(fp);
+//
+//		//オブジェクトを生成する位置
+//		Vector2D generate_location = (Vector2D((float)x, (float)y) * OBJECT_SIZE) + (OBJECT_SIZE / 2);
+//
+//		// 抽出した文字がEOFならループ終了
+//		if (c == EOF)
+//		{
+//			break;
+//		}
+//		//抽出した文字が'P'ならPlayerを描画する
+//		else if (c == 'M')
+//		{
+//			p = objm->CreateGameObject<Player>(generate_location);
+//			camera->Set_Player(p);
+//			p->Set_Camera(camera);
+//
+//			x++;
+//		}
+//		// 抽出した文字がGなら、地面を生成
+//		else if (c == 'G')
+//		{
+//			ground = objm->CreateGameObject<Ground>(generate_location);
+//			ground->Set_Camera(camera);
+//			x++;
+//		}
+//		//抽出した文字がKなら、クリボー（敵）を生成する
+//		else if (c == 'C')
+//		{
+//			k = objm->CreateGameObject<Kuribo>(generate_location);
+//			k->Set_Camera(camera);
+//			x++;
+//		}
+//		else if (c == 'N')
+//		{
+//			n = objm->CreateGameObject<Nokonoko>(generate_location);
+//			n->Set_Camera(camera);
+//			x++;
+//		}
+//		else if (c == 'B')
+//		{
+//			c = fgetc(fp);
+//			switch (c)
+//			{
+//			case '?':
+//				c = fgetc(fp);
+//				switch (c)
+//				{
+//				case 'M':
+//					objm->CreateGameObject<Question>(generate_location)->SetItemType(eMushroom);
+//					x++;
+//					break;
+//
+//				case 'F':
+//					objm->CreateGameObject<Question>(generate_location)->SetItemType(eFlower);
+//					x++;
+//					break;
+//
+//				case 'C':
+//					objm->CreateGameObject<Question>(generate_location)->SetItemType(eCoin);
+//					x++;
+//					break;
+//
+//				case 'S':
+//					objm->CreateGameObject<Question>(generate_location)->SetItemType(eStar);
+//					x++;
+//					break;
+//
+//				case 'O':
+//					objm->CreateGameObject<Question>(generate_location)->SetItemType(eOneup);
+//					x++;
+//					break;
+//
+//				default:
+//					objm->CreateGameObject<Question>(generate_location)->SetItemType(eCoin);
+//					x++;
+//					break;
+//				}
+//
+//				break;
+//
+//			case '0':
+//				objm->CreateGameObject<Brick>(generate_location);
+//				x++;
+//				break;
+//
+//			case '1':
+//				objm->CreateGameObject<HardBlock>(generate_location);
+//				x++;
+//				break;
+//
+//			case 'H':
+//				x++;
+//				break;
+//			}
+//		}
+//		else if (c == 'P')
+//		{
+//			c = fgetc(fp);
+//
+//			switch (c)
+//			{
+//			case '0':
+//				pipe = objm->CreateGameObject<Pipe>(generate_location);
+//				pipe->Set_Image(0);
+//				x++;
+//				break;
+//
+//			case '1':
+//				pipe = objm->CreateGameObject<Pipe>(generate_location);
+//				pipe->Set_Image(1);
+//				x++;
+//				break;
+//
+//			case '2':
+//				pipe = objm->CreateGameObject<Pipe>(generate_location);
+//				pipe->Set_Image(2);
+//				x++;
+//				break;
+//
+//			case '3':
+//				pipe = objm->CreateGameObject<Pipe>(generate_location);
+//				pipe->Set_Image(3);
+//				x++;
+//				break;
+//			case 'E':
+//
+//				objm->CreateGameObject<Pipeenter>(Vector2D((generate_location.x + 16.0f), generate_location.y + 8.0f));
+//				x++;
+//				break;
+//			}
+//		}
+//		else if (c == 'F')
+//		{
+//			c = fgetc(fp);
+//			switch (c)
+//			{
+//			case '0':
+//				f = objm->CreateGameObject<GoalFlag>(generate_location);
+//				f->Set_Image(0);
+//				x++;
+//				break;
+//
+//			case '1':
+//				f = objm->CreateGameObject<GoalFlag>(generate_location);
+//				f->Set_Image(1);
+//				x++;
+//				break;
+//			}
+//		}
+//		//抽出した文字が0なら何も生成せず、次の文字を見る
+//		else if (c == '0')
+//		{
+//			x++;
+//		}
+//		// 抽出した文字が改行文字なら、次の行を見に行く
+//		else if (c == '\n')
+//		{
+//			x = 0;
+//			y++;
+//		}
+//
+//
+//
+//	}
+//
+//	// 開いたファイルを閉じる
+//	fclose(fp);
+//}
+
+void InGameScene::DrawBackGroundCSV() const
 {
+
 	FILE* fp = NULL;
+
 	std::string file_name = "Resource/Map/Mapdate.csv";
 
 	// 指定されたファイルを開く
@@ -224,10 +314,14 @@ void InGameScene::LoadStageMapCSV()
 
 	int x = 0;
 	int y = 0;
+	Floor* floor = nullptr;
 
 	// ファイル内の文字を確認していく
 	while (true)
 	{
+		//描画位置設定
+		Vector2D generate_location = (Vector2D((float)x, (float)y) * OBJECT_SIZE) + (OBJECT_SIZE / 2);
+
 		// ファイルから1文字抽出する
 		int c = fgetc(fp);
 
@@ -236,18 +330,14 @@ void InGameScene::LoadStageMapCSV()
 		{
 			break;
 		}
-		// 抽出した文字がGなら、道を生成
-		else if (c == '1')
+		// 抽出した文字が1なら床（背景）を生成する
+		if (c == '1')
 		{
-			Vector2D generate_location = (Vector2D((float)x, (float)y) * D_OBJECT_SIZE) + (D_OBJECT_SIZE / 2.0f);
-
-			DrawGraphF(generate_location.x, generate_location.y, back_ground_image[4], TRUE);
-
-			//CreateObject<BrickBlock>(generate_location);
+			objm->CreateGameObject<Floor>(generate_location);
 			x++;
 		}
-		// 抽出した文字が空白文字なら、生成しないで次の文字を見に行く
-		else if (c == '0')
+		//抽出した文字がドットなら何も生成せず、次の文字を見る
+		else if (c == '.')
 		{
 			x++;
 		}
@@ -257,9 +347,27 @@ void InGameScene::LoadStageMapCSV()
 			x = 0;
 			y++;
 		}
-
 	}
 
 	// 開いたファイルを閉じる
 	fclose(fp);
 }
+
+//void InGameScene::DeleteObject()
+//{
+//	std::vector<GameObject*> object_list = objm->GetObjectsList();
+//
+//	if (!object_list.empty())
+//	{
+//		for (int i = 0; i < object_list.size(); i++)
+//		{
+//			int x = (object_list[i]->GetLocation().x + OBJECT_SIZE / 2) - offset;
+//			if (0 >= x)
+//			{
+//				objm->DestroyGameObject(object_list[i]);
+//
+//			}
+//		}
+//
+//	}
+//}
