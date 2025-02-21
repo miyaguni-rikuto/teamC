@@ -106,6 +106,10 @@ void Player::Draw(const Vector2D& screen_offset) const
 	{
 		DrawString(10, 30, "RIGHT KEY PRESSED", GetColor(0, 255, 0));
 	}
+	if (input->GetButtonState(XINPUT_BUTTON_A) == eInputState::Pressed)
+	{
+		DrawString(10, 50, "A BUTTON PRESSED", GetColor(0, 0, 255));
+	}
 }
 
 void Player::Finalize()
@@ -166,6 +170,7 @@ void Player::Movement(float delta_second)
 		target_velocity_x = 0.0f;
 	}
 	
+
 	
 
 	//Ÿ‚Æ‘O‚ÌˆÊ’u‚Ì’l‚ğ‚Â•Ï”
