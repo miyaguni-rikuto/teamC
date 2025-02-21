@@ -8,10 +8,9 @@
 
 #define D_OBJECT_SIZE	(32.0f)			// 壁のサイズ
 
-#define D_MASS				(8.0f)	//質量（kg)
-#define D_GRAVITY	(9.807f)	//重力加速度(m/ss)
-#define D_STATIC_FRICTION	(5.0f)	//静止摩擦係数
-#define D_DYNAMIC_FRICTION	(0.3f)	//動摩擦係数
+#define D_MID_LANE		(320)		//真ん中のレーンx座標
+#define D_LEFT_LANE		(110)		//左のレーンx座標
+#define D_RIGHT_LANE	(530)		//右のレーンx座標
 
 /// <summary>
 /// 可動性の種類
@@ -20,6 +19,13 @@ enum eMobilityType
 {
 	Stationary,		// 固定
 	Movable,		// 可動
+};
+
+enum eNowLane
+{
+	eLeft,
+	eMid,
+	eRight
 };
 
 // ゲームオブジェクト基底クラス
@@ -38,6 +44,7 @@ protected:
 	eMobilityType		mobility;		// 可動性
 	float				g_velocity;		//重力速度
 	int					flip_flg;		//画像の反転フラグ
+	eNowLane			now_lane;		//現在レーン情報
 
 
 public:
