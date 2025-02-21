@@ -8,17 +8,17 @@ InputManager* InputManager::instance = nullptr;
 /// インスタンス取得処理
 /// </summary>
 /// <returns>インスタンスのポインタを返却する</returns>
-//InputManager* InputManager::GetInstance()
-//{
-//	// インスタンスが生成されていない場合、生成する
-//	if (instance == nullptr)
-//	{
-//		//instance = new InputManager();
-//	}
-//
-//	// インスタンスのポインタを返却する
-//	return instance;
-//}
+InputManager* InputManager::GetInstance()
+{
+	// インスタンスが生成されていない場合、生成する
+	if (instance == nullptr)
+	{
+		//instance = new InputManager();
+	}
+
+	// インスタンスのポインタを返却する
+	return instance;
+}
 
 /// <summary>
 /// インスタンス削除処理

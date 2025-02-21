@@ -1,6 +1,5 @@
 #include "Player.h"
 #include "../../Utility/InputManager.h"
-#include "../../Utility/InputManager.h"
 #include "../../Utility/ResourceManager.h"
 #include "DxLib.h"
 
@@ -89,6 +88,24 @@ void Player::Draw(const Vector2D& screen_offset) const
 {
 	// 親クラスの描画処理を呼び出す
 	__super::Draw(screen_offset);
+
+	//デバッグ用
+	float left = location.x - PLAYER_CENTER_OFFSET + screen_offset.x;
+	float top = location.y - PLAYER_CENTER_OFFSET + screen_offset.y;
+	float right = location.x + PLAYER_CENTER_OFFSET + screen_offset.x;
+	float bottom = location.y + PLAYER_CENTER_OFFSET + screen_offset.y;
+
+	DrawBox(left, top, right, bottom, GetColor(255, 255, 255), TRUE);
+	// デバッグ用：入力状態を表示
+	InputManager* input = InputManager::GetInstance();
+	if (input->GetKey(KEY_INPUT_LEFT))
+	{
+		DrawString(10, 10, "LEFT KEY PRESSED", GetColor(255, 0, 0));
+	}
+	if (input->GetKey(KEY_INPUT_RIGHT))
+	{
+		DrawString(10, 30, "RIGHT KEY PRESSED", GetColor(0, 255, 0));
+	}
 }
 
 void Player::Finalize()
@@ -100,14 +117,7 @@ void Player::Finalize()
 
 
 
-/// <summary>
-/// 餌を食べた数取得
-/// </summary>
-/// <returns>餌を食べた数</returns>
-int Player::GetFoodCount() const
-{
-	return food_count;
-}
+
 
 /// <summary>
 /// プレイヤーの状態を取得する
@@ -118,22 +128,9 @@ ePlayerState Player::GetPlayerState() const
 	return player_state;
 }
 
-/// <summary>
-/// プレイヤーがパワーアップしてるか確認する
-/// </summary>
-/// <returns>プレイヤーの状態</returns>
-bool Player::GetPowerUp() const
-{
-	return is_power_up;
-}
 
-/// <summary>
-/// パワーダウンさせる
-/// </summary>
-void Player::SetPowerDown()
-{
-	is_power_up = false;
-}
+
+
 
 bool Player::GetDestroy() const
 {
@@ -171,23 +168,7 @@ void Player::Movement(float delta_second)
 		player_state = ePlayerState::IDLE;
 		target_velocity_x = 0.0f;
 	}
-	// 速度の更新（加速度を考慮）
-	if (p_velocity.x < target_velocity_x)
-	{
-		p_velocity.x += acceleration_rate * delta_second;
-		if (p_velocity.x > target_velocity_x)
-		{
-			p_velocity.x = target_velocity_x;
-		}
-	}
-	else if (p_velocity.x > target_velocity_x)
-	{
-		p_velocity.x -= deceleration_rate * delta_second;
-		if (p_velocity.x < target_velocity_x)
-		{
-			p_velocity.x = target_velocity_x;
-		}
-	}
+	
 	
 
 	//次と前の位置の値を持つ変数

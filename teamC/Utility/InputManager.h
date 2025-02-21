@@ -31,7 +31,7 @@ public:
 	/// インスタンス取得処理
 	/// </summary>
 	/// <returns>インスタンスのポインタを返却する</returns>
-	//static InputManager* GetInstance();
+	static InputManager* GetInstance();
 
 	/// <summary>
 	/// インスタンス削除処理
