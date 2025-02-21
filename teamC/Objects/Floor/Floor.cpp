@@ -19,7 +19,7 @@ void Floor::Initialize()
 	//アニメーション画像の読み込み
 	ResourceManager* rm = ResourceManager::GetInstance();
 	floor_image = rm->GetImageResource("Resource/Images/yuka.png", 16, 16, 1, 32, 32);
-	image = floor_image[4];
+	image = floor_image[7];
 
 	//当たり判定の設定
 	/*collision.is_blocking = true;
@@ -29,7 +29,7 @@ void Floor::Initialize()
 	collision.box_size = (32.0f, 32.0f);*/
 
 	// レイヤーの設定
-	z_layer = 5;
+	z_layer = 4;
 
 	//可動性の設定
 	is_mobility = false;

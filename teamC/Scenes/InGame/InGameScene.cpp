@@ -16,6 +16,8 @@ void InGameScene::Initialize()
 	objm = GameObjectManager::GetInstance();
 	objm->CreateGameObject<Player>(Vector2D(320, 400));
 
+	DrawBackGroundCSV();
+
 	//LoadStageMapCSV();
 }
 
@@ -57,7 +59,7 @@ eSceneType InGameScene::Update(float delta_second)
 
 void InGameScene::Draw() const
 {
-	DrawBackGroundCSV();
+	
 
 	__super::Draw();
 }

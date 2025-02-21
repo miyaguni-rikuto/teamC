@@ -4,7 +4,11 @@
 #include "../Utility/Collision.h"
 
 
-#define OBJECT_SIZE	(32.0f)
+#define OBJECT_SIZE		(32.0f)
+
+#define D_LEFT_LEAN		(110.0f)
+#define D_MID_LEAN		(320.0f)
+#define D_RIGHT_LEAN	(530.0f)
 
 enum State
 {
