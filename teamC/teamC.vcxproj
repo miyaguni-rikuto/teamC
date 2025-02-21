@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Objects\BackgourndImage.h" />
     <ClInclude Include="Objects\Floor\floor.h" />
     <ClInclude Include="Objects\GameObject.h" />
     <ClInclude Include="Objects\GameObjectManager.h" />
@@ -169,6 +170,7 @@
     <ClInclude Include="Utility\Vector2D.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Objects\BackgourndImage.cpp" />
     <ClCompile Include="Objects\Floor\Floor.cpp" />
     <ClCompile Include="Objects\GameObject.cpp" />
     <ClCompile Include="Appmain.cpp" />
