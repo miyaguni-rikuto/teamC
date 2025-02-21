@@ -2,6 +2,7 @@
 #pragma once
 
 #include "../GameObject.h"
+#include"../GameObjectManager.h"
 
 // ƒvƒŒƒCƒ„[ó‘Ô
 enum ePlayerState
