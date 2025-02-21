@@ -1,14 +1,16 @@
 #pragma once
-#include "../BackImageBase.h"
+#include "GameObject.h"
 
-class Floor : public BackImageBase
+class BackImageBase : public GameObject
 {
-private:
-	std::vector<int> floor_image;		// 背景画像
+public:
+
+protected:
+	std::vector<int> destroy_animation;		//アニメーション画像
 
 public:
-	Floor();
-	~Floor();
+	BackImageBase();
+	~BackImageBase();
 
 	/// <summary>
 	/// 初期化処理
@@ -30,6 +32,5 @@ public:
 	virtual void Finalize();
 
 public:
-	virtual void OnHitCollision(GameObject* target) override;
-
+	virtual void OnHitCollision(GameObject*) override;
 };

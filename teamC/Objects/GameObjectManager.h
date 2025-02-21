@@ -1,39 +1,180 @@
 #pragma once
-
+#include "../Utility/Singleton.h"
 #include "GameObject.h"
-#include "../Scenes/SceneBase.h"
+#include <vector>
 
-// ゲームオブジェクトクラス
-class GameObjectManager : public GameObject
+class GameObjectManager : public Singleton <GameObjectManager>
 {
+private:
+	std::vector<GameObject*> create_object;
+	std::vector<GameObject*> destroy_object;
+	std::vector<GameObject*> game_object_list;
+
 public:
-	/// <summary>
-	/// ゲームオブジェクト生成処理
-	/// </summary>
-	/// <typeparam name="OBJECT">生成するゲームオブジェクトクラス</typeparam>
-	/// <param name="generate_location">生成位置</param>
-	/// <returns>生成したゲームオブジェクトのポインタ</returns>
+
+	void CheckCreateObject()
+	{
+		if (!create_object.empty())
+		{
+			for (GameObject* obj : create_object)
+			{
+				//オブジェクトのZレイヤー情報を入れる
+				int z_layer = obj->GetZLayer();
+				std::vector<GameObject*>::iterator itr = game_object_list.begin();
+
+				//オブジェクトのZレイヤーの値を比較し、挿入する場所を決める。
+				for (; itr != game_object_list.end(); itr++)
+				{
+					if (z_layer < (*itr)->GetZLayer())
+					{
+						break;
+					}
+				}
+				//オブジェクトリストに挿入する
+				game_object_list.insert(itr, obj);
+			}
+			//オブジェクト生成リストを解放する
+			create_object.clear();
+
+		}
+	}
+
+	void CheckDstroyObject()
+	{
+		// 破棄リスト内が空でない場合、リスト内のオブジェクトを破棄する
+		if (!destroy_object.empty())
+		{
+			for (GameObject* obj : destroy_object)
+			{
+				std::vector<GameObject*>::iterator itr = game_object_list.begin();	// オブジェクトリストの先頭
+				// リストの末尾になるまで走査する
+				for (; itr != game_object_list.end(); itr++)
+				{
+					// リスト内にあれば、削除する
+					if ((*itr) == obj)
+					{
+						game_object_list.erase(itr);
+						obj->Finalize();
+						delete obj;
+						break;
+					}
+				}
+			}
+			// 動的配列の開放
+			destroy_object.clear();
+
+			// リストが空なら処理を終了する
+			if (destroy_object.empty())
+			{
+				return;
+			}
+			// リスト内のオブジェクトを削除する
+			for (GameObject* obj : destroy_object)
+			{
+				obj->Finalize();
+				delete obj;
+			}
+			// リストの解放
+			destroy_object.clear();
+		}
+	}
+	const std::vector<GameObject*>& GetObjectsList() const
+	{
+		return game_object_list;
+	}
+
 	template <class OBJECT>
-	OBJECT* CreateObject(const Vector2D& generate_location)
+	OBJECT* CreateGameObject(const Vector2D& generate_location)
 	{
-		return owner_scene->CreateObject<OBJECT>(generate_location);
+		OBJECT* new_instance = new OBJECT();
+
+		GameObject* new_object = dynamic_cast<GameObject*>(new_instance);
+
+		if (new_object == nullptr)
+		{
+			delete new_instance;
+
+			throw ("ゲームオブジェクトが生成できませんでした\n");
+			return nullptr;
+		}
+
+		new_object->Initialize();
+
+		new_object->SetLocation(generate_location);
+
+		create_object.push_back(new_object);
+
+		CheckCreateObject();
+
+		return new_instance;
 	}
 
-	/// <summary>
-	/// オブジェクト破棄処理
-	/// </summary>
-	/// <param name="target">破棄を行うゲームオブジェクトのポインタ</param>
-	void DestroyObject(GameObjectManager* target)
+	void DestroyGameObject(GameObject* target)
 	{
-		owner_scene->DestroyObject(target);
+		if (target == nullptr)
+		{
+			return;
+		}
+
+		for (GameObject* obj : destroy_object)
+		{
+			if (obj == target)
+			{
+				return;
+			}
+		}
+
+		destroy_object.push_back(target);
 	}
 
-	/// <summary>
-	/// スクリーンオフセット情報取得処理
-	/// </summary>
-	/// <returns>スクリーンオフセット値</returns>
-	const Vector2D GetScreenOffset() const
+	void HitCheck()
 	{
-		return owner_scene->GetScreenOffset();
+		for (int i = 0; i < game_object_list.size(); i++)
+		{
+			if (game_object_list[i]->GetMobility() == false)
+			{
+				continue;
+			}
+
+			for (int j = 0; j < game_object_list.size(); j++)
+			{
+				if (i == j)
+				{
+					continue;
+				}
+
+				CheckCollision(game_object_list[i], game_object_list[j]);
+			}
+		}
 	}
+
+	void CheckCollision(GameObject* target, GameObject* partner)
+	{
+		bool flag = false;
+
+		if (target == nullptr || partner == nullptr)
+		{
+			return;
+		}
+
+		Collision tc = target->GetCollision();
+		Collision pc = partner->GetCollision();
+
+
+		if (tc.IsCheckHitTarget(pc.object_type) || pc.IsCheckHitTarget(tc.object_type))
+		{
+
+			tc.pivot = target->GetLocation();
+			pc.pivot = partner->GetLocation();
+
+			if (tc.IsCheckHitCollision(tc, pc))
+			{
+				target->OnHitCollision(partner);
+				partner->OnHitCollision(target);
+			}
+
+		}
+	}
+
+
 };
