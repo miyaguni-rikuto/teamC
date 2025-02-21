@@ -1,14 +1,117 @@
-﻿  GameObject.cpp
-  Appmain.cpp
+﻿  Floor.cpp
   Player.cpp
-  InGameScene.cpp
-  ResultScene.cpp
-  SceneManager.cpp
-  TitleScene.cpp
-  Collision.cpp
-  InputManager.cpp
-  ProjectConfig.cpp
-  ResourceManager.cpp
-  Vecotr2D.cpp
   コードを生成中...
-  teamC.vcxproj -> C:\PG\teamC\teamC\x64\Debug\teamC.exe
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(22,7): error C2143: 構文エラー: ';' が '*' の前にありません。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(22,1): error C4430: 型指定子がありません - int と仮定しました。メモ: C++ は int を既定値としてサポートしていません
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(22,9): error C2825: 'Player': '::' が後に続くときは、クラスまたは名前空間でなければなりません
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(22,17): error C2510: 'Player': スコープ解決演算子 '::' の左側の識別子名は、クラス、構造体、共用体のいずれでもありません。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(22,17): error C4430: 型指定子がありません - int と仮定しました。メモ: C++ は int を既定値としてサポートしていません
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(24,1): error C2825: 'Player': '::' が後に続くときは、クラスまたは名前空間でなければなりません
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(24,9): error C2510: 'Player': スコープ解決演算子 '::' の左側の識別子名は、クラス、構造体、共用体のいずれでもありません。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(24,9): error C4430: 型指定子がありません - int と仮定しました。メモ: C++ は int を既定値としてサポートしていません
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(24,9): error C2365: 'Player': 再定義; 以前の定義は 'データ変数' でした。
+      C:\PG\teamC\teamC\Objects\Player\Player.cpp(22,1):
+      'Player' の宣言を確認してください
+  
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(28,15): error C2653: 'ePlayerState': 識別子がクラス名でも名前空間名でもありません。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(28,29): error C2065: 'MOVE': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(29,22): error C2653: 'eDirectionState': 識別子がクラス名でも名前空間名でもありません。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(29,39): error C2065: 'LEFT': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(30,23): error C2653: 'eDirectionState': 識別子がクラス名でも名前空間名でもありません。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(30,40): error C2065: 'LEFT': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(42,1): error C2550: 'Player': コンストラクターの初期化子リストはコンストラクターの定義だけに許されます。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(46,1): error C2825: 'Player': '::' が後に続くときは、クラスまたは名前空間でなければなりません
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(46,10): error C2510: 'Player': スコープ解決演算子 '::' の左側の識別子名は、クラス、構造体、共用体のいずれでもありません。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(46,10): error C4430: 型指定子がありません - int と仮定しました。メモ: C++ は int を既定値としてサポートしていません
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(49,1): warning C4508: '{dtor}': 関数に戻り値の型が指定されていません。戻り値を void 型と見なします。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(51,6): error C2825: 'Player': '::' が後に続くときは、クラスまたは名前空間でなければなりません
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(51,14): error C2510: 'Player': スコープ解決演算子 '::' の左側の識別子名は、クラス、構造体、共用体のいずれでもありません。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(54,2): error C2065: 'z_layer': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(57,2): error C2065: 'mobility': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(57,13): error C2653: 'eMobilityType': 識別子がクラス名でも名前空間名でもありません。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(57,28): error C2065: 'Movable': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(59,2): error C2065: 'image': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(59,10): error C2065: 'move_animation': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(62,6): error C2065: 'move_animation': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(68,6): error C2825: 'Player': '::' が後に続くときは、クラスまたは名前空間でなければなりません
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(68,14): error C2510: 'Player': スコープ解決演算子 '::' の左側の識別子名は、クラス、構造体、共用体のいずれでもありません。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(72,2): error C3861: 'Movement': 識別子が見つかりませんでした
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(74,6): error C2065: 'player_state': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(74,22): error C2065: 'MOVE': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(76,3): error C3861: 'AnimationControl': 識別子が見つかりませんでした
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(81,3): error C2065: 'image': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(81,11): error C2065: 'move_animation': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(84,2): error C2065: 'is_grounded': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(87,6): error C2825: 'Player': '::' が後に続くときは、クラスまたは名前空間でなければなりません
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(87,14): error C2510: 'Player': スコープ解決演算子 '::' の左側の識別子名は、クラス、構造体、共用体のいずれでもありません。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(87,14): error C2270: 'Draw': メンバーでない関数が、メモリ モデル修飾子を伴って宣言されています。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(90,2): error C2790: 'super': このキーワードはクラス メンバー関数の本体内でのみ使用できます。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(93,6): error C2825: 'Player': '::' が後に続くときは、クラスまたは名前空間でなければなりません
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(93,14): error C2510: 'Player': スコープ解決演算子 '::' の左側の識別子名は、クラス、構造体、共用体のいずれでもありません。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(96,2): error C2065: 'move_animation': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(97,2): error C2065: 'dying_animation': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(106,5): error C2825: 'Player': '::' が後に続くときは、クラスまたは名前空間でなければなりません
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(106,13): error C2510: 'Player': スコープ解決演算子 '::' の左側の識別子名は、クラス、構造体、共用体のいずれでもありません。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(106,13): error C2270: 'GetFoodCount': メンバーでない関数が、メモリ モデル修飾子を伴って宣言されています。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(108,9): error C2065: 'food_count': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(115,14): error C2825: 'Player': '::' が後に続くときは、クラスまたは名前空間でなければなりません
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(115,22): error C2510: 'Player': スコープ解決演算子 '::' の左側の識別子名は、クラス、構造体、共用体のいずれでもありません。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(115,1): error C4430: 型指定子がありません - int と仮定しました。メモ: C++ は int を既定値としてサポートしていません
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(115,22): error C2146: 構文エラー: ';' が、識別子 'GetPlayerState' の前に必要です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(116,1): error C2143: 構文エラー: ';' が '{' の前にありません。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(116,1): error C2447: '{': 対応する関数ヘッダーがありません (旧形式の仮引数リスト?)
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(124,6): error C2825: 'Player': '::' が後に続くときは、クラスまたは名前空間でなければなりません
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(124,14): error C2510: 'Player': スコープ解決演算子 '::' の左側の識別子名は、クラス、構造体、共用体のいずれでもありません。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(124,14): error C2270: 'GetPowerUp': メンバーでない関数が、メモリ モデル修飾子を伴って宣言されています。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(126,9): error C2065: 'is_power_up': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(132,6): error C2825: 'Player': '::' が後に続くときは、クラスまたは名前空間でなければなりません
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(132,14): error C2510: 'Player': スコープ解決演算子 '::' の左側の識別子名は、クラス、構造体、共用体のいずれでもありません。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(134,2): error C2065: 'is_power_up': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(137,6): error C2825: 'Player': '::' が後に続くときは、クラスまたは名前空間でなければなりません
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(137,14): error C2510: 'Player': スコープ解決演算子 '::' の左側の識別子名は、クラス、構造体、共用体のいずれでもありません。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(137,14): error C2270: 'GetDestroy': メンバーでない関数が、メモリ モデル修飾子を伴って宣言されています。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(139,9): error C2065: 'is_destroy': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(146,6): error C2825: 'Player': '::' が後に続くときは、クラスまたは名前空間でなければなりません
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(146,14): error C2510: 'Player': スコープ解決演算子 '::' の左側の識別子名は、クラス、構造体、共用体のいずれでもありません。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(149,38): error C2039: 'GetInstance': 'InputManager' のメンバーではありません
+      C:\PG\teamC\teamC\Utility\InputManager.h(13,7):
+      'InputManager' の宣言を確認してください
+  
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(149,38): error C3861: 'GetInstance': 識別子が見つかりませんでした
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(156,3): error C2065: 'flip_flag': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(157,3): error C2065: 'player_state': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(157,18): error C2825: 'ePlayerState': '::' が後に続くときは、クラスまたは名前空間でなければなりません
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(157,32): error C2510: 'ePlayerState': スコープ解決演算子 '::' の左側の識別子名は、クラス、構造体、共用体のいずれでもありません。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(157,32): error C2065: 'MOVE': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(162,3): error C2065: 'flip_flag': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(164,3): error C2146: 構文エラー: ';' が、識別子 'player_state' の前に必要です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(164,3): error C2065: 'player_state': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(164,18): error C2825: 'ePlayerState': '::' が後に続くときは、クラスまたは名前空間でなければなりません
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(164,32): error C2510: 'ePlayerState': スコープ解決演算子 '::' の左側の識別子名は、クラス、構造体、共用体のいずれでもありません。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(164,32): error C2065: 'MOVE': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(169,3): error C2065: 'player_state': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(169,18): error C2825: 'ePlayerState': '::' が後に続くときは、クラスまたは名前空間でなければなりません
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(169,32): error C2510: 'ePlayerState': スコープ解決演算子 '::' の左側の識別子名は、クラス、構造体、共用体のいずれでもありません。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(169,32): error C2065: 'IDLE': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(176,7): error C2065: 'is_grounded': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(178,3): error C2065: 'p_velocity': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(181,37): error C2065: 'is_grounded': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(183,3): error C2065: 'p_velocity': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(184,3): error C2065: 'is_grounded': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(196,7): error C2065: 'p_velocity': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(196,52): error C2065: 'p_velocity': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(198,4): error C2065: 'p_velocity': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(200,3): error C2065: 'p_velocity': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(200,39): error C2065: 'acceleration_rate': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(203,7): error C2065: 'p_velocity': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(203,22): error C2065: 'max_speed': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(205,4): error C2065: 'p_velocity': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(205,19): error C2065: 'max_speed': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(207,12): error C2065: 'p_velocity': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(207,28): error C2065: 'max_speed': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(209,4): error C2065: 'p_velocity': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(209,20): error C2065: 'max_speed': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(215,11): error C2065: 'p_velocity': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(217,25): error C2065: 'deceleration_rate': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(218,8): error C2065: 'p_velocity': 定義されていない識別子です。
+C:\PG\teamC\teamC\Objects\Player\Player.cpp(218,8): error C1003: プログラム内のエラーが 100 個を超えました。コンパイルは中断されます。
