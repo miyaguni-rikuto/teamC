@@ -239,7 +239,7 @@ void InGameScene::LoadStageMapCSV()
 		{
 			Vector2D generate_location = (Vector2D((float)x, (float)y) * D_OBJECT_SIZE) + (D_OBJECT_SIZE / 2.0f);
 
-			DrawGraphF(generate_location.x, generate_location.y, back_ground_image[4], TRUE);
+			//DrawGraphF(generate_location.x, generate_location.y, back_ground_image[4], TRUE);
 
 			//CreateObject<BrickBlock>(generate_location);
 			x++;
