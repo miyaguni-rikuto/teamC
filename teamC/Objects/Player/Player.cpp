@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "../../Utility/InputManager.h"
+#include "../../Utility/InputManager.h"
 #include "../../Utility/ResourceManager.h"
 #include "DxLib.h"
 
@@ -151,80 +152,43 @@ void Player::Movement(float delta_second)
 	//初期速度の変数
 	float target_velocity_x = 0.0f;
 
+	//右移動
 	if (input->GetKey(KEY_INPUT_RIGHT))
 	{
-		flip_flag = false;
+		target_velocity_x = max_speed;
+		now_direction_state = eDirectionState::RIGHT;
 		player_state = ePlayerState::MOVE;
-		target_velocity_x = 5.0f; // 右向きの速度
 	}
+	//左移動
 	else if (input->GetKey(KEY_INPUT_LEFT))
 	{
-		flip_flag = true
-
+		target_velocity_x = max_speed;
+		now_direction_state = eDirectionState::LEFT;
 		player_state = ePlayerState::MOVE;
-		target_velocity_x = -5.0f; // 左向きの速度
 	}
 	else
 	{
 		player_state = ePlayerState::IDLE;
+		target_velocity_x = 0.0f;
 	}
-
-	//ジャンプ処理********************************************************
-	static int jpcount = 0;
-
-	//地面から離れていれば重力をプレイヤーに与える
-	if (!is_grounded)
+	// 速度の更新（加速度を考慮）
+	if (p_velocity.x < target_velocity_x)
 	{
-		p_velocity.y += MAP_GRAVITY;
-	}
-	//地面に立っている時だけジャンプする
-	if (input->GetKey(KEY_INPUT_UP) && is_grounded)
-	{
-		p_velocity.y = -600.0f;	//ジャンプスピード
-		is_grounded = false;
-	}
-	else
-	{
-		jpcount = 0;
-	}
-	//*********************************************************************
-
-	//加速か減速させる処理
-	if (target_velocity_x != 0.0f)
-	{
-		//加速
-		if (p_velocity.x > 0 && target_velocity_x < 0 || p_velocity.x < 0 && target_velocity_x > 0)
+		p_velocity.x += acceleration_rate * delta_second;
+		if (p_velocity.x > target_velocity_x)
 		{
-			p_velocity.x = 0.0f;
-		}
-		p_velocity.x += target_velocity_x * acceleration_rate * delta_second;
-
-		//最高速度
-		if (p_velocity.x > max_speed)
-		{
-			p_velocity.x = max_speed;
-		}
-		else if (p_velocity.x < -max_speed)
-		{
-			p_velocity.x = -max_speed;
+			p_velocity.x = target_velocity_x;
 		}
 	}
-	else
+	else if (p_velocity.x > target_velocity_x)
 	{
-		//減速
-		if (abs(p_velocity.x) > 0)
+		p_velocity.x -= deceleration_rate * delta_second;
+		if (p_velocity.x < target_velocity_x)
 		{
-			float deceleration = deceleration_rate * delta_second;
-			if (p_velocity.x > 0)
-			{
-				p_velocity.x = (p_velocity.x - deceleration) > 0 ? (p_velocity.x - deceleration) : 0;
-			}
-			else
-			{
-				p_velocity.x = (p_velocity.x + deceleration) < 0 ? (p_velocity.x + deceleration) : 0;
-			}
+			p_velocity.x = target_velocity_x;
 		}
 	}
+	
 
 	//次と前の位置の値を持つ変数
 	Vector2D next_location = location + (p_velocity * delta_second);
@@ -337,4 +301,9 @@ void Player::ApplyScreenScroll(float velocity_x, float delta_second)
 
 	Vector2D new_offset(current_offset_x + scroll_amount, 0.0f);
 	SetScreenOffset(new_offset);
+}
+
+void Player::OnHitCollision(GameObjectManager* hit_Object)
+{
+	player_state = ePlayerState::DIE;
 }
