@@ -31,7 +31,7 @@ InGameScene::~InGameScene()
 void InGameScene::Initialize()
 {
 	////ステージの読み込み
-	//LoadStageMapCSV();
+	LoadStageMapCSV();
 
 	////カメラ座標の設定
 	////screen_origin_position.x = (640 / 2);
@@ -48,9 +48,9 @@ void InGameScene::Initialize()
 	//camera_x = 0.0f;
 	////screen_offset.x = player->GetLocation().x - (640 / 2);
 
-	////// 背景画像の読み込み
-	//ResourceManager* rm = ResourceManager::CreateInstance();
-	//back_ground_image = rm->GetImages("Resource/Images/配置素材/NES---Super-Mario-Bros---World-1-1（修正版）.png")[0];
+	//// 背景画像の読み込み
+	ResourceManager* rm = ResourceManager::CreateInstance();
+	back_ground_image = rm->GetImages("Resource/Images/yuka.png",16,16,1,32,32);
 	////// BGMの読み込み
 	////back_ground_sound = rm->GetSounds("Resource/Sounds/start-music.mp3");
 
@@ -143,6 +143,10 @@ void InGameScene::Draw() const
 	// 親クラスの描画処理を呼び出す
 	__super::Draw();
 
+	DrawBox(D_LEFT_LANE - 10, 0, D_LEFT_LANE + 10, 640, GetColor(255, 255, 255), TRUE);
+	DrawBox(D_MID_LANE - 10, 0, D_MID_LANE + 10, 640, GetColor(255, 255, 255), TRUE);
+	DrawBox(D_RIGHT_LANE - 10, 0, D_RIGHT_LANE + 10, 640, GetColor(255, 255, 255), TRUE);
+
 	DrawString(50, 50, "ゲーム画面です", GetColor(255, 255, 255), TRUE);
 
 	// UI系の描画処理
@@ -204,98 +208,56 @@ void InGameScene::HitCheckObject(GameObject* target, GameObject* partner)
 /// </summary>
 void InGameScene::LoadStageMapCSV()
 {
-	//FILE* fp = NULL;
-	//std::string file_name = "Resource/Maps/Book1.csv";
+	FILE* fp = NULL;
+	std::string file_name = "Resource/Map/Mapdate.csv";
 
-	//// 指定されたファイルを開く
-	//errno_t result = fopen_s(&fp, file_name.c_str(), "r");
+	// 指定されたファイルを開く
+	errno_t result = fopen_s(&fp, file_name.c_str(), "r");
 
-	//// エラーチェック
-	//if (result != 0)
-	//{
-	//	throw (file_name + "が開けません");
-	//}
+	// エラーチェック
+	if (result != 0)
+	{
+		throw (file_name + "が開けません");
+	}
 
-	//int x = 0;
-	//int y = 0;
+	int x = 0;
+	int y = 0;
 
-	//// ファイル内の文字を確認していく
-	//while (true)
-	//{
-	//	// ファイルから1文字抽出する
-	//	int c = fgetc(fp);
+	// ファイル内の文字を確認していく
+	while (true)
+	{
+		// ファイルから1文字抽出する
+		int c = fgetc(fp);
 
-	//	// 抽出した文字がEOFならループ終了
-	//	if (c == EOF)
-	//	{
-	//		break;
-	//	}
-	//	// 抽出した文字がGなら、道を生成
-	//	else if (c == '1')
-	//	{
-	//		Vector2D generate_location = (Vector2D((float)x, (float)y) * D_OBJECT_SIZE) + (D_OBJECT_SIZE / 2.0f);
+		// 抽出した文字がEOFならループ終了
+		if (c == EOF)
+		{
+			break;
+		}
+		// 抽出した文字がGなら、道を生成
+		else if (c == '1')
+		{
+			Vector2D generate_location = (Vector2D((float)x, (float)y) * D_OBJECT_SIZE) + (D_OBJECT_SIZE / 2.0f);
 
-	//		CreateObject<BrickBlock>(generate_location);
-	//		x++;
-	//	}
-	//	// 抽出した文字がBなら、壊せるブロックを生成
-	//	else if (c == 'B')
-	//	{
-	//		Vector2D generate_location = (Vector2D((float)x, (float)y) * D_OBJECT_SIZE) + (D_OBJECT_SIZE / 2.0f);
-	//		CreateObject<Block>(generate_location);
-	//		x++;
-	//	}
-	//	// 抽出した文字がハテナなら、ハテナブロックを生成
-	//	else if (c == '?')
-	//	{
-	//		Vector2D generate_location = (Vector2D((float)x, (float)y) * D_OBJECT_SIZE) + (D_OBJECT_SIZE / 2.0f);
-	//		CreateObject<Hatena>(generate_location);
-	//		x++;
-	//	}
-	//	//抽出した文字がDなら、土管を生成
-	//	else if (c == 'D')
-	//	{
-	//		// ファイルから1文字抽出する
-	//		int b = fgetc(fp);
+			DrawGraphF(generate_location.x, generate_location.y, back_ground_image[4], TRUE);
 
-	//		//Dの次の文字が1～4の文字だったら対応した画像を設定し生成
-	//		if (b == '1')
-	//		{
-	//			Vector2D generate_location = (Vector2D((float)x, (float)y) * D_OBJECT_SIZE) + (D_OBJECT_SIZE / 2.0f);
-	//			CreateObject<ClayPipe>(generate_location)->SetImage(0);
-	//		}
-	//		else if (b == '2')
-	//		{
-	//			Vector2D generate_location = (Vector2D((float)x, (float)y) * D_OBJECT_SIZE) + (D_OBJECT_SIZE / 2.0f);
-	//			CreateObject<ClayPipe>(generate_location)->SetImage(1);
-	//		}
-	//		else if (b == '3')
-	//		{
-	//			Vector2D generate_location = (Vector2D((float)x, (float)y) * D_OBJECT_SIZE) + (D_OBJECT_SIZE / 2.0f);
-	//			CreateObject<ClayPipe>(generate_location)->SetImage(2);
-	//		}
-	//		else if (b == '4')
-	//		{
-	//			Vector2D generate_location = (Vector2D((float)x, (float)y) * D_OBJECT_SIZE) + (D_OBJECT_SIZE / 2.0f);
-	//			CreateObject<ClayPipe>(generate_location)->SetImage(3);
-	//		}
+			//CreateObject<BrickBlock>(generate_location);
+			x++;
+		}
+		// 抽出した文字が空白文字なら、生成しないで次の文字を見に行く
+		else if (c == '0')
+		{
+			x++;
+		}
+		// 抽出した文字が改行文字なら、次の行を見に行く
+		else if (c == '\n')
+		{
+			x = 0;
+			y++;
+		}
 
-	//		x++;
-	//	}
-	//	// 抽出した文字が空白文字なら、生成しないで次の文字を見に行く
-	//	else if (c == '0')
-	//	{
-	//		x++;
-	//	}
-	//	// 抽出した文字が改行文字なら、次の行を見に行く
-	//	else if (c == '\n')
-	//	{
-	//		x = 0;
-	//		y++;
-	//	}
+	}
 
-	//}
-
-	//// 開いたファイルを閉じる
-	//fclose(fp);
+	// 開いたファイルを閉じる
+	fclose(fp);
 }
