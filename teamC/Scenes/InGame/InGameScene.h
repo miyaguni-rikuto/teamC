@@ -6,7 +6,7 @@ class InGameScene : public SceneBase
 {
 private:
 	class GameObjectManager* objm;
-	std::vector<std::vector<int>> data;			//“®“I“ñŸŒ³”z—ñ
+	std::vector<std::vector<int>> stage_data;			//“®“I“ñŸŒ³”z—ñ
 
 	int sky_image;	//‹ó‚Ì”wŒi‰æ‘œ
 	int leaf_image[3];	//‘‚Ì”wŒi‰æ‘œŠi”\”z—ñ

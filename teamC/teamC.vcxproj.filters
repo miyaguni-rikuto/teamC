@@ -72,7 +72,7 @@
     <ClInclude Include="Utility\Application.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\Furniture\table.h">
+    <ClInclude Include="Objects\Furniture\Table.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
@@ -125,7 +125,7 @@
     <ClCompile Include="Utility\Application.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\Furniture\table.cpp">
+    <ClCompile Include="Objects\Furniture\Table.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

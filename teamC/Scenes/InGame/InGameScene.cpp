@@ -6,10 +6,12 @@
 //#include "../Object/Enemy/Kuribo.h"
 //#include "../Object/Enemy/Nokonoko.h"
 #include "../../Objects/Furniture/Floor.h"
+#include "../../Objects/Furniture/Table.h"
 #include <fstream>
 
 #define MAX_LOAD_LINE	20;
 #define MAX_LOAD_COLUMN	(15);
+#define DEBUG_MODE	;
 
 void InGameScene::Initialize()
 {
@@ -339,10 +341,10 @@ void InGameScene::DrawBackGroundCSV() const
 			objm->CreateGameObject<Floor>(generate_location);
 			x++;
 		}
-		//抽出した文字が1なら床を生成する
-		else if (c == '.')
+		//抽出した文字が1ならテーブルを生成する
+		else if (c == '1')
 		{
-			objm->CreateGameObject<Floor>(generate_location);
+			objm->CreateGameObject<Table>(generate_location);
 			x++;
 		}
 		//抽出した文字がドットなら何も生成せず、次の文字を見る
@@ -361,6 +363,69 @@ void InGameScene::DrawBackGroundCSV() const
 	// 開いたファイルを閉じる
 	fclose(fp);
 }
+
+//void InGameScene::DrawBackGroundCSV() const
+//{
+//
+//	FILE* fp = NULL;
+//
+//	std::string file_name = "Resource/Map/Mapdate.csv";
+//
+//	// 指定されたファイルを開く
+//	errno_t result = fopen_s(&fp, file_name.c_str(), "r");
+//
+//	// エラーチェック
+//	if (result != 0)
+//	{
+//		throw (file_name + "が開けません");
+//	}
+//
+//	int x = 0;
+//	int y = 0;
+//	Floor* floor = nullptr;
+//
+//	// ファイル内の文字を確認していく
+//	while (true)
+//	{
+//		//描画位置設定
+//		//Vector2D generate_location = (Vector2D((float)x, (float)y) * OBJECT_SIZE) + (OBJECT_SIZE / 2);
+//
+//		// ファイルから1文字抽出する
+//		int c = fgetc(fp);
+//
+//		// 抽出した文字がEOFならループ終了
+//		if (c == EOF)
+//		{
+//			break;
+//		}
+//		// 抽出した文字が0なら床（背景）を生成する
+//		if (c == '0')	
+//		{
+//			stage_data[x][y] = 0;
+//			x++;
+//		}
+//		//抽出した文字が1ならテーブルを生成する
+//		else if (c == '1')
+//		{
+//			objm->CreateGameObject<Table>(generate_location);
+//			x++;
+//		}
+//		//抽出した文字がドットなら何も生成せず、次の文字を見る
+//		else if (c == '.')
+//		{
+//			x++;
+//		}
+//		// 抽出した文字が改行文字なら、次の行を見に行く
+//		else if (c == '\n')
+//		{
+//			x = 0;
+//			y++;
+//		}
+//	}
+//
+//	// 開いたファイルを閉じる
+//	fclose(fp);
+//}
 
 //void InGameScene::DeleteObject()
 //{
