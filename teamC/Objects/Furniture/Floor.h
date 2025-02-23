@@ -5,6 +5,7 @@ class Floor : public BackImageBase
 {
 private:
 	std::vector<int> floor_image;		// ”wŒi‰æ‘œ
+	std::vector<int> table_image;		// ”wŒi‰æ‘œ
 
 public:
 	Floor();

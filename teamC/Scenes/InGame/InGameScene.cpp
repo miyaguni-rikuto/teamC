@@ -5,7 +5,7 @@
 #include "../../Utility/Collision.h"
 //#include "../Object/Enemy/Kuribo.h"
 //#include "../Object/Enemy/Nokonoko.h"
-#include "../../Objects/Floor/Floor.h"
+#include "../../Objects/Furniture/Floor.h"
 #include <fstream>
 
 #define MAX_LOAD_LINE	20;
@@ -333,8 +333,14 @@ void InGameScene::DrawBackGroundCSV() const
 		{
 			break;
 		}
-		// ’Šo‚µ‚½•¶Žš‚ª1‚È‚ç°i”wŒij‚ð¶¬‚·‚é
-		if (c == '1')
+		// ’Šo‚µ‚½•¶Žš‚ª0‚È‚ç°i”wŒij‚ð¶¬‚·‚é
+		if (c == '0')
+		{
+			objm->CreateGameObject<Floor>(generate_location);
+			x++;
+		}
+		//’Šo‚µ‚½•¶Žš‚ª1‚È‚ç°‚ð¶¬‚·‚é
+		else if (c == '.')
 		{
 			objm->CreateGameObject<Floor>(generate_location);
 			x++;

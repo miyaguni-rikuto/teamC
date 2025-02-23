@@ -152,7 +152,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Objects\BackImageBase.h" />
-    <ClInclude Include="Objects\Floor\Floor.h" />
+    <ClInclude Include="Objects\Furniture\Floor.h" />
+    <ClInclude Include="Objects\Furniture\table.h" />
     <ClInclude Include="Objects\GameObject.h" />
     <ClInclude Include="Objects\GameObjectManager.h" />
     <ClInclude Include="Objects\Player\Player.h" />
@@ -173,7 +174,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Objects\BackImageBase.cpp" />
-    <ClCompile Include="Objects\Floor\Floor.cpp" />
+    <ClCompile Include="Objects\Furniture\Floor.cpp" />
+    <ClCompile Include="Objects\Furniture\table.cpp" />
     <ClCompile Include="Objects\GameObject.cpp" />
     <ClCompile Include="Appmain.cpp" />
     <ClCompile Include="Objects\Player\Player.cpp" />

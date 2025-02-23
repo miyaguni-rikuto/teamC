@@ -19,7 +19,9 @@ void Floor::Initialize()
 	//アニメーション画像の読み込み
 	ResourceManager* rm = ResourceManager::GetInstance();
 	floor_image = rm->GetImageResource("Resource/Images/yuka.png", 16, 16, 1, 32, 32);
+	table_image = rm->GetImageResource("Resource/Images/yuka2.png", 16, 16, 1, 32, 32);
 	image = floor_image[7];
+	image = table_image[10];
 
 	//当たり判定の設定
 	/*collision.is_blocking = true;
