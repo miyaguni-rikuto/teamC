@@ -22,8 +22,6 @@ void InGameScene::Initialize()
 	objm = GameObjectManager::GetInstance();
 	objm->CreateGameObject<Player>(Vector2D(320, 400));
 	objm->CreateGameObject<Enemy>(Vector2D(50, 50));
-	
-
 
 	start_flg = true;
 

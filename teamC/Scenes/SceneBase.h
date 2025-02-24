@@ -24,7 +24,6 @@ private:
 public:
 	SceneBase() : screen_offset(0.0f), objm(nullptr), image(0)
 	{
-
 		objm = GameObjectManager::GetInstance();
 	}
 
@@ -54,7 +53,6 @@ public:
 
 	virtual void Draw() const
 	{
-
 		GameObjectManager* game = GameObjectManager::GetInstance();
 
 		if (!game->GetObjectsList().empty())

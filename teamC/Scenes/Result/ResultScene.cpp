@@ -7,7 +7,7 @@ void ResultScene::Initialize()
 {
 	ResourceManager* rm = ResourceManager::GetInstance();
 	//result_image = rm->GetImageResource("Resource/Images/Resulet_image.png")[0];
-	result_field = rm->GetImageResource("Resource/Images/Result_Field.png")[0];
+	result_field = rm->GetImageResource("Resource/Images/Result_display.png")[0];
 }
 
 eSceneType ResultScene::Update(float delta_second)
@@ -21,16 +21,20 @@ eSceneType ResultScene::Update(float delta_second)
 
 	Draw();
 
-	return __super::Update(delta_second);
-
 	return GetNowSceneType();
 }
 
 void ResultScene::Draw() const
 {
-	DrawRotaGraphF(320, 220, 1.5, 0.0, result_field, TRUE, FALSE);
-
 	__super::Draw();
+
+	DrawRotaGraph(320, 220, 1.5, 0.0, result_field, TRUE, FALSE);
+
+	//DrawFormatString(320, 220, GetColor(255,255,255), "ボタンを押した回数");
+	DrawFormatString(280, 150, GetColor(255,255,255), "%d回", 1000);
+
+	//DrawFormatString(320, 300, GetColor(255, 255, 255), "敵を帰した数");
+	DrawFormatString(280, 320, GetColor(255, 255, 255), "%d人", 100);
 
 	//DrawRotaGraphF(320,220,1.0,0.0,result_image,TRUE,FALSE);
 
@@ -44,6 +48,10 @@ void ResultScene::Finalize()
 {
 	result_image = NULL;
 	result_field = NULL;
+
+	GameObjectManager *obm = GameObjectManager::GetInstance();
+
+	obm->DestroyGameObject();
 }
 
 eSceneType ResultScene::GetNowSceneType() const
