@@ -47,7 +47,11 @@ private:
 	bool is_destroy;						// 死んだ状態になったか？
 	static Player* instance;                //プレイヤーのインスタンス
 
-	// 移動アニメーションの順番
+
+	bool Is_hammering;						//ハンマーを振っているかのフラグ
+	float hammer_timer;						//ハンマーのアクションを開始
+	const float hammer_duration=0.3f;			//ハンマーを振る時間
+ 	// 移動アニメーションの順番
 	const int animation_num[4] = { 0, 1, 2, 1, };
 
 	float acceleration_rate;		//加速度
