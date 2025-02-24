@@ -24,9 +24,13 @@ void TitleScene::Draw() const
 {
 	//ƒ^ƒCƒgƒ‹”wŒi‰æ‘œ‚Ì•`‰æ
 
-	SetFontSize(40);
+	SetFontSize(60);
 
+	DrawFormatString(155, 130, GetColor(255, 255, 255), "TITLE NAME");
+
+	SetFontSize(40);
 	DrawFormatString(210, 300, GetColor(255, 255, 255), "PUSH SPASE");
+
 
 	__super::Draw();
 }
