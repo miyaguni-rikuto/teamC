@@ -34,6 +34,8 @@ public:
 
 private:
 	std::vector<int> move_animation;		// 移動のアニメーション画像
+	std::vector<int> hammer_animation;		// ハンマーを振りかぶった時
+	std::vector<int> hammerdown_animation;		// ハンマーを振りおろした時
 	std::vector<int> dying_animation;		// 死亡のアニメーション画像
 	Vector2D old_location;					// 前回のlocation
 	Vector2D p_velocity;						// 移動量
@@ -47,7 +49,7 @@ private:
 	bool is_destroy;						// 死んだ状態になったか？
 	static Player* instance;                //プレイヤーのインスタンス
 
-	int hammer_animation[2];
+
 	int normal_image;
 	bool Is_hammering;						//ハンマーを振っているかのフラグ
 	float hammer_timer;						//ハンマーのアクションを開始
@@ -71,6 +73,9 @@ public:
 	virtual void Update(float delta_second) override;
 	virtual void Draw(const Vector2D& screen_offset) const override;
 	virtual void Finalize() override;
+
+	//ハンマーアニメーションの追加
+	void SetHammerAnimation(int swing_up, int swing_down);
 
 
 	/// <summary>
