@@ -93,18 +93,7 @@ void Player::Draw(const Vector2D& screen_offset) const
 	
 	// デバッグ用：入力状態を表示
 	InputManager* input = InputManager::GetInstance();
-	/*if (input->GetButtonState(XINPUT_BUTTON_DPAD_LEFT) == eInputState::Held)
-	{
-		DrawString(10, 10, "LEFT KEY PRESSED", GetColor(255, 0, 0));
-	}
-	if (input->GetButtonState(XINPUT_BUTTON_DPAD_RIGHT) == eInputState::Held)
-	{
-		DrawString(10, 30, "RIGHT KEY PRESSED", GetColor(0, 255, 0));
-	}
-	if (input->GetButtonState(XINPUT_BUTTON_A) == eInputState::Held)
-	{
-		DrawString(10, 50, "A BUTTON PRESSED", GetColor(0, 0, 255));
-	}*/
+	
 	//デバッグ用
 	float left = location.x - PLAYER_CENTER_OFFSET + screen_offset.x;
 	float top = location.y - PLAYER_CENTER_OFFSET + screen_offset.y;
@@ -154,7 +143,7 @@ void Player::Movement(float delta_second)
 	float deceleration = deceleration_rate * delta_second;
 
 	//右移動
-	if (input->GetButtonState(KEY_INPUT_RIGHT)||input->GetButtonState(XINPUT_BUTTON_DPAD_RIGHT) == eInputState::Held)
+	if (input->GetButtonState(KEY_INPUT_RIGHT) || input->GetButtonState(XINPUT_BUTTON_DPAD_RIGHT) == eInputState::Held)
 	{
 		//target_velocity_x = max_speed;
 		now_direction_state = eDirectionState::RIGHT;
@@ -171,7 +160,11 @@ void Player::Movement(float delta_second)
 	{
 		now_direction_state = eDirectionState::NONE;
 	}
-	
+	if (input->GetButtonState(KEY_INPUT_A) || input->GetButtonState(XINPUT_BUTTON_A) == eInputState::Held)
+	{	
+
+	}
+
 	switch (now_direction_state)
 	{
 	case Player::UP:
