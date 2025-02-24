@@ -8,6 +8,7 @@ enum eSceneType
 	eInGame,
 	eResult,
 	eRanking,
+	eHelp,
 	eExit
 };
 
@@ -67,7 +68,7 @@ public:
 
 	virtual void Finalize()
 	{
-	
+		
 	}
 
 	virtual eSceneType GetNowSceneType() const = 0;

@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "../../Utility/ResourceManager.h"
 #include "../../Utility/InputManager.h"
 #include "../../Utility/ResourceManager.h"
 #include "DxLib.h"
@@ -23,6 +24,8 @@ Player* Player::instance = nullptr;
 
 Player::Player() :
 	move_animation(),
+	hammer_animation(),
+	hammerdown_animation(),
 	dying_animation(),
 	p_velocity(0.0f),
 	player_state(ePlayerState::MOVE),
@@ -39,7 +42,9 @@ Player::Player() :
 	max_speed(200.0f),
 	scroll_velocity(0.0f),
 	screen_scroll_speed(300.0f),
-	is_grounded(false)
+	is_grounded(false),
+	Is_hammering(false),
+	hammer_timer(0.0f)
 {
 
 }
@@ -51,6 +56,36 @@ Player::~Player()
 
 void Player::Initialize()
 {
+
+	//画像読み込み
+	ResourceManager* rm = ResourceManager::GetInstance();
+	
+
+	//画像を単体で読み込む
+	int move_image = LoadGraph("Resource/Images/Player/kajiyasan2_syoumen.png");
+		
+	// エラーチェック
+	if (move_image == -1)
+	{
+		// 画像読み込み失敗の場合の処理
+		throw ("move_animation.pngが読み込めませんでした\n");
+		
+	}
+	
+	move_animation.push_back(move_image);  // 画像をアニメーションリストに追加
+
+	// ハンマーアクションの画像も読み込む
+	int hammer_swing_up = LoadGraph("Resource/Images/Player/kajisan_kamae.png");
+	int hammer_swing_down = LoadGraph("Resource/Images/Player/kajisan_hriososi.png");
+
+	if (hammer_swing_up == -1 || hammer_swing_down == -1)
+	{
+		throw ("ハンマーの画像が読み込めませんでした\n");
+	}
+
+	hammer_animation.push_back(hammer_swing_up);  // ハンマー振り上げアニメーションの画像を追加
+	hammerdown_animation.push_back(hammer_swing_down);  // ハンマー振り下ろしアニメーションの画像を追加
+
 	// レイヤーの設定
 	z_layer = 5;
 
@@ -64,6 +99,8 @@ void Player::Initialize()
 	//{
 	//	throw("\n");
 	//}
+
+	//SetHammerAnimation(, );
 }
 
 void Player::Update(float delta_second)
@@ -83,6 +120,28 @@ void Player::Update(float delta_second)
 	//}
 
 	is_grounded = false;
+
+	InputManager* input = InputManager::GetInstance();
+
+	//ハンマーのアクション中なら時間を減らして終了判定
+	if (Is_hammering)
+	{
+		hammer_timer -= delta_second;
+		if (hammer_timer <= 0.0f)
+		{
+			Is_hammering = false;	//ハンマー振り終了
+		}
+		return;
+	}
+
+	//Aボタンをを押したらアクション開始
+	if (input->GetButtonState(XINPUT_BUTTON_A) == eInputState::Pressed)
+	{
+		Is_hammering = true;
+		hammer_timer = hammer_duration;
+	}
+	//通常の移動処理
+	Movement(delta_second);
 }
 
 void Player::Draw(const Vector2D& screen_offset) const
@@ -92,19 +151,8 @@ void Player::Draw(const Vector2D& screen_offset) const
 
 	
 	// デバッグ用：入力状態を表示
-	InputManager* input = InputManager::GetInstance();
-	/*if (input->GetButtonState(XINPUT_BUTTON_DPAD_LEFT) == eInputState::Held)
-	{
-		DrawString(10, 10, "LEFT KEY PRESSED", GetColor(255, 0, 0));
-	}
-	if (input->GetButtonState(XINPUT_BUTTON_DPAD_RIGHT) == eInputState::Held)
-	{
-		DrawString(10, 30, "RIGHT KEY PRESSED", GetColor(0, 255, 0));
-	}
-	if (input->GetButtonState(XINPUT_BUTTON_A) == eInputState::Held)
-	{
-		DrawString(10, 50, "A BUTTON PRESSED", GetColor(0, 0, 255));
-	}*/
+	//InputManager* input = InputManager::GetInstance();
+	
 	//デバッグ用
 	float left = location.x - PLAYER_CENTER_OFFSET + screen_offset.x;
 	float top = location.y - PLAYER_CENTER_OFFSET + screen_offset.y;
@@ -154,37 +202,40 @@ void Player::Movement(float delta_second)
 	float deceleration = deceleration_rate * delta_second;
 
 	//右移動
-	if (input->GetKeyState(KEY_INPUT_RIGHT)||input->GetButtonState(XINPUT_BUTTON_DPAD_RIGHT) == eInputState::Held)
+	if (input->GetButtonState(KEY_INPUT_RIGHT) || input->GetButtonState(XINPUT_BUTTON_DPAD_RIGHT) == eInputState::Held)
 	{
 		//target_velocity_x = max_speed;
 		now_direction_state = eDirectionState::RIGHT;
 		//player_state = ePlayerState::MOVE;
 	}
 	//左移動
-	else if (input->GetKeyState(KEY_INPUT_LEFT) || input->GetButtonState(XINPUT_BUTTON_DPAD_LEFT))
+	else if (input->GetButtonState(KEY_INPUT_LEFT) || input->GetButtonState(XINPUT_BUTTON_DPAD_LEFT) == eInputState::Held)
 	{
 		//target_velocity_x = max_speed;
 		now_direction_state = eDirectionState::LEFT;
 		//player_state = ePlayerState::MOVE;
 	}
-	/*else
+	else
 	{
-		player_state = ePlayerState::IDLE;
-		target_velocity_x = 0.0f;
-	}*/
-	
+		now_direction_state = eDirectionState::NONE;
+	}
+	if (input->GetButtonState(KEY_INPUT_A) || input->GetButtonState(XINPUT_BUTTON_A) == eInputState::Held)
+	{	
+		DrawString(10, 50, "A BUTTON PRESSED", GetColor(0, 0, 255));
+	}
+
 	switch (now_direction_state)
 	{
 	case Player::UP:
 		break;
 	case Player::RIGHT:
-		p_velocity.x = 5.0f;
+		p_velocity.x = 2.0f;
 		if (input->GetButtonState(XINPUT_BUTTON_DPAD_RIGHT) == eInputState::None)now_direction_state = NONE;
 		break;
 	case Player::DOWN:
 		break;
 	case Player::LEFT:
-		p_velocity.x -= 5.0f;
+		p_velocity.x = -2.0f;
 		if (input->GetButtonState(XINPUT_BUTTON_DPAD_LEFT) == eInputState::None)now_direction_state = NONE;
 		break;
 	case Player::NONE:
@@ -221,19 +272,45 @@ void Player::Movement(float delta_second)
 /// <param name="delta_second">1フレームあたりの時間</param>
 void Player::AnimationControl(float delta_second)
 {
-	// 移動中のアニメーション
-	//animation_time += delta_second;
-	//if (animation_time >= (1.0f / 8.0f))
-	//{
-	//	animation_time = 0.0f;
-	//	animation_count++;
-	//	if (animation_count >= 4)
-	//	{
-	//		animation_count = 0;
-	//	}
-	//	// 画像の設定
-	//	image = move_animation[animation_num[animation_count]];
-	//}
+	animation_time += delta_second;
+
+	//ハンマーの状態
+	if (Is_hammering)
+	{
+
+		//ハンマーが振りかぶったアニメーション
+		if (hammer_timer < hammer_duration / 2.0f)
+		{
+			animation_count = 0;	//振りかぶった状態のフレーム
+		}
+
+		//ハンマーを振り下ろしたアニメーション
+		else if (hammer_timer < hammer_duration)
+		{
+			animation_count = 1;	//振り下ろし状態のフレーム
+		}
+		else 
+		{
+			Is_hammering = false;
+			animation_count = 0;
+		}
+	}
+	//通常時のアニメーション
+	else if (player_state == ePlayerState::MOVE)
+	{
+		animation_count = (animation_count + 1 % move_animation.size());//移動アニメーションの切り替え
+	}
+	else if (player_state == ePlayerState::DIE)
+	{
+		animation_count = (animation_count + 1 % dying_animation.size());//死亡アニメーション
+	}
+
+	//アニメーション
+	if (animation_time >= (1.0f / 8.0f))
+	{
+		animation_time = 0.0f;
+		animation_count++;
+	}
 }
 
 //プレイヤーのインスタンス取得
@@ -273,4 +350,12 @@ void Player::ApplyScreenScroll(float velocity_x, float delta_second)
 void Player::OnHitCollision(GameObjectManager* hit_Object)
 {
 	player_state = ePlayerState::DIE;
+}
+
+void Player::SetHammerAnimation(int swing_up, int swing_down)
+{
+	hammer_animation.clear();
+	hammer_animation.push_back(swing_up);  // 振りかぶった時の画像
+	hammerdown_animation.clear();
+	hammerdown_animation.push_back(swing_down);  // 振りおろした時の画像
 }

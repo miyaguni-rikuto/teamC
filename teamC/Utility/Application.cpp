@@ -6,7 +6,7 @@
 
 Application::Application() :
 	delta_second(0), start_time(0),
-	now_time(0), refresh_rate(0), scene(nullptr)
+	now_time(0), refresh_rate(0), scene(nullptr),exit(true)
 {
 
 }
@@ -50,9 +50,17 @@ void Application::Run()
 		//フレームレートの制御
 		UpdateDeLtaTime();
 
-		scene->Update(delta_second);
+		//sceneがtrueかfalseかチェック
+		exit = scene->Update(delta_second);
+
+		//終了フラグ
+		if (exit == false)
+		{
+			break;
+		}
 	}
 
+	//終了時処理
 	Shutdown();
 }
 

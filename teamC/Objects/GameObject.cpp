@@ -1,6 +1,8 @@
 #include "GameObject.h"
 #include "DxLib.h"
 
+
+
 /// <summary>
 /// ‰Šú‰»ˆ—
 /// </summary>

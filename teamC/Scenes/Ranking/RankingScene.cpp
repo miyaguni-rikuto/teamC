@@ -34,7 +34,7 @@ eSceneType RankingScene::Update(float delta_second)
 	}
 
 	// 親クラスの更新処理を呼び出す
-	return __super::Update(delta_second);
+	return GetNowSceneType();
 }
 
 void RankingScene::Draw() const
