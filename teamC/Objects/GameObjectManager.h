@@ -11,6 +11,38 @@ private:
 	std::vector<GameObject*> game_object_list;
 
 public:
+	GameObjectManager() :
+		create_object(),
+		game_object_list(),
+		destroy_object()
+	{
+
+	}
+	virtual ~GameObjectManager()
+	{
+		// 解放忘れ防止
+		Finalize();
+	}
+
+public:
+/// <summary>
+/// 終了時処理
+/// </summary>
+	virtual void Finalize()
+	{
+		// オブジェクトリスト内のオブジェクトを破棄する
+		DestoryAllObject();
+
+		// 動的配列の解放
+		if (!create_object.empty())
+		{
+			create_object.clear();
+		}
+		if (!destroy_object.empty())
+		{
+			destroy_object.clear();
+		}
+	}
 
 	void CheckCreateObject()
 	{
@@ -176,5 +208,25 @@ public:
 		}
 	}
 
+private:
+		/// <summary>
+		/// シーン内オブジェクト破棄処理
+		/// </summary>
+		void DestoryAllObject()
+		{
+			// オブジェクトリストが空なら処理を終了する
+			if (game_object_list.empty())
+			{
+				return;
+			}
+			// オブジェクトリスト内のオブジェクトを削除する
+			for (GameObject* obj : game_object_list)
+			{
+				obj->Finalize();
+				delete obj;
+			}
+			// 動的配列の解放
+			game_object_list.clear();
+		}
 
 };

@@ -68,7 +68,7 @@ public:
 
 	virtual void Finalize()
 	{
-	
+		
 	}
 
 	virtual eSceneType GetNowSceneType() const = 0;

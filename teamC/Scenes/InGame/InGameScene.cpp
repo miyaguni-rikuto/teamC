@@ -9,14 +9,20 @@
 #include "../../Objects/Furniture/Table.h"
 #include <fstream>
 
-#define MAX_LOAD_LINE	20;
-#define MAX_LOAD_COLUMN	(15);
-#define DEBUG_MODE	;
+#define D_LEFT_LAINE		(110)
+#define D_MID_LAINE			(320)
+#define D_RIGHT_LAINE		(530)
+
+#define MAX_LOAD_LINE	(20)
+#define MAX_LOAD_COLUMN	(15)
+//#define DEBUG_MODE		(0)
 
 void InGameScene::Initialize()
 {
 	objm = GameObjectManager::GetInstance();
 	objm->CreateGameObject<Player>(Vector2D(320, 400));
+
+	start_flg = true;
 
 	DrawBackGroundCSV();
 
@@ -25,30 +31,11 @@ void InGameScene::Initialize()
 
 eSceneType InGameScene::Update(float delta_second)
 {
-	objm->HitCheck();
-
 	InputManager* input = InputManager::GetInstance();
 
-	/*if (p->Get_DeathCount() >= 1)
-	{
-		return eSceneType::eResult;
-	}*/
+#ifndef DEBUG_MODE
 
-	// タイマー更新処理
-	time_counter += delta_second;  // フレームごとに経過時間を加算
-
-	if (time_counter >= 1.0f)  // 1秒経過した場合
-	{
-		time_remaining -= 1;  // 1秒減らす
-		time_counter = 0.0f;  // カウンターをリセット
-	}
-
-	// 残り時間が0になったら、必要な処理を追加
-	if (time_remaining <= 0)
-	{
-		time_remaining = 0;
-		// ゲームオーバーや別の処理を追加することも可能
-	}
+	objm->HitCheck();
 
 	__super::Update(delta_second);
 
@@ -56,19 +43,79 @@ eSceneType InGameScene::Update(float delta_second)
 
 	Draw();
 
+	//Dキーが押された場合
+	if (input->GetKeyState(KEY_INPUT_D) == eInputState::Pressed)
+	{
+		return eSceneType::eResult;
+	}
+
+#else
+	//pause_flgがfalseであれば更新処理を入れる
+	if (!start_flg)
+	{
+		objm->HitCheck();
+
+		__super::Update(delta_second);
+
+		//Dキーが押された場合
+		if (input->GetKeyState(KEY_INPUT_D) == eInputState::Pressed)
+		{
+			return eSceneType::eResult;
+		}
+
+		//DeleteObject();
+	}
+	else
+	{
+		// タイマー更新処理
+		time_counter += delta_second;  // フレームごとに経過時間を加算
+
+		if (time_counter >= 1.0f)  // 1秒経過した場合
+		{
+			time_remaining -= 1;  // 1秒減らす
+			time_counter = 0.0f;  // カウンターをリセット
+		}
+
+		// 残り時間が0になったら、必要な処理を追加
+		if (time_remaining <= 0)
+		{
+			time_remaining = 0;
+			start_flg = !start_flg;
+
+			// ゲームオーバーや別の処理を追加することも可能
+		}
+	}
+
+#endif // DEBUG	
+	Draw();
+
 	return GetNowSceneType();
 }
 
 void InGameScene::Draw() const
 {
-	
-
 	__super::Draw();
+
+	//スタート時間表示
+	if (start_flg)
+	{
+		if (time_remaining >= 2)
+		{
+			DrawFormatString(100, 100, GetColor(255, 255, 255), "test_time:%d", time_remaining - 1);
+		}
+		else if (time_remaining <= 1)
+		{
+			DrawFormatString(100, 100, GetColor(255, 255, 255), "START!!");
+		}
+	}
 }
 
 void InGameScene::Finalize()
 {
+	/*if (GameObject * obj : objm->GetObjectsList())
+	{
 
+	}*/
 }
 
 eSceneType InGameScene::GetNowSceneType() const

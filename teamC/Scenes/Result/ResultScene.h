@@ -4,7 +4,8 @@
 class ResultScene : public SceneBase
 {
 private:
-	//Player* p;
+	int result_image = NULL;	//背景画像
+	int result_field = NULL;	//テキストフィールド画像
 
 public:
 	virtual void Initialize() override;
