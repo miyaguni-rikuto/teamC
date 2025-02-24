@@ -3,7 +3,7 @@
 #include "../../Utility/ResourceManager.h"
 #include "../../Objects/Player/Player.h"
 #include "../../Utility/Collision.h"
-//#include "../Object/Enemy/Kuribo.h"
+#include"../../Objects/Enemy/Enemy.h"
 //#include "../Object/Enemy/Nokonoko.h"
 #include "../../Objects/Furniture/Floor.h"
 #include "../../Objects/Furniture/Table.h"
@@ -17,6 +17,9 @@ void InGameScene::Initialize()
 {
 	objm = GameObjectManager::GetInstance();
 	objm->CreateGameObject<Player>(Vector2D(320, 400));
+	objm->CreateGameObject<Enemy>(Vector2D(50, 50));
+	
+
 
 	DrawBackGroundCSV();
 

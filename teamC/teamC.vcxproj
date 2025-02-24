@@ -152,6 +152,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Objects\BackImageBase.h" />
+    <ClInclude Include="Objects\Enemy\Enemy.h" />
     <ClInclude Include="Objects\Furniture\Floor.h" />
     <ClInclude Include="Objects\Furniture\Table.h" />
     <ClInclude Include="Objects\GameObject.h" />
@@ -174,6 +175,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Objects\BackImageBase.cpp" />
+    <ClCompile Include="Objects\Enemy\Enemy.cpp" />
     <ClCompile Include="Objects\Furniture\Floor.cpp" />
     <ClCompile Include="Objects\Furniture\Table.cpp" />
     <ClCompile Include="Objects\GameObject.cpp" />
