@@ -1,5 +1,5 @@
 #include "ResultScene.h"
-#include "../Utility/InputManager.h"
+#include "../../Utility/InputManager.h"
 #include "DxLib.h"
 
 void ResultScene::Initialize()

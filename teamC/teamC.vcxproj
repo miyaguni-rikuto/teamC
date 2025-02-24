@@ -160,7 +160,7 @@
     <ClInclude Include="Scenes\Help\HelpScene.h" />
     <ClInclude Include="Scenes\Ranking\RankingScene.h" />
     <ClInclude Include="Scenes\InGame\InGameScene.h" />
-    <ClInclude Include="Scenes\ResultScene.h" />
+    <ClInclude Include="Scenes\Result\ResultScene.h" />
     <ClInclude Include="Scenes\SceneBase.h" />
     <ClInclude Include="Scenes\SceneFactory.h" />
     <ClInclude Include="Scenes\SceneManager.h" />
@@ -184,7 +184,7 @@
     <ClCompile Include="Scenes\Help\HelpScene.cpp" />
     <ClCompile Include="Scenes\Ranking\RankingScene.cpp" />
     <ClCompile Include="Scenes\InGame\InGameScene.cpp" />
-    <ClCompile Include="Scenes\ResultScene.cpp" />
+    <ClCompile Include="Scenes\Result\ResultScene.cpp" />
     <ClCompile Include="Scenes\SceneManager.cpp" />
     <ClCompile Include="Scenes\Title\TitleScene.cpp" />
     <ClCompile Include="Utility\ScoreManager.cpp" />

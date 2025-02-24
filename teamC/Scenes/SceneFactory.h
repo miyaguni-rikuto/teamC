@@ -3,7 +3,7 @@
 #include "Title/TitleScene.h"
 #include "InGame/InGameScene.h"
 #include "Help/HelpScene.h"
-#include "ResultScene.h"
+#include "Result/ResultScene.h"
 
 class SceneFactory
 {
