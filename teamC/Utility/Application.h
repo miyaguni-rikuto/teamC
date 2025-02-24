@@ -15,6 +15,7 @@ private:
 	LONGLONG now_time;
 	float refresh_rate;
 	class SceneManager* scene;
+	bool exit;						//I—¹ƒtƒ‰ƒO
 
 public:
 	Application();
