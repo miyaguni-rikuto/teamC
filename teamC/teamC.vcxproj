@@ -165,6 +165,7 @@
     <ClInclude Include="Scenes\SceneFactory.h" />
     <ClInclude Include="Scenes\SceneManager.h" />
     <ClInclude Include="Scenes\Title\TitleScene.h" />
+    <ClInclude Include="Utility\ScoreManager.h" />
     <ClInclude Include="Utility\Application.h" />
     <ClInclude Include="Utility\Collision.h" />
     <ClInclude Include="Utility\InputManager.h" />
@@ -186,6 +187,7 @@
     <ClCompile Include="Scenes\ResultScene.cpp" />
     <ClCompile Include="Scenes\SceneManager.cpp" />
     <ClCompile Include="Scenes\Title\TitleScene.cpp" />
+    <ClCompile Include="Utility\ScoreManager.cpp" />
     <ClCompile Include="Utility\Application.cpp" />
     <ClCompile Include="Utility\Collision.cpp" />
     <ClCompile Include="Utility\InputManager.cpp" />
