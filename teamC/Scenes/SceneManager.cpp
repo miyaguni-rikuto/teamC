@@ -11,7 +11,7 @@ SceneManager::SceneManager() : current_scene(nullptr)
 void SceneManager::Initialize()
 {
 	//ChangeScene(eSceneType::eTitle);
-	ChangeScene(eSceneType::eInGame);
+	ChangeScene(eSceneType::eTitle);
 }
 
 bool SceneManager::Update(float delta_second)
