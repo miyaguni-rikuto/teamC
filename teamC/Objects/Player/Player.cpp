@@ -59,7 +59,7 @@ void Player::Initialize()
 
 	//画像読み込み
 	ResourceManager* rm = ResourceManager::GetInstance();
-	
+	std::vector<int> tmp;
 
 	//画像を単体で読み込む
 	int move_image = LoadGraph("Resource/Images/Player/kajiyasan2_syoumen.png");
@@ -75,16 +75,21 @@ void Player::Initialize()
 	move_animation.push_back(move_image);  // 画像をアニメーションリストに追加
 
 	// ハンマーアクションの画像も読み込む
-	int hammer_swing_up = LoadGraph("Resource/Images/Player/kajisan_kamae.png");
-	int hammer_swing_down = LoadGraph("Resource/Images/Player/kajisan_hriososi.png");
+	//int hammer_swing_up = LoadGraph("Resource/Images/Player/kajisan_kamae.png");
+	tmp = rm->GetImageResource("Resource/Images/Player/kajisan_kamae.png");
+	hammer_animation.push_back(tmp[0]);
+	tmp = rm->GetImageResource("Resource/Images/Player/kajisan_hriososi.png");
+	hammer_animation.push_back(tmp[0]);
 
-	if (hammer_swing_up == -1 || hammer_swing_down == -1)
+	//int hammer_swing_down = LoadGraph("Resource/Images/Player/kajisan_hriososi.png");
+
+	/*if (hammer_swing_up == -1 || hammer_swing_down == -1)
 	{
 		throw ("ハンマーの画像が読み込めませんでした\n");
-	}
+	}*/
 
-	hammer_animation.push_back(hammer_swing_up);  // ハンマー振り上げアニメーションの画像を追加
-	hammerdown_animation.push_back(hammer_swing_down);  // ハンマー振り下ろしアニメーションの画像を追加
+	//hammer_animation.push_back(hammer_swing_up);  // ハンマー振り上げアニメーションの画像を追加
+	//hammerdown_animation.push_back(hammer_swing_down);  // ハンマー振り下ろしアニメーションの画像を追加
 
 	// レイヤーの設定
 	z_layer = 5;
@@ -92,13 +97,7 @@ void Player::Initialize()
 	// 可動性の設定
 	is_mobility = true;
 
-	//image = NULL;//move_animation[0];
-
-	////エラーチェック
-	//if (move_animation[0] == -1)
-	//{
-	//	throw("\n");
-	//}
+	image = hammer_animation[0];//move_animation[0];
 
 	//SetHammerAnimation(, );
 }
@@ -130,6 +129,7 @@ void Player::Update(float delta_second)
 		if (hammer_timer <= 0.0f)
 		{
 			Is_hammering = false;	//ハンマー振り終了
+			image = hammer_animation[0];
 		}
 		return;
 	}
@@ -139,6 +139,7 @@ void Player::Update(float delta_second)
 	{
 		Is_hammering = true;
 		hammer_timer = hammer_duration;
+		image = hammer_animation[1];
 	}
 	//通常の移動処理
 	Movement(delta_second);
@@ -149,7 +150,9 @@ void Player::Draw(const Vector2D& screen_offset) const
 	// 親クラスの描画処理を呼び出す
 	__super::Draw(screen_offset);
 
-	
+
+	//DrawGraph(location.x, location.y, image,TRUE);
+
 	// デバッグ用：入力状態を表示
 	//InputManager* input = InputManager::GetInstance();
 	
@@ -159,7 +162,7 @@ void Player::Draw(const Vector2D& screen_offset) const
 	float right = location.x + PLAYER_CENTER_OFFSET + screen_offset.x;
 	float bottom = location.y + PLAYER_CENTER_OFFSET + screen_offset.y;
 
-	DrawBox(left, top, right, bottom, GetColor(255, 255, 255), TRUE);
+	//DrawBox(left, top, right, bottom, GetColor(255, 255, 255), TRUE);
 }
 
 void Player::Finalize()
@@ -178,10 +181,6 @@ ePlayerState Player::GetPlayerState() const
 {
 	return player_state;
 }
-
-
-
-
 
 bool Player::GetDestroy() const
 {
@@ -221,7 +220,6 @@ void Player::Movement(float delta_second)
 	}
 	if (input->GetButtonState(KEY_INPUT_A) || input->GetButtonState(XINPUT_BUTTON_A) == eInputState::Held)
 	{	
-		DrawString(10, 50, "A BUTTON PRESSED", GetColor(0, 0, 255));
 	}
 
 	switch (now_direction_state)
