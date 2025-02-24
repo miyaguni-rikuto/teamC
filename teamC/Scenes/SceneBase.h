@@ -8,6 +8,7 @@ enum eSceneType
 	eInGame,
 	eResult,
 	eRanking,
+	eHelp,
 	eExit
 };
 
