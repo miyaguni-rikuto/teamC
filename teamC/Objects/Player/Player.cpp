@@ -93,18 +93,7 @@ void Player::Draw(const Vector2D& screen_offset) const
 	
 	// デバッグ用：入力状態を表示
 	InputManager* input = InputManager::GetInstance();
-	/*if (input->GetButtonState(XINPUT_BUTTON_DPAD_LEFT) == eInputState::Held)
-	{
-		DrawString(10, 10, "LEFT KEY PRESSED", GetColor(255, 0, 0));
-	}
-	if (input->GetButtonState(XINPUT_BUTTON_DPAD_RIGHT) == eInputState::Held)
-	{
-		DrawString(10, 30, "RIGHT KEY PRESSED", GetColor(0, 255, 0));
-	}
-	if (input->GetButtonState(XINPUT_BUTTON_A) == eInputState::Held)
-	{
-		DrawString(10, 50, "A BUTTON PRESSED", GetColor(0, 0, 255));
-	}*/
+	
 	//デバッグ用
 	float left = location.x - PLAYER_CENTER_OFFSET + screen_offset.x;
 	float top = location.y - PLAYER_CENTER_OFFSET + screen_offset.y;
@@ -154,25 +143,28 @@ void Player::Movement(float delta_second)
 	float deceleration = deceleration_rate * delta_second;
 
 	//右移動
-	if (input->GetKeyState(KEY_INPUT_RIGHT)||input->GetButtonState(XINPUT_BUTTON_DPAD_RIGHT) == eInputState::Held)
+	if (input->GetButtonState(KEY_INPUT_RIGHT) || input->GetButtonState(XINPUT_BUTTON_DPAD_RIGHT) == eInputState::Held)
 	{
 		//target_velocity_x = max_speed;
 		now_direction_state = eDirectionState::RIGHT;
 		//player_state = ePlayerState::MOVE;
 	}
 	//左移動
-	else if (input->GetKeyState(KEY_INPUT_LEFT) || input->GetButtonState(XINPUT_BUTTON_DPAD_LEFT))
+	else if (input->GetButtonState(KEY_INPUT_LEFT) || input->GetButtonState(XINPUT_BUTTON_DPAD_LEFT) == eInputState::Held)
 	{
 		//target_velocity_x = max_speed;
 		now_direction_state = eDirectionState::LEFT;
 		//player_state = ePlayerState::MOVE;
 	}
-	/*else
+	else
 	{
-		player_state = ePlayerState::IDLE;
-		target_velocity_x = 0.0f;
-	}*/
-	
+		now_direction_state = eDirectionState::NONE;
+	}
+	if (input->GetButtonState(KEY_INPUT_A) || input->GetButtonState(XINPUT_BUTTON_A) == eInputState::Held)
+	{	
+
+	}
+
 	switch (now_direction_state)
 	{
 	case Player::UP:
@@ -184,7 +176,7 @@ void Player::Movement(float delta_second)
 	case Player::DOWN:
 		break;
 	case Player::LEFT:
-		p_velocity.x -= 5.0f;
+		p_velocity.x = -5.0f;
 		if (input->GetButtonState(XINPUT_BUTTON_DPAD_LEFT) == eInputState::None)now_direction_state = NONE;
 		break;
 	case Player::NONE:
