@@ -154,24 +154,23 @@ void Player::Movement(float delta_second)
 	float deceleration = deceleration_rate * delta_second;
 
 	//‰EˆÚ“®
-	if (input->GetKeyState(KEY_INPUT_RIGHT)||input->GetButtonState(XINPUT_BUTTON_DPAD_RIGHT) == eInputState::Held)
+	if (input->GetButtonState(KEY_INPUT_RIGHT)||input->GetButtonState(XINPUT_BUTTON_DPAD_RIGHT) == eInputState::Held)
 	{
 		//target_velocity_x = max_speed;
 		now_direction_state = eDirectionState::RIGHT;
 		//player_state = ePlayerState::MOVE;
 	}
 	//¶ˆÚ“®
-	else if (input->GetKeyState(KEY_INPUT_LEFT) || input->GetButtonState(XINPUT_BUTTON_DPAD_LEFT))
+	else if (input->GetButtonState(KEY_INPUT_LEFT) || input->GetButtonState(XINPUT_BUTTON_DPAD_LEFT) == eInputState::Held)
 	{
 		//target_velocity_x = max_speed;
 		now_direction_state = eDirectionState::LEFT;
 		//player_state = ePlayerState::MOVE;
 	}
-	/*else
+	else
 	{
-		player_state = ePlayerState::IDLE;
-		target_velocity_x = 0.0f;
-	}*/
+		now_direction_state = eDirectionState::NONE;
+	}
 	
 	switch (now_direction_state)
 	{
@@ -184,7 +183,7 @@ void Player::Movement(float delta_second)
 	case Player::DOWN:
 		break;
 	case Player::LEFT:
-		p_velocity.x -= 5.0f;
+		p_velocity.x = -5.0f;
 		if (input->GetButtonState(XINPUT_BUTTON_DPAD_LEFT) == eInputState::None)now_direction_state = NONE;
 		break;
 	case Player::NONE:
