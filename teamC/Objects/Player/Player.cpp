@@ -162,7 +162,7 @@ void Player::Movement(float delta_second)
 	}
 	if (input->GetButtonState(KEY_INPUT_A) || input->GetButtonState(XINPUT_BUTTON_A) == eInputState::Held)
 	{	
-
+		DrawString(10, 50, "A BUTTON PRESSED", GetColor(0, 0, 255));
 	}
 
 	switch (now_direction_state)
