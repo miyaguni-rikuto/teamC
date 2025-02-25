@@ -32,6 +32,7 @@ private:
 	float animation_time;					// アニメーション時間
 	int animation_count;					// アニメーション添字
 	bool is_destroy;						// 死んだ状態になったか？
+	bool hit_flag;						//オブジェクトに当たっているかどうか
 	static Enemy* instance;                //プレイヤーのインスタンス
 
 	// 移動アニメーションの順番

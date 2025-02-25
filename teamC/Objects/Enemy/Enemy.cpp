@@ -17,6 +17,7 @@ Enemy::Enemy() :
 	animation_time(0.0f),
 	animation_count(0),
 	is_destroy(false),
+	hit_flag(false),
 	k_velocity(1.0f)
 {
 
@@ -31,6 +32,11 @@ void Enemy::Initialize()
 	// アニメーション画像の読み込み
 	ResourceManager* rm = ResourceManager::GetInstance();
 	//move_animation = rm->GetImageResource("Resource/Images/aikonn2.png",1,1,1,1,1);
+		//当たり判定の設定
+	collision.is_blocking = true;
+	collision.object_type = eObjectType::eEnemy;
+	collision.hit_object_type.push_back(eObjectType::eTable);
+	collision.box_size = (32.0f, 32.0f);
 
 	// レイヤーの設定
 	z_layer = 5;
@@ -87,11 +93,7 @@ void Enemy::Finalize()
 /// <param name="hit_object">当たったゲームオブジェクトのポインタ</param>
 void Enemy::OnHitCollision(GameObjectManager* hit_object)
 {
-	//if (hit_object->GetCollision().object_type == eObjectType::ePlayer)
-	//{
-	//	//kuriboを消滅する
-	//	owner_scene->DestroyObject(this);
-	//}
+	hit_flag = true;
 }
 /// <summary>
 /// 移動処理
@@ -102,16 +104,22 @@ void Enemy::Movement(float delta_second)
 	//入力状態を取得
 	InputManager* input = InputManager::GetInstance();
 
-	
-	k_velocity.y += 5.0f;
-	if (location.x >= 400)
+	if (!hit_flag)
 	{
-		Finalize();
+		k_velocity.y += 5.0f;
+		if (location.x >= 400)
+		{
+			Finalize();
+		}
+
+
+		location.x += k_velocity.x * delta_second;
+		location.y += k_velocity.y * delta_second;
 	}
-
-
-	location.x += k_velocity.x * delta_second;
-	location.y += k_velocity.y * delta_second;
+	else
+	{
+		k_velocity.y = 0.0f;
+	}
 
 
 }
