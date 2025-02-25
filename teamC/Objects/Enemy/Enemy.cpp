@@ -35,9 +35,12 @@ void Enemy::Initialize()
 	std::vector<int> tmp;
 
 	//画像を単体で読みむ
-	int move_image = LoadGraph("Resource/Images/Enemy/Enemy.png");
+	
+	
 
-	if (move_image == -1)
+	image = rm->GetImageResource("Resource/Images/Enemy/Enemy.png")[0];
+
+	if (image == -1)
 	{
 		// 画像読み込み失敗の場合の処理
 		throw ("move_animation.pngが読み込めませんでした\n");
@@ -94,7 +97,7 @@ void Enemy::Draw(const Vector2D& screen_offset)const
 {
 	//親クラスの描画処理を呼び出す
 	__super::Draw(screen_offset);
-	DrawFormatString(location.x, location.y, GetColor(255, 255, 255), "Enemy");
+	//DrawFormatString(location.x, location.y, GetColor(255, 255, 255), "Enemy");
 }
 void Enemy::Finalize()
 {

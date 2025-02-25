@@ -34,6 +34,7 @@ private:
 	bool hit_flag;						//オブジェクトに当たっているかどうか
 	static Enemy* instance;                //プレイヤーのインスタンス
 
+	
 	bool same_lane;
 
 	
