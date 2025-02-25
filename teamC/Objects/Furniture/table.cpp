@@ -25,6 +25,7 @@ void Table::Initialize()
 	//“–‚½‚è”»’è‚Ìİ’è
 	collision.is_blocking = true;
 	collision.object_type = eObjectType::eTable;
+	collision.hit_object_type.push_back(eEnemy);
 	collision.box_size = (32.0f, 32.0f);
 
 	// ƒŒƒCƒ„[‚Ìİ’è

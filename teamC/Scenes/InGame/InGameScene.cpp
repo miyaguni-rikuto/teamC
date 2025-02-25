@@ -3,15 +3,16 @@
 #include "../../Utility/ResourceManager.h"
 #include "../../Objects/Player/Player.h"
 #include "../../Utility/Collision.h"
+#include "../../Utility/ScoreManager.h"
 #include "../../Objects/Enemy/Enemy.h"
 //#include "../Object/Enemy/Nokonoko.h"
 #include "../../Objects/Furniture/Floor.h"
 #include "../../Objects/Furniture/Table.h"
 #include <fstream>
 
-#define D_LEFT_LAINE		(110)
-#define D_MID_LAINE			(320)
-#define D_RIGHT_LAINE		(530)
+//#define D_LEFT_LAINE		(110)
+//#define D_MID_LAINE			(320)
+//#define D_RIGHT_LAINE		(530)
 
 #define MAX_LOAD_LINE	(20)
 #define MAX_LOAD_COLUMN	(15)
@@ -19,6 +20,8 @@
 
 void InGameScene::Initialize()
 {
+	ScoreManager::GetInstance().ResetScore();
+
 	//GameObjectManagerのインスタンス取得
 	objm = GameObjectManager::GetInstance();
 	player = objm->CreateGameObject<Player>(Vector2D(320, 400));		//プレイヤーポインタの取得
@@ -35,43 +38,8 @@ eSceneType InGameScene::Update(float delta_second)
 {
 	InputManager* input = InputManager::GetInstance();
 
-	//エネミーの生成
-	for (int i = 0; i < 3; i++)
-	{
-		Enemy_count[i];
-	}
-	if (Enemy_count[0] >= 150)
-	{
-		Enemy_count[0] = 0;
-		if (GetRand(1) == 1)
-		{
-			objm->CreateGameObject<Enemy>(Vector2D(100, 10));
-		}
-		else
-			objm->CreateGameObject<Enemy>(Vector2D(100, 10));
-	}
-
-	if (Enemy_count[1] >= 350)
-	{
-		Enemy_count[1] = 1;
-		if (GetRand(1) == 1)
-		{
-			objm->CreateGameObject<Enemy>(Vector2D(250, 10));
-		}
-		else
-			objm->CreateGameObject<Enemy>(Vector2D(250, 10));
-	}
-
-	if (Enemy_count[2] >= 500)
-	{
-		Enemy_count[2] = 2;
-		if (GetRand(1) == 1)
-		{
-			objm->CreateGameObject<Enemy>(Vector2D(400, 10));
-		}
-		else
-			objm->CreateGameObject<Enemy>(Vector2D(400, 10));
-	}
+	ScoreManager::GetInstance().UpdateButtonCount(100);
+	
 
 #ifndef DEBUG_MODE
 
@@ -88,6 +56,46 @@ eSceneType InGameScene::Update(float delta_second)
 	{
 		return eSceneType::eResult;
 	}
+
+	//エネミーの生成
+	for (int i = 0; i < 3; i++)
+	{
+		Enemy_count[i]++;
+	}
+	if (Enemy_count[0] >= 150)
+	{
+		Enemy_count[0] = 0;
+		if (GetRand(1) == 1)
+		{
+			enemy = objm->CreateGameObject<Enemy>(Vector2D(D_LEFT_LEAN, 10));
+			enemy->SetLane(eRIGHT);
+			game_enemy_list.push_back(enemy);
+		}
+	}
+
+	if (Enemy_count[1] >= 350)
+	{
+		Enemy_count[1] = 1;
+		if (GetRand(1) == 1)
+		{
+			objm->CreateGameObject<Enemy>(Vector2D(D_MID_LEAN, 10))->SetLane(eMID);
+			enemy->SetLane(eMID);
+			game_enemy_list.push_back(enemy);
+		}
+	}
+
+	if (Enemy_count[2] >= 500)
+	{
+		Enemy_count[2] = 2;
+		if (GetRand(1) == 1)
+		{
+			objm->CreateGameObject<Enemy>(Vector2D(D_RIGHT_LEAN, 10))->SetLane(eLEFT);
+			enemy->SetLane(eLEFT);
+			game_enemy_list.push_back(enemy);
+		}
+	}
+
+	testCheckLane();
 
 #else
 	//pause_flgがfalseであれば更新処理を入れる
@@ -136,6 +144,8 @@ void InGameScene::Draw() const
 {
 	__super::Draw();
 
+	ScoreManager::GetInstance().DrawCount();
+
 	//スタート時間表示
 	if (start_flg)
 	{
@@ -154,7 +164,20 @@ void InGameScene::Draw() const
 void InGameScene::Finalize()
 {
 	player = nullptr;
-	enemy = nullptr;
+
+	// オブジェクトリストが空なら処理を終了する
+	if (game_enemy_list.empty())
+	{
+		return;
+	}
+	// オブジェクトリスト内のオブジェクトを削除する
+	for (GameObject* obj : game_enemy_list)
+	{
+		delete obj;
+	}
+
+	// 動的配列の解放
+	game_enemy_list.clear();
 }
 
 eSceneType InGameScene::GetNowSceneType() const
@@ -450,16 +473,19 @@ void InGameScene::DrawBackGroundCSV() const
 	fclose(fp);
 }
 
-//おなじレーンにいるかどうか
-bool InGameScene::testCheckLane(Enemy* enemy)
+//プレイヤーとおなじレーンにいるかどうか
+void InGameScene::testCheckLane()
 {
-	if (enemy->GetCollision().now_lane == player->GetCollision().now_lane)
+	for (int i = 0; i < game_enemy_list.size(); i++)
 	{
-		return true;
-	}
-	else
-	{
-		return false;
+		if (game_enemy_list[i]->GetCollision().now_lane == player->GetCollision().now_lane)
+		{
+			game_enemy_list[i]->CheckLane(true);
+		}
+		else
+		{
+			game_enemy_list[i]->CheckLane(false);
+		}
 	}
 }
 

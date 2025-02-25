@@ -34,6 +34,9 @@ private:
 	bool hit_flag;						//オブジェクトに当たっているかどうか
 	static Enemy* instance;                //プレイヤーのインスタンス
 
+	bool same_lane;
+
+	
 	// 移動アニメーションの順番
 	const int animation_num[4] = { 0, 1, 2, 1, };
 
@@ -46,7 +49,8 @@ public:
 	virtual void Update(float delta_second) override;
 	virtual void Draw(const Vector2D& screen_offset) const override;
 	virtual void Finalize() override;
-
+	void CheckLane(bool a);
+	void SetLane(eNowLane a);
 	/// <summary>
 	/// 当たり判定通知処理
 	/// </summary>

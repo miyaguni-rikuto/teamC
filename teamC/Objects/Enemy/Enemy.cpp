@@ -1,4 +1,5 @@
 #include "Enemy.h"
+#include "../../Objects/GameObject.h"
 #include"../../Utility/InputManager.h"
 #include "../../Utility/ResourceManager.h"
 #include"../../Utility/Application.h"
@@ -81,12 +82,19 @@ void Enemy::Initialize()
 	{
 
 	}
+	if (same_lane)
+    {
+        GameObjectManager *obm = GameObjectManager::GetInstance();
+
+        obm->DestroyGameObject(this);
+    }
+
 }
 void Enemy::Draw(const Vector2D& screen_offset)const
 {
 	//親クラスの描画処理を呼び出す
 	__super::Draw(screen_offset);
-	//DrawFormatString(location.x, location.y, GetColor(255, 255, 255), "Enemy");
+	DrawFormatString(location.x, location.y, GetColor(255, 255, 255), "Enemy");
 }
 void Enemy::Finalize()
 {
@@ -101,6 +109,17 @@ void Enemy::Finalize()
 void Enemy::OnHitCollision(GameObject* hit_object)
 {
 	hit_flag = true;
+}
+
+
+void Enemy::CheckLane(bool a)
+{
+	same_lane = a;
+}
+
+void Enemy::SetLane(eNowLane a)
+{
+	this->collision.now_lane = a;
 }
 /// <summary>
 /// 移動処理
