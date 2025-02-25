@@ -30,7 +30,7 @@ void Enemy::Initialize()
 {
 	// アニメーション画像の読み込み
 	ResourceManager* rm = ResourceManager::GetInstance();
-	move_animation = rm->GetImageResource("Resource/Images/aikonn2.png",1,1,1,1,1);
+	//move_animation = rm->GetImageResource("Resource/Images/aikonn2.png",1,1,1,1,1);
 
 	// レイヤーの設定
 	z_layer = 5;
@@ -49,7 +49,7 @@ void Enemy::Initialize()
 
 
 }
-void Enemy::Update(float delta_second)
+ void Enemy::Update(float delta_second)
 {
 	//当たり判定の位置を取得する
 
@@ -102,71 +102,17 @@ void Enemy::Movement(float delta_second)
 	//入力状態を取得
 	InputManager* input = InputManager::GetInstance();
 
-	//初期速度の変数
-	float acceleration = acceleration_rate * delta_second;
-	float deceleration = deceleration_rate * delta_second;
-
-	//上移動
-	if (input->GetKeyState(KEY_INPUT_UP) || input->GetButtonState(XINPUT_BUTTON_DPAD_RIGHT) == eInputState::Held)
+	
+	k_velocity.y += 5.0f;
+	if (location.x >= 400)
 	{
-		//target_velocity_x = max_speed;
-		now_direction_state = eDirectionState::UP;
-		//player_state = ePlayerState::MOVE;
+		Finalize();
 	}
-	//下移動
-	else if (input->GetKeyState(KEY_INPUT_DOWN) || input->GetButtonState(XINPUT_BUTTON_DPAD_LEFT))
-	{
-		//target_velocity_x = max_speed;
-		now_direction_state = eDirectionState::DOWN;
-		//player_state = ePlayerState::MOVE;
-	}
-	/*else
-	{
-		player_state = ePlayerState::IDLE;
-		target_velocity_x = 0.0f;
-	}*/
 
-	switch (now_direction_state)
-	{
-	case Enemy::UP:
 
-		k_velocity.y = 5.0f;
-		if (input->GetButtonState(XINPUT_BUTTON_DPAD_RIGHT) == eInputState::None)now_direction_state = NONE;
-		break;
-	case Enemy::RIGHT:
-		
-		break;
-	case Enemy::DOWN:
-
-		k_velocity.y -= 5.0f;
-		if (input->GetButtonState(XINPUT_BUTTON_DPAD_LEFT) == eInputState::None)now_direction_state = NONE;
-
-		break;
-	case Enemy::LEFT:
-		
-		break;
-	case Enemy::NONE:
-		k_velocity = 0.0f;
-		//右移動
-		if (input->GetButtonState(XINPUT_BUTTON_DPAD_RIGHT))
-		{
-			//target_velocity_x = max_speed;
-			now_direction_state = eDirectionState::RIGHT;
-			//player_state = ePlayerState::MOVE;
-		}
-		//左移動
-		else if (input->GetButtonState(XINPUT_BUTTON_DPAD_LEFT) == eInputState::Held)
-		{
-			//target_velocity_x = max_speed;
-			now_direction_state = eDirectionState::LEFT;
-			//player_state = ePlayerState::MOVE;
-		}
-		break;
-	default:
-		break;
-	}
 	location.x += k_velocity.x * delta_second;
 	location.y += k_velocity.y * delta_second;
+
 
 }
 
