@@ -9,6 +9,7 @@ private:
 	class Player* player;
 	class Enemy* enemy;
 	std::vector<std::vector<int>> stage_data;			//“®“I“ñŽŸŒ³”z—ñ
+	std::vector<Enemy*> game_enemy_list;
 	int Enemy_count[3];
 
 	int sky_image;	//‹ó‚Ì”wŒi‰æ‘œ
@@ -40,7 +41,7 @@ public:
 	virtual void Finalize() override;
 	virtual eSceneType GetNowSceneType() const override;
 	virtual void CheckCollision(GameObject* target, GameObject* partner) override;
-	bool testCheckLane(Enemy* partner);
+	void testCheckLane();
 
 private:
 	void LoadStageMapCSV();

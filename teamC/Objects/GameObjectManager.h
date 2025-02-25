@@ -9,13 +9,11 @@ private:
 	std::vector<GameObject*> create_object;
 	std::vector<GameObject*> destroy_object;
 	std::vector<GameObject*> game_object_list;
-	std::vector<GameObject*> game_enemy_list;
 
 public:
 	GameObjectManager() :
 		create_object(),
 		game_object_list(),
-		game_enemy_list(),
 		destroy_object()
 	{
 
@@ -227,17 +225,12 @@ private:
 		void DestoryAllObject()
 		{
 			// オブジェクトリストが空なら処理を終了する
-			if (game_object_list.empty() && game_enemy_list.empty())
+			if (game_object_list.empty())
 			{
 				return;
 			}
 			// オブジェクトリスト内のオブジェクトを削除する
 			for (GameObject* obj : game_object_list)
-			{
-				obj->Finalize();
-				delete obj;
-			}
-			for (GameObject* obj : game_enemy_list)
 			{
 				obj->Finalize();
 				delete obj;
