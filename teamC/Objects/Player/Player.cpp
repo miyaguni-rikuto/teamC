@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "../../Objects/GameObject.h"
 #include "../../Utility/ResourceManager.h"
 #include "../../Utility/InputManager.h"
 #include "../../Utility/ResourceManager.h"
@@ -45,8 +46,8 @@ Player::Player() :
 	is_grounded(false),
 	Is_hammering(false),
 	hammer_timer(0.0f)
-{
 
+{
 }
 
 Player::~Player()
@@ -193,75 +194,42 @@ bool Player::GetDestroy() const
 /// <param name="delta_second">1フレームあたりの時間</param>
 void Player::Movement(float delta_second)
 {
-	//入力状態を取得
+	// 入力状態を取得
 	InputManager* input = InputManager::GetInstance();
 
-	//初期速度の変数
-	float acceleration = acceleration_rate * delta_second;
-	float deceleration = deceleration_rate * delta_second;
+	// 現在のレーン位置を保持
+	float previous_lane_position = lane_positions[current_lane];
 
-	//右移動
-	if (input->GetButtonState(KEY_INPUT_RIGHT) || input->GetButtonState(XINPUT_BUTTON_DPAD_RIGHT) == eInputState::Held)
+	// 右移動
+	if (input->GetButtonState(KEY_INPUT_RIGHT) == eInputState::Held ||
+		input->GetButtonState(XINPUT_BUTTON_DPAD_RIGHT) == eInputState::Held)
 	{
-		//target_velocity_x = max_speed;
-		now_direction_state = eDirectionState::RIGHT;
-		//player_state = ePlayerState::MOVE;
-	}
-	//左移動
-	else if (input->GetButtonState(KEY_INPUT_LEFT) || input->GetButtonState(XINPUT_BUTTON_DPAD_LEFT) == eInputState::Held)
-	{
-		//target_velocity_x = max_speed;
-		now_direction_state = eDirectionState::LEFT;
-		//player_state = ePlayerState::MOVE;
-	}
-	else
-	{
-		now_direction_state = eDirectionState::NONE;
-	}
-	if (input->GetButtonState(KEY_INPUT_A) || input->GetButtonState(XINPUT_BUTTON_A) == eInputState::Held)
-	{	
-	}
-
-	switch (now_direction_state)
-	{
-	case Player::UP:
-		break;
-	case Player::RIGHT:
-		p_velocity.x = 2.0f;
-		if (input->GetButtonState(XINPUT_BUTTON_DPAD_RIGHT) == eInputState::None)now_direction_state = NONE;
-		break;
-	case Player::DOWN:
-		break;
-	case Player::LEFT:
-		p_velocity.x = -2.0f;
-		if (input->GetButtonState(XINPUT_BUTTON_DPAD_LEFT) == eInputState::None)now_direction_state = NONE;
-		break;
-	case Player::NONE:
-		p_velocity = 0.0f;
-		//右移動
-		if (input->GetButtonState(XINPUT_BUTTON_DPAD_RIGHT))
+		if (current_lane < 2)  // 右に移動可能なら
 		{
-			//target_velocity_x = max_speed;
-			now_direction_state = eDirectionState::RIGHT;
-			//player_state = ePlayerState::MOVE;
+			current_lane++;  // 1つ右のレーンへ
 		}
-		//左移動
-		else if (input->GetButtonState(XINPUT_BUTTON_DPAD_LEFT) == eInputState::Held)
+	}
+	// 左移動
+	else if (input->GetButtonState(KEY_INPUT_LEFT) == eInputState::p ||
+		input->GetButtonState(XINPUT_BUTTON_DPAD_LEFT) == eInputState::Held)
+	{
+		if (current_lane > 0)  // 左に移動可能なら
 		{
-			//target_velocity_x = max_speed;
-			now_direction_state = eDirectionState::LEFT;
-			//player_state = ePlayerState::MOVE;
+			current_lane--;  // 1つ左のレーンへ
 		}
-		break;
-	default:
-		break;
+	}
+	// 現在のレーン位置が変わっていない場合は中央に留まる
+	else if (previous_lane_position == lane_positions[current_lane]) {
+		// 中央にいたら、中央に戻らないように更新しない
+		current_lane = 1;  // 中央に留まる（適切な条件を加える）
 	}
 
+	// 更新したレーンの位置に反映
+	location.x = lane_positions[current_lane];
 
-	location.x += p_velocity.x;
+	// Y軸の処理（そのまま）
 	location.y += p_velocity.y;
 }
-
 
 
 /// <summary>

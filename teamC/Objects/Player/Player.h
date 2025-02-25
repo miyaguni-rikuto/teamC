@@ -42,13 +42,16 @@ private:
 	ePlayerState player_state;				// プレイヤー状態
 	eDirectionState now_direction_state;	// 現在進行方向状態
 	eDirectionState next_direction_state;	// 次回進行方向状態
+
+	float lane_positions[3]{ D_LEFT_LEAN,D_MID_LEAN,D_RIGHT_LEAN };
+	int current_lane = 1;
+
 	int food_count;							// コインを取った枚数
 	float animation_time;					// アニメーション時間
 	int animation_count;					// アニメーション添字
 	bool is_power_up;						// パワー餌を食べたか？
 	bool is_destroy;						// 死んだ状態になったか？
 	static Player* instance;                //プレイヤーのインスタンス
-
 
 	int normal_image;
 	bool Is_hammering;						//ハンマーを振っているかのフラグ
