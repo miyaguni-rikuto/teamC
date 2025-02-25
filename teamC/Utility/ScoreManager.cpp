@@ -1,64 +1,81 @@
 #include "ScoreManager.h"
+#include "InputManager.h"
 #include <cstdio>
 
 #define SCORE_X 390
 
-ScoreManager::ScoreManager() : high_score(0), score(0)
+ScoreManager::ScoreManager() : button_count(0), enemy_count(0), score(0)
 {
-    // 画像の読み込み
-    for (int i = 0; i < 10; i++) {
-        char filename[256];
-        sprintf_s(filename, "number.png", i);
-        g_number[i] = LoadGraph(filename);
-    }
 }
 
-void ScoreManager::SetScore(SCOREDATA data, int val)
-{
-    switch (data) {
-    case HIGH_SCORE:
-        high_score = val;
-        break;
-    case CURRENT_SCORE:
-        score = val;
-        break;
-    }
+ScoreManager& ScoreManager::GetInstance() {
+    static ScoreManager instance;
+    return instance;
 }
 
-void ScoreManager::AddScore(int val)
+//void ScoreManager::SetCount(COUNTDATA data, int val)
+//{
+//    switch (data) {
+//    case BUTTON_COUNT:
+//        button_count = val;
+//        break;
+//    case ENEMY_COUNT:
+//        enemy_count = val;
+//        break;
+//    }
+//}
+//
+void ScoreManager::AddCount(int val)
 {
     score += val;
-    if (score > high_score) {
-        high_score = score;  // ハイスコア更新
-    }
+   /* switch (data) {
+    case BUTTON_COUNT:
+        button_count += val;
+        break;
+    case ENEMY_COUNT:
+        enemy_count += val;
+        break;
+    }*/
 }
+//
+//int ScoreManager::GetCount(COUNTDATA data)
+//{
+//    switch (data) {
+//    case BUTTON_COUNT:
+//        return button_count;
+//    case ENEMY_COUNT:
+//        return enemy_count;
+//    }
+//    return -1;
+//}
 
-int ScoreManager::GetScore(SCOREDATA data)
-{
-    switch (data) {
-    case HIGH_SCORE:
-        return high_score;
-    case CURRENT_SCORE:
-        return score;
-    }
-    return -1;
-}
-
-void ScoreManager::DrawScore()
+void ScoreManager::DrawCount()
 {
     char buf[16];
 
-    // ハイスコア描画
-    sprintf_s(buf, "%d", high_score);
-    DrawString(50, 50, "HIGHSCORE", GetColor(255, 255, 255));
-    for (int i = 0; buf[i] != '\0'; ++i) {
-        DrawGraph(SCORE_X + i * 20, 50, g_number[buf[i] - '0'], TRUE);
-    }
+    sprintf_s(buf, "BUTTON:%d", button_count);
+    DrawString(350, 10, buf, GetColor(255, 255, 255));
 
-    // 現在のスコア描画
-    sprintf_s(buf, "%d", score);
-    DrawString(50, 50, "SCORE", GetColor(255, 255, 255));
-    for (int i = 0; buf[i] != '\0'; ++i) {
-        DrawGraph(SCORE_X + i * 20, 80, g_number[buf[i] - '0'], TRUE);
+    sprintf_s(buf, "SCORE:%d", score);
+    DrawString(50, 10, buf, GetColor(255, 255, 255));
+    
+}
+
+void ScoreManager::UpdateButtonCount(int val) {
+    
+    InputManager* input = InputManager::GetInstance();
+
+    if (input->GetKeyState(KEY_INPUT_Z) == eInputState::Pressed)
+    {
+        button_count++;
+        score += val;  // スコアを100追加
     }
+    
+}
+
+void ScoreManager::ResetScore()
+{
+    score = 0;
+    button_count = 0;
+    enemy_count = 0;
 }

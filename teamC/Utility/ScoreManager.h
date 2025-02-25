@@ -2,27 +2,34 @@
 
 #include <DxLib.h>
 
-enum SCOREDATA {
-	HIGH_SCORE,
-	CURRENT_SCORE
+enum COUNTDATA {
+	BUTTON_COUNT,
+	ENEMY_COUNT
 };
 
 class ScoreManager
 {
 	public:
-    ScoreManager();
+    //ScoreManager();
 private:
 	int g_number[10];
 
-	int high_score, score;
+	int score;
+	int button_count, enemy_count;
 
 private:
 	void Draw();
+	ScoreManager();
+	~ScoreManager() {}
 
+	bool ButtonState;
 public:
-	void SetScore(SCOREDATA data, int val);
-	int GetScore(SCOREDATA data);
-	void AddScore(int val);
-	void DrawScore();
+	static ScoreManager& GetInstance();
+	void SetCount(COUNTDATA data, int val);
+	int GetCount(COUNTDATA data);
+	void AddCount(int val);
+	void DrawCount();
+	void UpdateButtonCount(int val);
+	void ResetScore();
 };
 
