@@ -1,9 +1,11 @@
-#include "Player.h"
+#include "DxLib.h"
 #include "../../Objects/GameObject.h"
 #include "../../Utility/ResourceManager.h"
 #include "../../Utility/InputManager.h"
 #include "../../Utility/ResourceManager.h"
-#include "DxLib.h"
+#include "../../Utility/Vector2D.h"
+#include "../../Utility/Collision.h"
+#include "Player.h"
 
 /*
 UTF-8‚É‚·‚éƒtƒ@ƒCƒ‹:
@@ -342,3 +344,4 @@ void Player::SetHammerAnimation(int swing_up, int swing_down)
 	hammerdown_animation.clear();
 	hammerdown_animation.push_back(swing_down);  // U‚è‚¨‚ë‚µ‚½‚Ì‰æ‘œ
 }
+
