@@ -42,7 +42,7 @@ void Table::Initialize()
 /// <param name="delta_second">1ƒtƒŒ[ƒ€‚ ‚½‚è‚ÌŠÔ</param>
 void Table::Update(float delta_second)
 {
-
+	
 }
 
 /// <summary>

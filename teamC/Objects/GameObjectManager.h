@@ -9,11 +9,13 @@ private:
 	std::vector<GameObject*> create_object;
 	std::vector<GameObject*> destroy_object;
 	std::vector<GameObject*> game_object_list;
+	std::vector<GameObject*> game_enemy_list;
 
 public:
 	GameObjectManager() :
 		create_object(),
 		game_object_list(),
+		game_enemy_list(),
 		destroy_object()
 	{
 
@@ -44,6 +46,7 @@ public:
 		}
 	}
 
+	//CreateしたObjectをgame_object_listの入れる処理
 	void CheckCreateObject()
 	{
 		if (!create_object.empty())
@@ -62,7 +65,16 @@ public:
 						break;
 					}
 				}
-				//オブジェクトリストに挿入する
+				//もしエネミーだったらenemy_listに挿入する。それ以外はgame_objectに入れる
+				/*if (obj->GetCollision().object_type == eEnemy)
+				{
+					game_enemy_list.push_back(obj);
+				}
+				else
+				{
+					game_object_list.insert(itr, obj);
+				}*/
+
 				game_object_list.insert(itr, obj);
 			}
 			//オブジェクト生成リストを解放する
@@ -215,12 +227,17 @@ private:
 		void DestoryAllObject()
 		{
 			// オブジェクトリストが空なら処理を終了する
-			if (game_object_list.empty())
+			if (game_object_list.empty() && game_enemy_list.empty())
 			{
 				return;
 			}
 			// オブジェクトリスト内のオブジェクトを削除する
 			for (GameObject* obj : game_object_list)
+			{
+				obj->Finalize();
+				delete obj;
+			}
+			for (GameObject* obj : game_enemy_list)
 			{
 				obj->Finalize();
 				delete obj;

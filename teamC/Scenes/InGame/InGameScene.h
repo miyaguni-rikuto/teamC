@@ -6,7 +6,10 @@ class InGameScene : public SceneBase
 {
 private:
 	class GameObjectManager* objm;
+	class Player* player;
+	class Enemy* enemy;
 	std::vector<std::vector<int>> stage_data;			//“®“I“ñŸŒ³”z—ñ
+	int Enemy_count[3];
 
 	int sky_image;	//‹ó‚Ì”wŒi‰æ‘œ
 	int leaf_image[3];	//‘‚Ì”wŒi‰æ‘œŠi”\”z—ñ
@@ -37,6 +40,7 @@ public:
 	virtual void Finalize() override;
 	virtual eSceneType GetNowSceneType() const override;
 	virtual void CheckCollision(GameObject* target, GameObject* partner) override;
+	//bool testCheckLane(Player* target, Enemy* partner);
 
 private:
 	void LoadStageMapCSV();

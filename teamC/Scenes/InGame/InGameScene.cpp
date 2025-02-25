@@ -3,7 +3,7 @@
 #include "../../Utility/ResourceManager.h"
 #include "../../Objects/Player/Player.h"
 #include "../../Utility/Collision.h"
-#include"../../Objects/Enemy/Enemy.h"
+#include "../../Objects/Enemy/Enemy.h"
 //#include "../Object/Enemy/Nokonoko.h"
 #include "../../Objects/Furniture/Floor.h"
 #include "../../Objects/Furniture/Table.h"
@@ -20,8 +20,8 @@
 void InGameScene::Initialize()
 {
 	objm = GameObjectManager::GetInstance();
-	objm->CreateGameObject<Player>(Vector2D(320, 400));
-	objm->CreateGameObject<Enemy>(Vector2D(50, 50));
+	player = objm->CreateGameObject<Player>(Vector2D(320, 400));
+	enemy = objm->CreateGameObject<Enemy>(Vector2D(50, 50));
 
 	start_flg = true;
 
@@ -33,6 +33,44 @@ void InGameScene::Initialize()
 eSceneType InGameScene::Update(float delta_second)
 {
 	InputManager* input = InputManager::GetInstance();
+
+	//エネミーの生成
+	for (int i = 0; i <= 3; i++)
+	{
+		Enemy_count[i]++;
+	}
+	if (Enemy_count[0] >= 150)
+	{
+		Enemy_count[0] = 0;
+		if (GetRand(1) == 1)
+		{
+			objm->CreateGameObject<Enemy>(Vector2D(100, 10));
+		}
+		else
+			objm->CreateGameObject<Enemy>(Vector2D(100, 10));
+	}
+
+	if (Enemy_count[1] >= 350)
+	{
+		Enemy_count[1] = 1;
+		if (GetRand(1) == 1)
+		{
+			objm->CreateGameObject<Enemy>(Vector2D(250, 10));
+		}
+		else
+			objm->CreateGameObject<Enemy>(Vector2D(250, 10));
+	}
+
+	if (Enemy_count[2] >= 500)
+	{
+		Enemy_count[2] = 2;
+		if (GetRand(1) == 1)
+		{
+			objm->CreateGameObject<Enemy>(Vector2D(400, 10));
+		}
+		else
+			objm->CreateGameObject<Enemy>(Vector2D(400, 10));
+	}
 
 #ifndef DEBUG_MODE
 
@@ -113,10 +151,8 @@ void InGameScene::Draw() const
 
 void InGameScene::Finalize()
 {
-	/*if (GameObject * obj : objm->GetObjectsList())
-	{
-
-	}*/
+	player = nullptr;
+	enemy = nullptr;
 }
 
 eSceneType InGameScene::GetNowSceneType() const
@@ -411,6 +447,19 @@ void InGameScene::DrawBackGroundCSV() const
 	// 開いたファイルを閉じる
 	fclose(fp);
 }
+
+//なじレーンにいるかどうか
+//bool InGameScene::testCheckLane(Player* player, Enemy* enemy)
+//{
+//	if (enemy->GetCollision().now_lane == player->GetCollision().now_lane)
+//	{
+//		return true;
+//	}
+//	else
+//	{
+//		return false;
+//	}
+//}
 
 //void InGameScene::DrawBackGroundCSV() const
 //{

@@ -2,30 +2,21 @@
 #include "Vector2D.h"
 #include <vector>
 
-
+//オブジェクトのタイプ
 enum eObjectType
 {
 	eNone,
 	ePlayer,
 	eEnemy,
-	eBlock,
-	eGround,
-	eItem,
-	eGoal,
-	ePipe,
-	ePipeEnter,
-	eFireBall,
-	eHardBlock
+	eTable
 };
 
-enum Items
+//現在のレーン位置
+enum eNowLane
 {
-	eNull,
-	eCoin,
-	eMushroom,
-	eFlower,
-	eOneup,
-	eStar
+	eLEFT,
+	eMID,
+	eRIGHT
 };
 
 enum eSide
@@ -41,10 +32,10 @@ class Collision
 {
 public:
 	bool is_blocking;
+	eNowLane now_lane;
 	Vector2D box_size;
 	Vector2D pivot;
 	eObjectType object_type;
-	Items item_type;
 	std::vector<eObjectType> hit_object_type;
 
 	bool IsCheckHitTarget(eObjectType object_type) const;
