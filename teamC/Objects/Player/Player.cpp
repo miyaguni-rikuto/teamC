@@ -143,7 +143,7 @@ void Player::Update(float delta_second)
 		image = hammer_animation[1];
 	}
 	//通常の移動処理
-	Movement(delta_second);
+	//Movement(delta_second);
 }
 
 void Player::Draw(const Vector2D& screen_offset) const
@@ -151,6 +151,7 @@ void Player::Draw(const Vector2D& screen_offset) const
 	// 親クラスの描画処理を呼び出す
 	__super::Draw(screen_offset);
 
+	DrawFormatString(location.x + 10, location.y - 12, GetColor(255, 255, 255), "%d", current_lane);
 
 	//DrawGraph(location.x, location.y, image,TRUE);
 
@@ -197,41 +198,57 @@ void Player::Movement(float delta_second)
 	// 入力状態を取得
 	InputManager* input = InputManager::GetInstance();
 
-	// 現在のレーン位置を保持
-	float previous_lane_position = lane_positions[current_lane];
-
-	// 右移動
-	if (input->GetButtonState(KEY_INPUT_RIGHT) == eInputState::Held ||
-		input->GetButtonState(XINPUT_BUTTON_DPAD_RIGHT) == eInputState::Held)
+	// 右移動（1ずつ右に移動）
+	//if (input->GetButtonState(KEY_INPUT_RIGHT) == eInputState::Pressed ||
+	//	input->GetButtonState(XINPUT_BUTTON_DPAD_RIGHT) == eInputState::Pressed)
+	//{
+	//	current_lane++;
+	//	// 現在のレーンが右端でない場合、順番に右に移動
+	//	if (current_lane >= 2) // 現在右端でないなら
+	//	{
+	//		current_lane = 2;  // 1ずつ右に移動
+	//	}
+	//}
+	//// 左移動（1ずつ左に移動）
+	//else if (input->GetButtonState(KEY_INPUT_LEFT) == eInputState::Pressed ||
+	//	input->GetButtonState(XINPUT_BUTTON_DPAD_LEFT) == eInputState::Pressed)
+	//{
+	//	current_lane--;
+	//	// 現在のレーンが左端でない場合、順番に左に移動
+	//	if (current_lane <= 0) // 現在左端でないなら
+	//	{
+	//		current_lane = 0;  // 1ずつ左に移動
+	//	}
+	//}
+	// 右移動（1ずつ右に移動）
+	if (input->GetButtonState(KEY_INPUT_RIGHT) == eInputState::Pressed ||
+		input->GetButtonState(XINPUT_BUTTON_DPAD_RIGHT) == eInputState::Pressed)
 	{
-		if (current_lane < 2)  // 右に移動可能なら
+		// 右端にいるときはそのまま端に留まる
+		if (current_lane < 2)
 		{
-			current_lane++;  // 1つ右のレーンへ
+			current_lane++;  // 右に進む
 		}
 	}
-	// 左移動
-	else if (input->GetButtonState(KEY_INPUT_LEFT) == eInputState::p ||
-		input->GetButtonState(XINPUT_BUTTON_DPAD_LEFT) == eInputState::Held)
+	// 左移動（1ずつ左に移動）
+	else if (input->GetButtonState(KEY_INPUT_LEFT) == eInputState::Pressed ||
+		input->GetButtonState(XINPUT_BUTTON_DPAD_LEFT) == eInputState::Pressed)
 	{
-		if (current_lane > 0)  // 左に移動可能なら
+		// 左端にいるときはそのまま端に留まる
+		if (current_lane > 0)
 		{
-			current_lane--;  // 1つ左のレーンへ
+			current_lane--;  // 左に進む
 		}
 	}
-	// 現在のレーン位置が変わっていない場合は中央に留まる
-	else if (previous_lane_position == lane_positions[current_lane]) {
-		// 中央にいたら、中央に戻らないように更新しない
-		current_lane = 1;  // 中央に留まる（適切な条件を加える）
-	}
 
-	// 更新したレーンの位置に反映
-	location.x = lane_positions[current_lane];
+	// 現在のレーンに基づいてプレイヤー位置を更新
+	//location.x = lane_positions[current_lane];
+
+	location.x = (210 * current_lane) + 110;
 
 	// Y軸の処理（そのまま）
 	location.y += p_velocity.y;
 }
-
-
 /// <summary>
 /// アニメーション制御
 /// </summary>

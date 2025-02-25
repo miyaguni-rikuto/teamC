@@ -43,8 +43,9 @@ private:
 	eDirectionState now_direction_state;	// 現在進行方向状態
 	eDirectionState next_direction_state;	// 次回進行方向状態
 
-	float lane_positions[3]{ D_LEFT_LEAN,D_MID_LEAN,D_RIGHT_LEAN };
 	int current_lane = 1;
+	float lane_positions[3]{ D_LEFT_LEAN,D_MID_LEAN,D_RIGHT_LEAN };
+	
 
 	int food_count;							// コインを取った枚数
 	float animation_time;					// アニメーション時間
