@@ -17,6 +17,7 @@ Enemy::Enemy() :
 	next_direction_state(eDirectionState::LEFT),
 	animation_time(0.0f),
 	animation_count(0),
+	hit_point(3),
 	is_destroy(false),
 	hit_flag(false),
 	is_delete_flg(false),
@@ -65,12 +66,11 @@ void Enemy::Initialize()
 	// 可動性の設定
 	is_mobility = true;
 
-	
-
-
 }
  void Enemy::Update(float delta_second)
 {
+	 InputManager* input = InputManager::GetInstance();
+
 	//当たり判定の位置を取得する
 
 	//当たり判定の位置を更新
@@ -87,11 +87,23 @@ void Enemy::Initialize()
 	{
 
 	}
+
+	//プレイヤーとレーンが同じでtableに当たっていたら
 	if (same_lane==true && hit_flag == true)
     {
-        GameObjectManager *obm = GameObjectManager::GetInstance();
-		is_delete_flg = true;
-        obm->DestroyGameObject(this);
+		//ボタンが押されたらHPを削る
+		if (input->GetButtonState(XINPUT_BUTTON_A) == Pressed)
+		{
+			hit_point--;
+		}
+		
+		//HPが0になったら消す
+		if (hit_point == 0)
+		{
+			GameObjectManager* obm = GameObjectManager::GetInstance();
+			is_delete_flg = true;
+			obm->DestroyGameObject(this);
+		}
     }
 
 }
@@ -113,7 +125,10 @@ void Enemy::Finalize()
 /// <param name="hit_object">当たったゲームオブジェクトのポインタ</param>
 void Enemy::OnHitCollision(GameObject* hit_object)
 {
-	hit_flag = true;
+	if (hit_object->GetCollision().object_type == eTable)
+	{
+		hit_flag = true;
+	}
 }
 
 
@@ -137,7 +152,7 @@ bool Enemy::GetDeleteFlag()
 void Enemy::Movement(float delta_second)
 {
 	//入力状態を取得
-	InputManager* input = InputManager::GetInstance();
+	//InputManager* input = InputManager::GetInstance();
 
 	if (!hit_flag)
 	{
