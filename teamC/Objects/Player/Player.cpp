@@ -84,6 +84,7 @@ void Player::Initialize()
 	tmp = rm->GetImageResource("Resource/Images/Player/kajisan_hriososi.png");
 	hammer_animation.push_back(tmp[0]);
 
+	collision.now_lane = eMID;
 	//int hammer_swing_down = LoadGraph("Resource/Images/Player/kajisan_hriososi.png");
 
 	/*if (hammer_swing_up == -1 || hammer_swing_down == -1)
