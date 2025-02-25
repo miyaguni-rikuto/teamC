@@ -40,7 +40,7 @@ public:
 	virtual void Finalize() override;
 	virtual eSceneType GetNowSceneType() const override;
 	virtual void CheckCollision(GameObject* target, GameObject* partner) override;
-	//bool testCheckLane(Player* target, Enemy* partner);
+	bool testCheckLane(Enemy* partner);
 
 private:
 	void LoadStageMapCSV();
