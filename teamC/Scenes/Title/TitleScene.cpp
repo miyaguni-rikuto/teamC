@@ -42,6 +42,10 @@ eSceneType TitleScene::Update(float delta_second)
 			return eSceneType::eHelp;
 			break;
 
+		case eRank:
+			return eSceneType::eRanking;
+			break;
+
 		case eEXIT:
 			return eSceneType::eExit;
 			break;
@@ -71,22 +75,36 @@ void TitleScene::Draw() const
 	case eNONE:
 		DrawFormatString(210, 200, dropoff_color, "PLAY STSRT");
 		DrawFormatString(210, 250, dropoff_color, "HELP");
-		DrawFormatString(210, 300, dropoff_color, "EXIT");
+		DrawFormatString(210, 300, dropoff_color, "RANKING");
+		DrawFormatString(210, 350, dropoff_color, "EXIT");
 		break;
+
 	case ePLAY:
 		DrawFormatString(210, 200, pickup_color, "PLAY STSRT");
 		DrawFormatString(210, 250, dropoff_color, "HELP");
-		DrawFormatString(210, 300, dropoff_color, "EXIT");
+		DrawFormatString(210, 300, dropoff_color, "RANKING");
+		DrawFormatString(210, 350, dropoff_color, "EXIT");
 		break;
+
 	case eHELP:
 		DrawFormatString(210, 200, dropoff_color, "PLAY STSRT");
 		DrawFormatString(210, 250, pickup_color, "HELP");
-		DrawFormatString(210, 300, dropoff_color, "EXIT");
+		DrawFormatString(210, 300, dropoff_color, "RANKING");
+		DrawFormatString(210, 350, dropoff_color, "EXIT");
 		break;
+
+	case eRanking:
+		DrawFormatString(210, 200, dropoff_color, "PLAY STSRT");
+		DrawFormatString(210, 250, dropoff_color, "HELP");
+		DrawFormatString(210, 300, pickup_color, "RANKING");
+		DrawFormatString(210, 350, dropoff_color, "EXIT");
+		break;
+
 	case eEXIT:
 		DrawFormatString(210, 200, dropoff_color, "PLAY STSRT");
 		DrawFormatString(210, 250, dropoff_color, "HELP");
-		DrawFormatString(210, 300, pickup_color, "EXIT");
+		DrawFormatString(210, 300, dropoff_color, "RANKING");
+		DrawFormatString(210, 350, pickup_color, "EXIT");
 		break;
 	default:
 		break;
@@ -119,6 +137,10 @@ void TitleScene::SetDownSelectMenuType()
 		break;
 
 	case eHELP:
+		select_menu = eRank;
+		break;
+
+	case eRank:
 		select_menu = eEXIT;
 		break;
 
@@ -145,8 +167,12 @@ void TitleScene::SetUpSelectMenuType()
 		select_menu = ePLAY;
 		break;
 
-	case eEXIT:
+	case eRank:
 		select_menu = eHELP;
+		break;
+
+	case eEXIT:
+		select_menu = eRank;
 		break;
 
 	default:

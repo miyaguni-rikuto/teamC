@@ -210,14 +210,14 @@ void Player::Movement(float delta_second)
 		}
 	}
 	// 左移動
-	else if (input->GetButtonState(KEY_INPUT_LEFT) == eInputState::p ||
-		input->GetButtonState(XINPUT_BUTTON_DPAD_LEFT) == eInputState::Held)
-	{
-		if (current_lane > 0)  // 左に移動可能なら
-		{
-			current_lane--;  // 1つ左のレーンへ
-		}
-	}
+	//else if (input->GetButtonState(KEY_INPUT_LEFT) == eInputState::p ||
+	//	input->GetButtonState(XINPUT_BUTTON_DPAD_LEFT) == eInputState::Held)
+	//{
+	//	if (current_lane > 0)  // 左に移動可能なら
+	//	{
+	//		current_lane--;  // 1つ左のレーンへ
+	//	}
+	//}
 	// 現在のレーン位置が変わっていない場合は中央に留まる
 	else if (previous_lane_position == lane_positions[current_lane]) {
 		// 中央にいたら、中央に戻らないように更新しない
