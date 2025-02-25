@@ -45,11 +45,7 @@ eSceneType InGameScene::Update(float delta_second)
 
 	objm->HitCheck();
 
-	__super::Update(delta_second);
-
 	//DeleteObject();
-
-	Draw();
 
 	//Dキーが押された場合
 	if (input->GetKeyState(KEY_INPUT_D) == eInputState::Pressed)
@@ -58,44 +54,71 @@ eSceneType InGameScene::Update(float delta_second)
 	}
 
 	//エネミーの生成
-	for (int i = 0; i < 3; i++)
+	/*for (int i = 0; i < 3; i++)
 	{
 		Enemy_count[i]++;
-	}
-	if (Enemy_count[0] >= 150)
+	}*/
+
+	// タイマー更新処理
+	time_counter += delta_second;  // フレームごとに経過時間を加算
+
+	if (time_counter >= 1.0f)  // 1秒経過した場合
 	{
-		Enemy_count[0] = 0;
-		if (GetRand(1) == 1)
+		enemy_timer += 1;  // 1秒減らす
+		time_counter = 0.0f;  // カウンターをリセット
+	}
+
+	//if(count < 3)
+	//{ 
+	//	Enemy_count[count]++;
+
+	//	count++;
+	//}
+
+	//４秒経過したら敵を生成する
+	if (enemy_timer > 4)
+	{
+		int random = GetRand(2);
+
+		switch (random)
 		{
+		case 0:
 			enemy = objm->CreateGameObject<Enemy>(Vector2D(D_LEFT_LEAN, 10));
 			enemy->SetLane(eRIGHT);
 			game_enemy_list.push_back(enemy);
-		}
-	}
+			break;
 
-	if (Enemy_count[1] >= 350)
-	{
-		Enemy_count[1] = 1;
-		if (GetRand(1) == 1)
-		{
-			objm->CreateGameObject<Enemy>(Vector2D(D_MID_LEAN, 10))->SetLane(eMID);
+		case 1:
+			enemy = objm->CreateGameObject<Enemy>(Vector2D(D_MID_LEAN, 10));
 			enemy->SetLane(eMID);
 			game_enemy_list.push_back(enemy);
-		}
-	}
+			break;
 
-	if (Enemy_count[2] >= 500)
-	{
-		Enemy_count[2] = 2;
-		if (GetRand(1) == 1)
-		{
-			objm->CreateGameObject<Enemy>(Vector2D(D_RIGHT_LEAN, 10))->SetLane(eLEFT);
+		case 2:
+			enemy = objm->CreateGameObject<Enemy>(Vector2D(D_RIGHT_LEAN, 10));
 			enemy->SetLane(eLEFT);
 			game_enemy_list.push_back(enemy);
+			break;
+		default:
+			break;
+		}
+
+		enemy_timer = 0;
+	}
+
+	//エネミーの削除フラグがtrueだったら削除する
+	for (int i = 0; i < game_enemy_list.size(); i++)
+	{
+		if (game_enemy_list[i]->GetDeleteFlag())
+		{
+			game_enemy_list.erase(game_enemy_list.begin() + i);
 		}
 	}
 
 	testCheckLane();
+
+	__super::Update(delta_second);
+
 
 #else
 	//pause_flgがfalseであれば更新処理を入れる
@@ -135,7 +158,6 @@ eSceneType InGameScene::Update(float delta_second)
 	}
 
 #endif // DEBUG	
-	Draw();
 
 	return GetNowSceneType();
 }
@@ -476,6 +498,18 @@ void InGameScene::DrawBackGroundCSV() const
 //プレイヤーとおなじレーンにいるかどうか
 void InGameScene::testCheckLane()
 {
+	/*for (int i = 0; i < game_enemy_list.size(); i++)
+	{
+		if (game_enemy_list[i]->GetCollision().now_lane == player->GetCollision().now_lane)
+		{
+			game_enemy_list[i]->CheckLane(true);
+		}
+		else
+		{
+			game_enemy_list[i]->CheckLane(false);
+		}
+	}*/
+
 	for (int i = 0; i < game_enemy_list.size(); i++)
 	{
 		if (game_enemy_list[i]->GetCollision().now_lane == player->GetCollision().now_lane)

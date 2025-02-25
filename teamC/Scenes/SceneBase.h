@@ -39,7 +39,6 @@ public:
 
 	virtual eSceneType Update(float delta_second)
 	{
-
 		for (GameObject* obj : objm->GetObjectsList())
 		{
 			//オブジェクトが画面内にあったら更新する

@@ -9,6 +9,7 @@ private:
 	class Player* player;
 	class Enemy* enemy;
 	std::vector<std::vector<int>> stage_data;			//“®“I“ñŸŒ³”z—ñ
+	int count;
 	std::vector<Enemy*> game_enemy_list;
 	int Enemy_count[3];
 
@@ -19,6 +20,7 @@ private:
 	int coin_image[1];
 	int time_remaining = 4;  // ‰ŠúŠÔ4•b
 	float time_counter = 0.0f;
+	int enemy_timer = 0;
 	bool start_flg;
 	bool pause_flg;
 	//Player* p;

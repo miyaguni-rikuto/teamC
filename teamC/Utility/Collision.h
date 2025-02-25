@@ -14,6 +14,7 @@ enum eObjectType
 //Œ»İ‚ÌƒŒ[ƒ“ˆÊ’u
 enum eNowLane
 {
+	eNULL,
 	eLEFT,
 	eMID,
 	eRIGHT
