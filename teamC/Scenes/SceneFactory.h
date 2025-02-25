@@ -4,6 +4,7 @@
 #include "InGame/InGameScene.h"
 #include "Help/HelpScene.h"
 #include "Result/ResultScene.h"
+#include "Ranking/RankingScene.h"
 
 class SceneFactory
 {
@@ -20,6 +21,9 @@ public:
 
 		case eSceneType::eHelp:
 			return dynamic_cast<SceneBase*>(new HelpScene());
+
+		case eSceneType::eRanking:
+			return dynamic_cast<SceneBase*>(new RankingScene());
 
 		case eSceneType::eResult:
 			return dynamic_cast<SceneBase*>(new ResultScene());

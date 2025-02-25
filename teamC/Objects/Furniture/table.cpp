@@ -23,11 +23,9 @@ void Table::Initialize()
 	//image = table_image[10];
 
 	//“–‚½‚è”»’è‚Ìİ’è
-	/*collision.is_blocking = true;
-	collision.object_type = eObjectType::eBlock;
-	collision.hit_object_type.push_back(eObjectType::eEnemy);
-	collision.hit_object_type.push_back(eObjectType::ePlayer);
-	collision.box_size = (32.0f, 32.0f);*/
+	collision.is_blocking = true;
+	collision.object_type = eObjectType::eTable;
+	collision.box_size = (32.0f, 32.0f);
 
 	// ƒŒƒCƒ„[‚Ìİ’è
 	z_layer = 4;

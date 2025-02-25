@@ -24,11 +24,11 @@ eSceneType RankingScene::Update(float delta_second)
 	InputManager* input = InputManager::GetInstance();
 
 	// タイトルシーンに遷移する
-	if (input->GetKeyState(KEY_INPUT_SPACE))
+	if (input->GetKeyState(KEY_INPUT_SPACE) == Pressed)
 	{
 		return eSceneType::eTitle;
 	}
-	if (input->GetButtonState(XINPUT_BUTTON_START))
+	if (input->GetButtonState(XINPUT_BUTTON_START) == Pressed)
 	{
 		return eSceneType::eTitle;
 	}

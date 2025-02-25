@@ -10,13 +10,23 @@ void ResultScene::Initialize()
 	result_field = rm->GetImageResource("Resource/Images/Result_display.png")[0];
 	replay_image = rm->GetImageResource("Resource/Images/Restart.png")[0];
 	title_image = rm->GetImageResource("Resource/Images/Titleexit.png")[0];
+
+	select = false;
 }
 
 eSceneType ResultScene::Update(float delta_second)
 {
 	InputManager* input = InputManager::GetInstance();
 
+	if (input->GetKeyState(KEY_INPUT_LEFT) == eInputState::Pressed)
+	{
+		select = false;
+	}
 
+	if (input->GetKeyState(KEY_INPUT_RIGHT) == eInputState::Pressed)
+	{
+		select = true;
+	}
 
 	if (input->GetKeyState(KEY_INPUT_SPACE) == eInputState::Pressed)
 	{
@@ -41,10 +51,19 @@ void ResultScene::Draw() const
 	DrawFormatString(280, 320, GetColor(255, 255, 255), "%d人", 100);
 
 	//リスタート画像
-	DrawRotaGraph(320, 220, 1.5, 0.0, replay_image, TRUE, FALSE);
+	DrawRotaGraph(240, 440, 1.0, 0.0, replay_image, TRUE, FALSE);
 
 	//タイトルに戻る画像
-	DrawRotaGraph(320, 220, 1.5, 0.0, title_image, TRUE, FALSE);
+	DrawRotaGraph(410, 440, 1.0, 0.0, title_image, TRUE, FALSE);
+
+	if (select)
+	{
+		DrawBoxAA(346, 408, 474, 472, GetColor(255, 0, 0), FALSE, 1.5f);
+	}
+	else
+	{
+		DrawBoxAA(176, 408, 304, 472, GetColor(255, 0, 0), FALSE, 1.5f);
+	}
 
 	//DrawRotaGraphF(320,220,1.0,0.0,result_image,TRUE,FALSE);
 

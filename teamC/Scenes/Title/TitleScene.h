@@ -6,6 +6,7 @@ enum eSelectMenu
 	eNONE,
 	ePLAY,
 	eHELP,
+	eRank,
 	eEXIT
 };
 
