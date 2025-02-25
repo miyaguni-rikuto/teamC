@@ -31,26 +31,34 @@ void Enemy::Initialize()
 {
 	// アニメーション画像の読み込み
 	ResourceManager* rm = ResourceManager::GetInstance();
-	//move_animation = rm->GetImageResource("Resource/Images/aikonn2.png",1,1,1,1,1);
+	std::vector<int> tmp;
+
+	//画像を単体で読みむ
+	int move_image = LoadGraph("Resource/Images/Enemy/Enemy.png");
+
+	if (move_image == -1)
+	{
+		// 画像読み込み失敗の場合の処理
+		throw ("move_animation.pngが読み込めませんでした\n");
+
+	}
+
+
 		//当たり判定の設定
 	collision.is_blocking = true;
 	collision.object_type = eObjectType::eEnemy;
 	collision.hit_object_type.push_back(eObjectType::eTable);
+	collision.hit_object_type.push_back(eObjectType::eEnemy);
 	collision.box_size = (32.0f, 32.0f);
 
+
+	Enemy_state = eEnemyState::WALK;
 	// レイヤーの設定
 	z_layer = 5;
 
 	// 可動性の設定
 	is_mobility = true;
 
-	//image = NULL;//move_animation[0];
-
-	////エラーチェック
-	//if (move_animation[0] == -1)
-	//{
-	//	throw("\n");
-	//}
 	
 
 
@@ -76,10 +84,9 @@ void Enemy::Initialize()
 }
 void Enemy::Draw(const Vector2D& screen_offset)const
 {
-	DrawFormatString(location.x, location.y, GetColor(255, 255, 255), "Enemy");
-
 	//親クラスの描画処理を呼び出す
 	__super::Draw(screen_offset);
+	//DrawFormatString(location.x, location.y, GetColor(255, 255, 255), "Enemy");
 }
 void Enemy::Finalize()
 {
@@ -91,7 +98,7 @@ void Enemy::Finalize()
 /// 当たり判定通知処理
 /// </summary>
 /// <param name="hit_object">当たったゲームオブジェクトのポインタ</param>
-void Enemy::OnHitCollision(GameObjectManager* hit_object)
+void Enemy::OnHitCollision(GameObject* hit_object)
 {
 	hit_flag = true;
 }

@@ -1,6 +1,5 @@
 #pragma once
 #include"../GameObject.h"
-#include"../GameObjectManager.h"
 
 // プレイヤー状態
 enum eEnemyState
@@ -52,7 +51,7 @@ public:
 	/// 当たり判定通知処理
 	/// </summary>
 	/// <param name="hit_object">当たったゲームオブジェクトのポインタ</param>
-	virtual void OnHitCollision(GameObjectManager* hit_object);
+	virtual void OnHitCollision(GameObject* hit_object) override;
 
 public:
 
