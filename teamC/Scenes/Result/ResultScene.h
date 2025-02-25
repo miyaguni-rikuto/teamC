@@ -8,6 +8,7 @@ private:
 	int result_field = NULL;	//テキストフィールド画像
 	int replay_image = NULL;	//テキストフィールド画像
 	int title_image = NULL;	//テキストフィールド画像
+	bool select;
 
 public:
 	virtual void Initialize() override;
