@@ -124,29 +124,32 @@ void Player::Update(float delta_second)
 	is_grounded = false;
 
 	InputManager* input = InputManager::GetInstance();
-
-	//ハンマーのアクション中なら時間を減らして終了判定
+	// ハンマーのアクション中なら時間を減らして終了判定
 	if (Is_hammering)
 	{
 		hammer_timer -= delta_second;
 		if (hammer_timer <= 0.0f)
 		{
-			Is_hammering = false;	//ハンマー振り終了
+			Is_hammering = false;  // ハンマー振り終了
 			image = hammer_animation[0];
+		}
+		else
+		{
+			// ハンマーが振られている場合、エネミーとの衝突をチェック
+			CheckHammerCollision();
 		}
 		return;
 	}
 
-	//Aボタンをを押したらアクション開始
+	// Aボタンを押したらアクション開始
 	if (input->GetButtonState(XINPUT_BUTTON_A) == eInputState::Pressed)
 	{
 		Is_hammering = true;
 		hammer_timer = hammer_duration;
 		image = hammer_animation[1];
 	}
-	//通常の移動処理
-	//Movement(delta_second);
 }
+
 
 void Player::Draw(const Vector2D& screen_offset) const
 {
@@ -335,6 +338,20 @@ void Player::ApplyScreenScroll(float velocity_x, float delta_second)
 void Player::OnHitCollision(GameObjectManager* hit_Object)
 {
 	player_state = ePlayerState::DIE;
+	{
+		// ハンマーを振っているときのみ判定
+		if (Is_hammering)
+		{
+			Enemy* enemy = dynamic_cast<Enemy*>(hit_object);
+			if (enemy)
+			{
+				enemy->TakeDamage(10); // 10ダメージ
+			}
+		}
+	}
+
+	// 他の衝突処理があればここに追加
+}
 }
 
 void Player::SetHammerAnimation(int swing_up, int swing_down)

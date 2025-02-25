@@ -54,6 +54,8 @@ private:
 	bool is_destroy;						// 死んだ状態になったか？
 	static Player* instance;                //プレイヤーのインスタンス
 
+	bool IsHammering() const { return Is_hammering; }
+
 	int normal_image;
 	bool Is_hammering;						//ハンマーを振っているかのフラグ
 	float hammer_timer;						//ハンマーのアクションを開始
@@ -87,6 +89,17 @@ public:
 	/// </summary>
 	/// <param name="hit_object">当たったゲームオブジェクトのポインタ</param>
 	virtual void OnHitCollision(GameObjectManager* hit_object);
+
+
+	/// <summary>
+   /// ハンマーの衝突チェック処理
+   /// </summary>
+	void CheckHammerCollision();
+
+	// <summary>
+	/// エネミーとの衝突時に呼ばれる処理
+	/// </summary>
+	void OnHitEnemy(GameObject* enemy);
 
 public:
 	/// <summary>
