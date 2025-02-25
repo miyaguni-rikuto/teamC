@@ -151,8 +151,7 @@ public:
 	//画面オフセット設置
 	void SetScreenOffset(const Vector2D& offset);
 
-	void CheckCollisionWithEnemies(const std::vector<GameObject*>& enemies);
-	void OnHitEnemy(GameObject* enemy);
+	
 
 private:
 	// ステージをスクロールする

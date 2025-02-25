@@ -108,6 +108,7 @@ void Player::Initialize()
 void Player::Update(float delta_second)
 {
 	
+	
 	//入力状態の取得
 	Movement(delta_second);
 	//アニメーションの取得
@@ -136,7 +137,7 @@ void Player::Update(float delta_second)
 		else
 		{
 			// ハンマーが振られている場合、エネミーとの衝突をチェック
-			CheckHammerCollision();
+			//CheckHammerCollision();
 		}
 		return;
 	}
@@ -338,21 +339,8 @@ void Player::ApplyScreenScroll(float velocity_x, float delta_second)
 void Player::OnHitCollision(GameObjectManager* hit_Object)
 {
 	player_state = ePlayerState::DIE;
-	{
-		// ハンマーを振っているときのみ判定
-		if (Is_hammering)
-		{
-			Enemy* enemy = dynamic_cast<Enemy*>(hit_object);
-			if (enemy)
-			{
-				enemy->TakeDamage(10); // 10ダメージ
-			}
-		}
-	}
+}
 
-	// 他の衝突処理があればここに追加
-}
-}
 
 void Player::SetHammerAnimation(int swing_up, int swing_down)
 {
