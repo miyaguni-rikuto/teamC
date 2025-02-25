@@ -234,7 +234,8 @@ void Player::Movement(float delta_second)
 		// 右端にいるときはそのまま端に留まる
 		if (current_lane < 2)
 		{
-			current_lane++;  // 右に進む
+			current_lane++;
+			
 		}
 	}
 	// 左移動（1ずつ左に移動）
@@ -244,14 +245,33 @@ void Player::Movement(float delta_second)
 		// 左端にいるときはそのまま端に留まる
 		if (current_lane > 0)
 		{
-			current_lane--;  // 左に進む
+			current_lane--;
+			
 		}
 	}
 
 	// 現在のレーンに基づいてプレイヤー位置を更新
-	//location.x = lane_positions[current_lane];
+	location.x = lane_positions[current_lane];
 
-	location.x = (210 * current_lane) + 110;
+	switch (current_lane)
+	{
+	case 0:
+		collision.now_lane = eRIGHT;
+		break;
+
+	case 1:
+		collision.now_lane = eMID;
+		break;
+
+	case 2:
+		collision.now_lane = eLEFT;
+		break;
+
+	default:
+		break;
+	}
+
+	//location.x = (210 * current_lane) + 110;
 
 	// Y軸の処理（そのまま）
 	location.y += p_velocity.y;
@@ -337,12 +357,21 @@ void Player::ApplyScreenScroll(float velocity_x, float delta_second)
 	//SetScreenOffset(new_offset);
 }
 
-void Player::OnHitCollision(GameObjectManager* hit_Object)
+void Player::OnHitCollision(GameObject* hit_Object, GameObjectManager* _manager)
 {
-	player_state = ePlayerState::DIE;
+	//当たったオブジェクトが敵且つハンマーが振り下ろされている状態の時、ifに入る
+	if (hit_Object->GetCollision().object_type == eEnemy)
+	{
+		//hit_Objectを破壊する、
+		_manager->DestroyGameObject(hit_Object);
+	}
+	//player_state = ePlayerState::DIE;
 }
 
-
+//void Player::CheckHammerCollision()
+//{
+//	if()
+//}
 void Player::SetHammerAnimation(int swing_up, int swing_down)
 {
 	hammer_animation.clear();

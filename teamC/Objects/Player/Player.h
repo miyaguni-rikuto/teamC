@@ -88,13 +88,14 @@ public:
 	/// 当たり判定通知処理
 	/// </summary>
 	/// <param name="hit_object">当たったゲームオブジェクトのポインタ</param>
-	virtual void OnHitCollision(GameObjectManager* hit_object);
+	/// <param name="object_manager">オブジェクト管理クラスのポインタ</param>
+	virtual void OnHitCollision(GameObject* hit_object,GameObjectManager* _manager);
 
 
 	/// <summary>
    /// ハンマーの衝突チェック処理
    /// </summary>
-	void CheckHammerCollision();
+	//void CheckHammerCollision();
 
 	// <summary>
 	/// エネミーとの衝突時に呼ばれる処理
