@@ -33,6 +33,7 @@ private:
 	bool is_destroy;						// 死んだ状態になったか？
 	bool hit_flag;						//オブジェクトに当たっているかどうか
 	static Enemy* instance;                //プレイヤーのインスタンス
+	bool is_delete_flg;
 
 	
 	bool same_lane;
@@ -52,6 +53,8 @@ public:
 	virtual void Finalize() override;
 	void CheckLane(bool a);
 	void SetLane(eNowLane a);
+	bool GetDeleteFlag();
+
 	/// <summary>
 	/// 当たり判定通知処理
 	/// </summary>

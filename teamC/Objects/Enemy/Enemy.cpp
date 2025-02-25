@@ -19,6 +19,7 @@ Enemy::Enemy() :
 	animation_count(0),
 	is_destroy(false),
 	hit_flag(false),
+	is_delete_flg(false),
 	k_velocity(1.0f)
 {
 
@@ -54,6 +55,7 @@ void Enemy::Initialize()
 	collision.hit_object_type.push_back(eObjectType::eTable);
 	collision.hit_object_type.push_back(eObjectType::eEnemy);
 	collision.box_size = (32.0f, 32.0f);
+	collision.now_lane = eNULL;
 
 
 	Enemy_state = eEnemyState::WALK;
@@ -85,10 +87,10 @@ void Enemy::Initialize()
 	{
 
 	}
-	if (same_lane)
+	if (same_lane==true && hit_flag == true)
     {
         GameObjectManager *obm = GameObjectManager::GetInstance();
-
+		is_delete_flg = true;
         obm->DestroyGameObject(this);
     }
 
@@ -123,6 +125,10 @@ void Enemy::CheckLane(bool a)
 void Enemy::SetLane(eNowLane a)
 {
 	this->collision.now_lane = a;
+}
+bool Enemy::GetDeleteFlag()
+{
+	return this->is_delete_flg;
 }
 /// <summary>
 /// ˆÚ“®ˆ—
