@@ -23,6 +23,7 @@
     <ClCompile Include="Utility\Vecotr2D.cpp" />
     <ClCompile Include="Objects\Effect\Effect.cpp" />
     <ClCompile Include="Objects\Effect\Sord.h.cpp" />
+    <ClCompile Include="Objects\Effect\Sord.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Objects\BackImageBase.h" />
