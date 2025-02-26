@@ -40,7 +40,14 @@ eSceneType ResultScene::Update(float delta_second)
 	if (input->GetKeyState(KEY_INPUT_SPACE) == eInputState::Pressed ||
 		input->GetButtonState(XINPUT_BUTTON_A) == eInputState::Pressed)
 	{
-		return eSceneType::eTitle;
+		if (select == true)
+		{
+			return eSceneType::eTitle;
+		}
+		else if (select == false)
+		{
+			return eSceneType::eInGame;
+		}
 	}
 
 	Draw();
