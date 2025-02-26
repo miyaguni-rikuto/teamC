@@ -13,7 +13,7 @@ void TitleScene::Initialize()
 	std::vector<int> tmp;
 
 	
-	back_ground_image = rm->GetImageResource("Resource/Images/Title.jpeg")[0];
+	back_ground_image = rm->GetImageResource("Resource/Images/Title3.png")[0];
 	
 	
 	select_menu = eNONE;
@@ -114,7 +114,7 @@ void TitleScene::Draw() const
 		break;
 
 	case eEXIT:
-		DrawFormatString(210, 200, dropoff_color, "PLAY STSRT");
+		DrawFormatString(210, 200, dropoff_color, "PLAY START");
 		DrawFormatString(210, 250, dropoff_color, "HELP");
 		DrawFormatString(210, 300, dropoff_color, "RANKING");
 		DrawFormatString(210, 350, pickup_color, "EXIT");

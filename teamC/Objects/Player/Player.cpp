@@ -261,7 +261,7 @@ void Player::Movement(float delta_second)
 	switch (current_lane)
 	{
 	case 0:
-		collision.now_lane = eRIGHT;
+		collision.now_lane = eLEFT;
 		break;
 
 	case 1:
@@ -269,7 +269,7 @@ void Player::Movement(float delta_second)
 		break;
 
 	case 2:
-		collision.now_lane = eLEFT;
+		collision.now_lane = eRIGHT;
 		break;
 
 	default:
