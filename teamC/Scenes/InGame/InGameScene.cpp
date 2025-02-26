@@ -27,6 +27,10 @@ void InGameScene::Initialize()
 	player = objm->CreateGameObject<Player>(Vector2D(320, 400));		//プレイヤーポインタの取得
 	//enemy = objm->CreateGameObject<Enemy>(Vector2D(50, 50));			//プレイヤーポインタの取得		
 
+	enemy_count[0] = 0;
+	enemy_count[1] = 0;
+	enemy_count[2] = 0;
+
 	start_flg = true;
 
 	DrawBackGroundCSV();
@@ -45,8 +49,8 @@ eSceneType InGameScene::Update(float delta_second)
 
 	//DeleteObject();
 
-	//Dキーが押された場合
-	if (input->GetKeyState(KEY_INPUT_D) == eInputState::Pressed)
+	//レーンに5人以上溜まるとゲームオーバー
+	if (enemy_count[0] > 5 || enemy_count[1] > 5 || enemy_count[2] > 5)
 	{
 		return eSceneType::eResult;
 	}
@@ -73,29 +77,33 @@ eSceneType InGameScene::Update(float delta_second)
 	//	count++;
 	//}
 
-	//４秒経過したら敵を生成する
-	if (enemy_timer > 2)
+	//2秒経過したら敵を生成する
+	if (enemy_timer > 0)
 	{
 		int random = GetRand(2);
 
-		switch (random)
+		//どこのレーンに生成するかをランダムで決める
+		switch (0)
 		{
-		case 0:
+		case 0:		//左のレーン
 			enemy = objm->CreateGameObject<Enemy>(Vector2D(D_LEFT_LEAN, 10));
 			enemy->SetLane(eRIGHT);
 			game_enemy_list.push_back(enemy);
+			enemy_count[0]++;
 			break;
 
-		case 1:
+		case 1:		//真ん中のレーン
 			enemy = objm->CreateGameObject<Enemy>(Vector2D(D_MID_LEAN, 10));
 			enemy->SetLane(eMID);
 			game_enemy_list.push_back(enemy);
+			enemy_count[1]++;
 			break;
 
-		case 2:
+		case 2:		//右のレーン
 			enemy = objm->CreateGameObject<Enemy>(Vector2D(D_RIGHT_LEAN, 10));
 			enemy->SetLane(eLEFT);
 			game_enemy_list.push_back(enemy);
+			enemy_count[2]++;
 			break;
 		default:
 			break;
@@ -191,10 +199,10 @@ void InGameScene::Finalize()
 		return;
 	}
 	// オブジェクトリスト内のオブジェクトを削除する
-	for (GameObject* obj : game_enemy_list)
-	{
-		delete obj;
-	}
+	//for (GameObject* obj : game_enemy_list)
+	//{
+	//	delete obj;
+	//}
 
 	// 動的配列の解放
 	game_enemy_list.clear();
@@ -508,15 +516,37 @@ void InGameScene::testCheckLane()
 		}
 	}*/
 
-
+	//リストの分だけfor分を回す
 	for (int i = 0; i < game_enemy_list.size(); i++)
 	{
-
 		//エネミーの削除フラグがtrueだったら削除する
 		if (game_enemy_list[i]->GetDeleteFlag())
 		{
+			//消す敵のレーン情報を取得
+			eNowLane lane = game_enemy_list[i]->GetCollision().now_lane;
+
+			//対応するレーンにいる敵の数を減らす
+			switch (lane)
+			{
+			case eLEFT:
+				enemy_count[0]--;
+				break;
+
+			case eMID:
+				enemy_count[1]--;
+				break;
+
+			case eRIGHT:
+				enemy_count[2]--;
+				break;
+
+			default:
+				break;
+			}
+
 			game_enemy_list.erase(game_enemy_list.begin() + i);
 
+			//もう一度処理を実行する
 			continue;
 		}
 

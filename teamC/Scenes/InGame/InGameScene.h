@@ -11,11 +11,11 @@ private:
 	std::vector<std::vector<int>> stage_data;			//“®“I“ñŸŒ³”z—ñ
 	int count;
 	std::vector<Enemy*> game_enemy_list;
-	int Enemy_count[3];
 
 	int sky_image;	//‹ó‚Ì”wŒi‰æ‘œ
 	int leaf_image[3];	//‘‚Ì”wŒi‰æ‘œŠi”\”z—ñ
 	int cloud_image[6];
+	int enemy_count[3];		//ŠeƒŒ[ƒ“‚Ì“G”
 	int mountain_image[6];
 	int coin_image[1];
 	int time_remaining = 4;  // ‰ŠúŠÔ4•b
