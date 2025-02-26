@@ -1,6 +1,7 @@
 #include "ScoreManager.h"
 #include "InputManager.h"
 #include <cstdio>
+#include <fstream>
 
 #define SCORE_X 390
 
@@ -27,6 +28,7 @@ ScoreManager& ScoreManager::GetInstance() {
 //
 void ScoreManager::AddCount(int val)
 {
+    enemy_count++;
     score += val;
    /* switch (data) {
     case BUTTON_COUNT:
@@ -37,23 +39,21 @@ void ScoreManager::AddCount(int val)
         break;
     }*/
 }
-//
-//int ScoreManager::GetCount(COUNTDATA data)
-//{
-//    switch (data) {
-//    case BUTTON_COUNT:
-//        return button_count;
-//    case ENEMY_COUNT:
-//        return enemy_count;
-//    }
-//    return -1;
-//}
+
+int ScoreManager::GetCount()
+{
+    return enemy_count;
+}
+
+int ScoreManager::GetScore() {
+    return score;
+}
 
 void ScoreManager::DrawCount()
 {
     char buf[16];
 
-    sprintf_s(buf, "BUTTON:%d", button_count);
+    sprintf_s(buf, "客:%d人", enemy_count);
     DrawString(350, 10, buf, GetColor(255, 255, 255));
 
     sprintf_s(buf, "SCORE:%d", score);
@@ -65,7 +65,7 @@ void ScoreManager::UpdateButtonCount(int val) {
     
     InputManager* input = InputManager::GetInstance();
 
-        button_count++;
+        //button_count++;
         score += val;  // スコアを100追加
     
 }
@@ -75,4 +75,20 @@ void ScoreManager::ResetScore()
     score = 0;
     button_count = 0;
     enemy_count = 0;
+}
+
+void ScoreManager::SaveScore() {
+    std::ofstream file("score.dat", std::ios::out);
+    if (file.is_open()) {
+        file << score << " " << button_count << " " << enemy_count;
+        file.close();
+    }
+}
+
+void ScoreManager::LoadScore() {
+    std::ifstream file("score.dat", std::ios::in);
+    if (file.is_open()) {
+        file >> score >> button_count >> enemy_count;
+        file.close();
+    }
 }

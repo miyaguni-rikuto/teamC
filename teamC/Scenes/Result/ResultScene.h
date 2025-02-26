@@ -10,6 +10,9 @@ private:
 	int title_image = NULL;	//テキストフィールド画像
 	bool select;
 
+	int score;          // スコア
+	int enemy_count;   // ボタンを押した回数
+
 public:
 	virtual void Initialize() override;
 	virtual eSceneType Update(float delta_second) override;
