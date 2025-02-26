@@ -33,6 +33,8 @@ private:
 	bool is_destroy;						// 死んだ状態になったか？
 	bool hit_flag;							//オブジェクトに当たっているかどうか
 	bool hit_table_flag;						//テーブルに当たっているかどうか
+	bool create_item_flag;						//武器の生成フラグ
+	bool create_item_count;						//武器の生成数上限
 	bool hit_enemy_flag;						//エネミーに当たっているかどうか
 	static Enemy* instance;                //プレイヤーのインスタンス
 	bool is_delete_flg;

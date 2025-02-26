@@ -187,7 +187,6 @@
     <ClCompile Include="Objects\GameObject.cpp" />
     <ClCompile Include="Appmain.cpp" />
     <ClCompile Include="Objects\Player\Player.cpp" />
-    <ClCompile Include="Objects\Effect\Sord.h.cpp" />
     <ClCompile Include="Scenes\Help\HelpScene.cpp" />
     <ClCompile Include="Scenes\Ranking\RankingScene.cpp" />
     <ClCompile Include="Scenes\InGame\InGameScene.cpp" />

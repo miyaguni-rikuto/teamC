@@ -5,6 +5,7 @@
 #include "../../Utility/Collision.h"
 #include "../../Utility/ScoreManager.h"
 #include "../../Objects/Enemy/Enemy.h"
+#include"../../Objects/Effect/Sord.h"
 //#include "../Object/Enemy/Nokonoko.h"
 #include "../../Objects/Furniture/Floor.h"
 #include "../../Objects/Furniture/Table.h"

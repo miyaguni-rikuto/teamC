@@ -5,6 +5,7 @@ class Sord:public GameObject
 {
 private:
 	std::vector<int> item_image;		// •Ší‰æ‘œ
+	int hit_point;
 public:
 	Sord();
 	~Sord();
