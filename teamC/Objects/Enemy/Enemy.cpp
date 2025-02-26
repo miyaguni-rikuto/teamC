@@ -132,6 +132,10 @@ void Enemy::OnHitCollision(GameObject* hit_object)
 	{
 		hit_flag = true;
 	}
+	if (hit_object->GetCollision().object_type == eEnemy)
+	{
+		hit_flag = true;
+	}
 }
 
 
