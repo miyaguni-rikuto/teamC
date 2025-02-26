@@ -21,6 +21,8 @@ Enemy::Enemy() :
 	hit_point(3),
 	is_destroy(false),
 	hit_flag(false),
+	hit_table_flag(false),
+	hit_enemy_flag(false),
 	is_delete_flg(false),
 	k_velocity(1.0f)
 {
@@ -90,7 +92,7 @@ void Enemy::Initialize()
 	}
 
 	//プレイヤーとレーンが同じでtableに当たっていたら
-	if (same_lane==true && hit_flag == true)
+	if (same_lane==true && hit_table_flag == true)
     {
 		//ボタンが押されたらHPを削る
 		if (input->GetButtonState(XINPUT_BUTTON_A) == Pressed)
@@ -108,6 +110,9 @@ void Enemy::Initialize()
 			ScoreManager::GetInstance().AddCount(100);
 		}
     }
+
+	hit_table_flag = false;
+	hit_enemy_flag = false;
 
 }
 void Enemy::Draw(const Vector2D& screen_offset)const
@@ -130,11 +135,15 @@ void Enemy::OnHitCollision(GameObject* hit_object)
 {
 	if (hit_object->GetCollision().object_type == eTable)
 	{
-		hit_flag = true;
+		hit_table_flag = true;
 	}
+
 	if (hit_object->GetCollision().object_type == eEnemy)
 	{
-		hit_flag = true;
+		if (this->location.y < hit_object->GetLocation().y)
+		{
+			hit_enemy_flag = true;
+		}
 	}
 }
 
@@ -161,21 +170,23 @@ void Enemy::Movement(float delta_second)
 	//入力状態を取得
 	//InputManager* input = InputManager::GetInstance();
 
-	if (!hit_flag)
+	if (hit_table_flag == true)
 	{
-		k_velocity.y += 5.0f;
-		if (location.x >= 400)
-		{
-			Finalize();
-		}
-
-
-		location.x += k_velocity.x * delta_second;
-		location.y += k_velocity.y * delta_second;
+			k_velocity.y = 0.0f;
 	}
 	else
 	{
-		k_velocity.y = 0.0f;
+		if (hit_enemy_flag == false)
+		{
+			k_velocity.y += 5.0f;
+			if (location.x >= 400)
+			{
+				Finalize();
+			}
+
+			location.x += k_velocity.x * delta_second;
+			location.y += k_velocity.y * delta_second;
+		}
 	}
 
 

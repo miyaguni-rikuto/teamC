@@ -74,7 +74,7 @@ eSceneType InGameScene::Update(float delta_second)
 	//}
 
 	//‚S•bŒo‰ß‚µ‚½‚ç“G‚ğ¶¬‚·‚é
-	if (enemy_timer > 4)
+	if (enemy_timer > 2)
 	{
 		int random = GetRand(2);
 
