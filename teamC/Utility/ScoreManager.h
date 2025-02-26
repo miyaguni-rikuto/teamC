@@ -2,20 +2,20 @@
 
 #include <DxLib.h>
 
-enum COUNTDATA {
-	BUTTON_COUNT,
-	ENEMY_COUNT
-};
+//enum COUNTDATA {
+//	BUTTON_COUNT,
+//	ENEMY_COUNT
+//};
 
 class ScoreManager
 {
 	public:
-    //ScoreManager();
+		int score;
+		int button_count, enemy_count;
 private:
 	int g_number[10];
 
-	int score;
-	int button_count, enemy_count;
+	
 
 private:
 	void Draw();
@@ -25,11 +25,15 @@ private:
 	bool ButtonState;
 public:
 	static ScoreManager& GetInstance();
-	void SetCount(COUNTDATA data, int val);
-	int GetCount(COUNTDATA data);
+	//void SetCount(COUNTDATA data, int val);
+	int GetCount();
+	int GetScore();
 	void AddCount(int val);
 	void DrawCount();
 	void UpdateButtonCount(int val);
 	void ResetScore();
+
+	void SaveScore();
+	void LoadScore();
 };
 
