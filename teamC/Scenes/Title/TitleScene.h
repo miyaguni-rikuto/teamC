@@ -1,5 +1,6 @@
 #pragma once
 #include "../SceneBase.h"
+#include "../../Objects/BackImageBase.h"
 
 enum eSelectMenu
 {
@@ -21,6 +22,7 @@ public:
 	int dropoff_color;
 	int num_image;
 	int string_image[26];
+	int back_ground_image;	//”wŒi‰æ‘œ
 	eSelectMenu select_menu;
 
 	virtual void Initialize() override;
