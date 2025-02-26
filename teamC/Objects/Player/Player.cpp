@@ -158,7 +158,7 @@ void Player::Draw(const Vector2D& screen_offset) const
 	// 親クラスの描画処理を呼び出す
 	__super::Draw(screen_offset);
 
-	DrawFormatString(location.x + 10, location.y - 12, GetColor(255, 255, 255), "%d", current_lane);
+	//DrawFormatString(location.x + 10, location.y - 12, GetColor(255, 255, 255), "%d", current_lane);
 
 	//DrawGraph(location.x, location.y, image,TRUE);
 

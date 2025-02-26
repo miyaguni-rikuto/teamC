@@ -18,19 +18,22 @@ eSceneType TitleScene::Update(float delta_second)
 	InputManager* input = InputManager::GetInstance();
 
 	//下キーが押された場合
-	if (input->GetKeyState(KEY_INPUT_DOWN) == eInputState::Pressed)
+	if (input->GetKeyState(KEY_INPUT_DOWN) == eInputState::Pressed ||
+		input->GetButtonState(XINPUT_BUTTON_DPAD_DOWN) == eInputState::Pressed)
 	{
 		SetDownSelectMenuType();
 	}
 
 	//上キーが押された場合
-	if (input->GetKeyState(KEY_INPUT_UP) == eInputState::Pressed)
+	if (input->GetKeyState(KEY_INPUT_UP) == eInputState::Pressed ||
+		input->GetButtonState(XINPUT_BUTTON_DPAD_UP) == eInputState::Pressed)
 	{
 		SetUpSelectMenuType();
 	}
 
 	//決定処理
-	if (input->GetKeyState(KEY_INPUT_SPACE) == eInputState::Pressed)
+	if (input->GetKeyState(KEY_INPUT_SPACE) == eInputState::Pressed ||
+		input->GetButtonState(XINPUT_BUTTON_A) == eInputState::Pressed)
 	{
 		switch (select_menu)
 		{
