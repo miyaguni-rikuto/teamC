@@ -49,11 +49,67 @@ void InGameScene::Initialize()
 eSceneType InGameScene::Update(float delta_second)
 {
 	InputManager* input = InputManager::GetInstance();
-	
 
 	//pause_flgがfalseであれば更新処理を入れる
 	if (!start_flg)
 	{
+		//当たり判定処理
+		objm->HitCheck();
+
+		//レーンに5人以上溜まるとゲームオーバー
+		if (enemy_count[0] > 5 || enemy_count[1] > 5 || enemy_count[2] > 5)
+		{
+			return eSceneType::eResult;
+		}
+
+		// タイマー更新処理
+		time_counter += delta_second;  // フレームごとに経過時間を加算
+
+		if (time_counter >= 1.0f)  // 1秒経過した場合
+		{
+			enemy_timer += 1;  // 1秒減らす
+			time_counter = 0.0f;  // カウンターをリセット
+		}
+
+		//2秒経過したら敵を生成する
+		if (enemy_timer > 0)
+		{
+			int random = GetRand(2);
+
+			//どこのレーンに生成するかをランダムで決める
+			switch (random)
+			{
+			case 0:		//左のレーン
+				enemy = objm->CreateGameObject<Enemy>(Vector2D(D_LEFT_LEAN, 10));
+				enemy->SetLane(eLEFT);
+				game_enemy_list.push_back(enemy);
+				enemy_count[0]++;
+				break;
+
+			case 1:		//真ん中のレーン
+				enemy = objm->CreateGameObject<Enemy>(Vector2D(D_MID_LEAN, 10));
+				enemy->SetLane(eMID);
+				game_enemy_list.push_back(enemy);
+				enemy_count[1]++;
+				break;
+
+			case 2:		//右のレーン
+				enemy = objm->CreateGameObject<Enemy>(Vector2D(D_RIGHT_LEAN, 10));
+				enemy->SetLane(eRIGHT);
+				game_enemy_list.push_back(enemy);
+				enemy_count[2]++;
+				break;
+			default:
+				break;
+			}
+
+			enemy_timer = 0;
+		}
+
+		//同じレーンにいるかどうかのチェック処理
+		testCheckLane();
+
+
 		__super::Update(delta_second);
 
 		//game_enemy_lisitの削除処理
@@ -63,8 +119,7 @@ eSceneType InGameScene::Update(float delta_second)
 			if (game_enemy_list[i]->GetDeleteFlag())
 			{
 				//消す敵のレーン情報を取得
-				eNowLane lane = eLEFT;
-				game_enemy_list[i]->GetCollision().now_lane;
+				eNowLane lane = game_enemy_list[i]->GetCollision().now_lane;
 
 				//対応するレーンにいる敵の数を減らす
 				switch (lane)
@@ -94,62 +149,6 @@ eSceneType InGameScene::Update(float delta_second)
 
 		//オブジェクト削除処理
 		objm->CheckDstroyObject();
-
-		//当たり判定処理
-		objm->HitCheck();
-
-		//レーンに5人以上溜まるとゲームオーバー
-		if (enemy_count[0] > 5 || enemy_count[1] > 5 || enemy_count[2] > 5)
-		{
-			return eSceneType::eResult;
-		}
-
-		// タイマー更新処理
-		time_counter += delta_second;  // フレームごとに経過時間を加算
-
-		if (time_counter >= 1.0f)  // 1秒経過した場合
-		{
-			enemy_timer += 1;  // 1秒減らす
-			time_counter = 0.0f;  // カウンターをリセット
-		}
-
-		//2秒経過したら敵を生成する
-		if (enemy_timer > 0)
-		{
-			int random = GetRand(2);
-
-			//どこのレーンに生成するかをランダムで決める
-			switch (0)
-			{
-			case 0:		//左のレーン
-				enemy = objm->CreateGameObject<Enemy>(Vector2D(D_LEFT_LEAN, 10));
-				enemy->SetLane(eRIGHT);
-				game_enemy_list.push_back(enemy);
-				enemy_count[0]++;
-				break;
-
-			case 1:		//真ん中のレーン
-				enemy = objm->CreateGameObject<Enemy>(Vector2D(D_MID_LEAN, 10));
-				enemy->SetLane(eMID);
-				game_enemy_list.push_back(enemy);
-				enemy_count[1]++;
-				break;
-
-			case 2:		//右のレーン
-				enemy = objm->CreateGameObject<Enemy>(Vector2D(D_RIGHT_LEAN, 10));
-				enemy->SetLane(eLEFT);
-				game_enemy_list.push_back(enemy);
-				enemy_count[2]++;
-				break;
-			default:
-				break;
-			}
-
-			enemy_timer = 0;
-		}
-
-		//同じレーンにいるかどうかのチェック処理
-		testCheckLane();
 	}
 	else
 	{
