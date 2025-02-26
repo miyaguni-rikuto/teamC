@@ -78,7 +78,7 @@ void TitleScene::Draw() const
 
 	SetFontSize(60);
 
-	DrawFormatString(155, 100, GetColor(255, 255, 255), "TITLE NAME");
+	DrawFormatString(155, 100, GetColor(255, 255, 255), "’b–è‰®‚ÌƒJƒWƒ„‚³‚ñ");
 
 	SetFontSize(40);
 	
