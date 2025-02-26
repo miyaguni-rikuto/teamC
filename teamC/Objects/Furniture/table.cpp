@@ -1,6 +1,5 @@
 #include "Table.h"
 #include "../../Utility/ResourceManager.h"
-#include"../../Objects/Effect/Sord.h"
 #include"../../Objects/GameObject.h"
 
 Table::Table()
@@ -53,11 +52,7 @@ void Table::Update(float delta_second)
 /// <param name="screen_offset">オフセット値</param>
 void Table::Draw(const Vector2D& screen_offset) const
 {
-	// 親クラスの描画処理を呼び出す
-	if (hit_flag == true)
-	{
 		__super::Draw(screen_offset);
-	}
 }
 
 /// <summary>

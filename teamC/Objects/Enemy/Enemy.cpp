@@ -3,6 +3,7 @@
 #include"../../Utility/InputManager.h"
 #include "../../Utility/ResourceManager.h"
 #include "../../Utility/ScoreManager.h"
+#include"../../Objects/Effect/Sord.h"
 #include"../../Utility/Application.h"
 #include "../Effect/Effect.h"
 #include"DxLib.h"
@@ -23,6 +24,8 @@ Enemy::Enemy() :
 	is_destroy(false),
 	hit_flag(false),
 	hit_table_flag(false),
+	create_item_count(0),
+	create_item_flag(false),
 	hit_enemy_flag(false),
 	is_delete_flg(false),
 	k_velocity(1.0f)
@@ -74,6 +77,7 @@ void Enemy::Initialize()
  void Enemy::Update(float delta_second)
 {
 	 InputManager* input = InputManager::GetInstance();
+	 GameObjectManager* obm = GameObjectManager::GetInstance();
 
 	//当たり判定の位置を取得する
 
@@ -92,13 +96,21 @@ void Enemy::Initialize()
 
 	}
 
+	if (create_item_flag == true)
+	{
+		if (create_item_count < 1)
+		{
+			obm->CreateGameObject<Sord>(Vector2D(this->location.x,this->location.y + 25.0f));
+			create_item_count++;
+		}
+	}
+
 	//プレイヤーとレーンが同じでtableに当たっていたら
 	if (same_lane==true && hit_table_flag == true)
     {
 		//ボタンが押されたらHPを削る
 		if (input->GetButtonState(XINPUT_BUTTON_A) == Pressed)
 		{
-			GameObjectManager* obm = GameObjectManager::GetInstance();
 			obm->CreateGameObject<Effect>(Vector2D(this->location.x + 16, location.y + 55.0f));
 
 			hit_point--;
@@ -108,7 +120,6 @@ void Enemy::Initialize()
 		//HPが0になったら消す
 		if (hit_point == 0)
 		{
-			GameObjectManager* obm = GameObjectManager::GetInstance();
 			is_delete_flg = true;
 			obm->DestroyGameObject(this);
 			ScoreManager::GetInstance().AddCount(100);
@@ -140,6 +151,7 @@ void Enemy::OnHitCollision(GameObject* hit_object)
 	if (hit_object->GetCollision().object_type == eTable)
 	{
 		hit_table_flag = true;
+		create_item_flag = true;
 	}
 
 	if (hit_object->GetCollision().object_type == eEnemy)

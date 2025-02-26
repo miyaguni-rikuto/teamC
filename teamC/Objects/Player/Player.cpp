@@ -87,7 +87,7 @@ void Player::Initialize()
 	collision.now_lane = eMID;
 
 	//SE‚ð“Ç‚Ýž‚Þ
-	hammer_sound = rm->GetImageResource("Resouce/Sounds/hanma_se.mp3")[0];
+	hammer_sound = rm->GetSoundResource("Resource/Sounds/hanma_se.mp3");
 
 	//int hammer_swing_down = LoadGraph("Resource/Images/Player/kajisan_hriososi.png");
 

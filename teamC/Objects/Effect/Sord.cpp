@@ -1,11 +1,11 @@
 #include "Sord.h"
 #include "../../Objects/GameObject.h"
+#include "../../Objects/GameObjectManager.h"
 #include"../../Utility/InputManager.h"
 #include "../../Utility/ResourceManager.h"
-#include "../../Utility/ScoreManager.h"
-#include"../../Utility/Application.h"
-#include"DxLib.h"
-Sord::Sord()
+
+Sord::Sord() :
+	hit_point(3)
 {
 }
 
@@ -15,27 +15,37 @@ Sord::~Sord()
 
 void Sord::Initialize()
 {
+	ResourceManager* rm = ResourceManager::GetInstance();
+	image = rm->GetImageResource("Resource/Images/Item//Sord.png")[0];
 
 	collision.object_type = eObjectType::eSord;
-	//•Ší‚Ì‰æ‘œ‚Ì“Ç‚Ýž‚Ý
-	ResourceManager* rm = ResourceManager::GetInstance();
-	image = rm->GetImageResource("Resource/item/Enemy_sword.png")[0];
 
-	if (image == -1)
-	{
-		// ‰æ‘œ“Ç‚Ýž‚ÝŽ¸”s‚Ìê‡‚Ìˆ—
-		throw ("Resource/item/Enemy_sword.png‚ª“Ç‚Ýž‚ß‚Ü‚¹‚ñ‚Å‚µ‚½\n");
+	z_layer = 4;
 
-	}
 }
 
 void Sord::Update(float delta_second)
 {
+	InputManager *input = InputManager::GetInstance();
+
+	//ƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½‚çHP‚ðí‚é
+	if (input->GetButtonState(XINPUT_BUTTON_A) == Pressed)
+	{
+		hit_point--;
+	}
+
+	//HP‚ª0‚É‚È‚Á‚½‚çÁ‚·
+	if (hit_point == 0)
+	{
+		GameObjectManager* obm = GameObjectManager::GetInstance();
+		obm->DestroyGameObject(this);
+	}
 }
 
 void Sord::Draw(const Vector2D& screen_offset) const
 {
-	__super::Draw(screen_offset);
+	Vector2D graph_location = this->location - screen_offset;
+	DrawRotaGraphF(graph_location.x, graph_location.y, 1.0, 1.4, image, TRUE, filp_flag);
 }
 
 void Sord::Finalize()
