@@ -42,7 +42,7 @@ void InGameScene::Initialize()
 
 	//SE‚ð“Ç‚Ýž‚Þ
 	mainbgm = rm->GetSoundResource("Resource/Sounds/BGM/mainbgm.mp3");
-	ChangeVolumeSoundMem(100, mainbgm);
+	ChangeVolumeSoundMem(150, mainbgm);
 	PlaySoundMem(mainbgm, DX_PLAYTYPE_LOOP);
 }
 
