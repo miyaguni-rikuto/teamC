@@ -508,8 +508,19 @@ void InGameScene::testCheckLane()
 		}
 	}*/
 
+
 	for (int i = 0; i < game_enemy_list.size(); i++)
 	{
+
+		//エネミーの削除フラグがtrueだったら削除する
+		if (game_enemy_list[i]->GetDeleteFlag())
+		{
+			game_enemy_list.erase(game_enemy_list.begin() + i);
+
+			continue;
+		}
+
+		//同じレーンかどうかの判定を送る
 		if (game_enemy_list[i]->GetCollision().now_lane == player->GetCollision().now_lane)
 		{
 			game_enemy_list[i]->CheckLane(true);
