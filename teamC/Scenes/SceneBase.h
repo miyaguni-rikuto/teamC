@@ -45,7 +45,10 @@ public:
 			obj->Update(delta_second);
 		}
 
-		objm->CheckDstroyObject();
+		if (GetNowSceneType() != eSceneType::eInGame)
+		{
+			objm->CheckDstroyObject();
+		}
 
 		return GetNowSceneType();
 	}

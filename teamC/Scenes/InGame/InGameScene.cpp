@@ -41,106 +41,106 @@ void InGameScene::Initialize()
 eSceneType InGameScene::Update(float delta_second)
 {
 	InputManager* input = InputManager::GetInstance();
-	
 
-#ifndef DEBUG_MODE
-
-	objm->HitCheck();
-
-	//DeleteObject();
-
-	//レーンに5人以上溜まるとゲームオーバー
-	if (enemy_count[0] > 5 || enemy_count[1] > 5 || enemy_count[2] > 5)
-	{
-		return eSceneType::eResult;
-	}
-
-	//エネミーの生成
-	/*for (int i = 0; i < 3; i++)
-	{
-		Enemy_count[i]++;
-	}*/
-
-	// タイマー更新処理
-	time_counter += delta_second;  // フレームごとに経過時間を加算
-
-	if (time_counter >= 1.0f)  // 1秒経過した場合
-	{
-		enemy_timer += 1;  // 1秒減らす
-		time_counter = 0.0f;  // カウンターをリセット
-	}
-
-	//if(count < 3)
-	//{ 
-	//	Enemy_count[count]++;
-
-	//	count++;
-	//}
-
-	//2秒経過したら敵を生成する
-	if (enemy_timer > 0)
-	{
-		int random = GetRand(2);
-
-		//どこのレーンに生成するかをランダムで決める
-		switch (0)
-		{
-		case 0:		//左のレーン
-			enemy = objm->CreateGameObject<Enemy>(Vector2D(D_LEFT_LEAN, 10));
-			enemy->SetLane(eRIGHT);
-			game_enemy_list.push_back(enemy);
-			enemy_count[0]++;
-			break;
-
-		case 1:		//真ん中のレーン
-			enemy = objm->CreateGameObject<Enemy>(Vector2D(D_MID_LEAN, 10));
-			enemy->SetLane(eMID);
-			game_enemy_list.push_back(enemy);
-			enemy_count[1]++;
-			break;
-
-		case 2:		//右のレーン
-			enemy = objm->CreateGameObject<Enemy>(Vector2D(D_RIGHT_LEAN, 10));
-			enemy->SetLane(eLEFT);
-			game_enemy_list.push_back(enemy);
-			enemy_count[2]++;
-			break;
-		default:
-			break;
-		}
-
-		enemy_timer = 0;
-	}
-
-	//エネミーの削除フラグがtrueだったら削除する
-	for (int i = 0; i < game_enemy_list.size(); i++)
-	{
-		if (game_enemy_list[i]->GetDeleteFlag())
-		{
-			game_enemy_list.erase(game_enemy_list.begin() + i);
-		}
-	}
-
-	testCheckLane();
-
-	__super::Update(delta_second);
-
-
-#else
 	//pause_flgがfalseであれば更新処理を入れる
 	if (!start_flg)
 	{
-		objm->HitCheck();
-
 		__super::Update(delta_second);
 
-		//Dキーが押された場合
-		if (input->GetKeyState(KEY_INPUT_D) == eInputState::Pressed)
+		//game_enemy_lisitの削除処理
+		for (int i = 0; i < game_enemy_list.size(); i++)
+		{
+			//エネミーの削除フラグがtrueだったら削除する
+			if (game_enemy_list[i]->GetDeleteFlag())
+			{
+				//消す敵のレーン情報を取得
+				eNowLane lane = eLEFT;
+				game_enemy_list[i]->GetCollision().now_lane;
+
+				//対応するレーンにいる敵の数を減らす
+				switch (lane)
+				{
+				case eLEFT:
+					enemy_count[0]--;
+					break;
+
+				case eMID:
+					enemy_count[1]--;
+					break;
+
+				case eRIGHT:
+					enemy_count[2]--;
+					break;
+
+				default:
+					break;
+				}
+
+				game_enemy_list.erase(game_enemy_list.begin() + i);
+
+				//もう一度処理を実行する
+				continue;
+			}
+		}
+
+		//オブジェクト削除処理
+		objm->CheckDstroyObject();
+
+		//当たり判定処理
+		objm->HitCheck();
+
+		//レーンに5人以上溜まるとゲームオーバー
+		if (enemy_count[0] > 5 || enemy_count[1] > 5 || enemy_count[2] > 5)
 		{
 			return eSceneType::eResult;
 		}
 
-		//DeleteObject();
+		// タイマー更新処理
+		time_counter += delta_second;  // フレームごとに経過時間を加算
+
+		if (time_counter >= 1.0f)  // 1秒経過した場合
+		{
+			enemy_timer += 1;  // 1秒減らす
+			time_counter = 0.0f;  // カウンターをリセット
+		}
+
+		//2秒経過したら敵を生成する
+		if (enemy_timer > 0)
+		{
+			int random = GetRand(2);
+
+			//どこのレーンに生成するかをランダムで決める
+			switch (0)
+			{
+			case 0:		//左のレーン
+				enemy = objm->CreateGameObject<Enemy>(Vector2D(D_LEFT_LEAN, 10));
+				enemy->SetLane(eRIGHT);
+				game_enemy_list.push_back(enemy);
+				enemy_count[0]++;
+				break;
+
+			case 1:		//真ん中のレーン
+				enemy = objm->CreateGameObject<Enemy>(Vector2D(D_MID_LEAN, 10));
+				enemy->SetLane(eMID);
+				game_enemy_list.push_back(enemy);
+				enemy_count[1]++;
+				break;
+
+			case 2:		//右のレーン
+				enemy = objm->CreateGameObject<Enemy>(Vector2D(D_RIGHT_LEAN, 10));
+				enemy->SetLane(eLEFT);
+				game_enemy_list.push_back(enemy);
+				enemy_count[2]++;
+				break;
+			default:
+				break;
+			}
+
+			enemy_timer = 0;
+		}
+
+		//同じレーンにいるかどうかのチェック処理
+		testCheckLane();
 	}
 	else
 	{
@@ -158,12 +158,8 @@ eSceneType InGameScene::Update(float delta_second)
 		{
 			time_remaining = 0;
 			start_flg = !start_flg;
-
-			// ゲームオーバーや別の処理を追加することも可能
 		}
 	}
-
-#endif // DEBUG	
 
 	return GetNowSceneType();
 }
@@ -237,207 +233,6 @@ void InGameScene::CheckCollision(GameObject* target, GameObject* partner)
 
 }
 
-//void InGameScene::LoadStageMapCSV()
-//{
-//
-//	FILE* fp = NULL;
-//
-//	std::string file_name = "Resource/Map/Stage_Object.csv";
-//
-//
-//	// 指定されたファイルを開く
-//	errno_t result = fopen_s(&fp, file_name.c_str(), "r");
-//
-//	// エラーチェック
-//	if (result != 0)
-//	{
-//		throw (file_name + "が開けません");
-//	}
-//
-//	int x = 0;
-//	int y = 0;
-//	Ground* ground = nullptr;
-//	Cloud* cloud = nullptr;
-//	Kuribo* k = nullptr;
-//	Nokonoko* n = nullptr;
-//	Pipe* pipe = nullptr;
-//	GoalFlag* f = nullptr;
-//
-//	// ファイル内の文字を確認していく
-//	while (true)
-//	{
-//
-//		// ファイルから1文字抽出する
-//		int c = fgetc(fp);
-//
-//		//オブジェクトを生成する位置
-//		Vector2D generate_location = (Vector2D((float)x, (float)y) * OBJECT_SIZE) + (OBJECT_SIZE / 2);
-//
-//		// 抽出した文字がEOFならループ終了
-//		if (c == EOF)
-//		{
-//			break;
-//		}
-//		//抽出した文字が'P'ならPlayerを描画する
-//		else if (c == 'M')
-//		{
-//			p = objm->CreateGameObject<Player>(generate_location);
-//			camera->Set_Player(p);
-//			p->Set_Camera(camera);
-//
-//			x++;
-//		}
-//		// 抽出した文字がGなら、地面を生成
-//		else if (c == 'G')
-//		{
-//			ground = objm->CreateGameObject<Ground>(generate_location);
-//			ground->Set_Camera(camera);
-//			x++;
-//		}
-//		//抽出した文字がKなら、クリボー（敵）を生成する
-//		else if (c == 'C')
-//		{
-//			k = objm->CreateGameObject<Kuribo>(generate_location);
-//			k->Set_Camera(camera);
-//			x++;
-//		}
-//		else if (c == 'N')
-//		{
-//			n = objm->CreateGameObject<Nokonoko>(generate_location);
-//			n->Set_Camera(camera);
-//			x++;
-//		}
-//		else if (c == 'B')
-//		{
-//			c = fgetc(fp);
-//			switch (c)
-//			{
-//			case '?':
-//				c = fgetc(fp);
-//				switch (c)
-//				{
-//				case 'M':
-//					objm->CreateGameObject<Question>(generate_location)->SetItemType(eMushroom);
-//					x++;
-//					break;
-//
-//				case 'F':
-//					objm->CreateGameObject<Question>(generate_location)->SetItemType(eFlower);
-//					x++;
-//					break;
-//
-//				case 'C':
-//					objm->CreateGameObject<Question>(generate_location)->SetItemType(eCoin);
-//					x++;
-//					break;
-//
-//				case 'S':
-//					objm->CreateGameObject<Question>(generate_location)->SetItemType(eStar);
-//					x++;
-//					break;
-//
-//				case 'O':
-//					objm->CreateGameObject<Question>(generate_location)->SetItemType(eOneup);
-//					x++;
-//					break;
-//
-//				default:
-//					objm->CreateGameObject<Question>(generate_location)->SetItemType(eCoin);
-//					x++;
-//					break;
-//				}
-//
-//				break;
-//
-//			case '0':
-//				objm->CreateGameObject<Brick>(generate_location);
-//				x++;
-//				break;
-//
-//			case '1':
-//				objm->CreateGameObject<HardBlock>(generate_location);
-//				x++;
-//				break;
-//
-//			case 'H':
-//				x++;
-//				break;
-//			}
-//		}
-//		else if (c == 'P')
-//		{
-//			c = fgetc(fp);
-//
-//			switch (c)
-//			{
-//			case '0':
-//				pipe = objm->CreateGameObject<Pipe>(generate_location);
-//				pipe->Set_Image(0);
-//				x++;
-//				break;
-//
-//			case '1':
-//				pipe = objm->CreateGameObject<Pipe>(generate_location);
-//				pipe->Set_Image(1);
-//				x++;
-//				break;
-//
-//			case '2':
-//				pipe = objm->CreateGameObject<Pipe>(generate_location);
-//				pipe->Set_Image(2);
-//				x++;
-//				break;
-//
-//			case '3':
-//				pipe = objm->CreateGameObject<Pipe>(generate_location);
-//				pipe->Set_Image(3);
-//				x++;
-//				break;
-//			case 'E':
-//
-//				objm->CreateGameObject<Pipeenter>(Vector2D((generate_location.x + 16.0f), generate_location.y + 8.0f));
-//				x++;
-//				break;
-//			}
-//		}
-//		else if (c == 'F')
-//		{
-//			c = fgetc(fp);
-//			switch (c)
-//			{
-//			case '0':
-//				f = objm->CreateGameObject<GoalFlag>(generate_location);
-//				f->Set_Image(0);
-//				x++;
-//				break;
-//
-//			case '1':
-//				f = objm->CreateGameObject<GoalFlag>(generate_location);
-//				f->Set_Image(1);
-//				x++;
-//				break;
-//			}
-//		}
-//		//抽出した文字が0なら何も生成せず、次の文字を見る
-//		else if (c == '0')
-//		{
-//			x++;
-//		}
-//		// 抽出した文字が改行文字なら、次の行を見に行く
-//		else if (c == '\n')
-//		{
-//			x = 0;
-//			y++;
-//		}
-//
-//
-//
-//	}
-//
-//	// 開いたファイルを閉じる
-//	fclose(fp);
-//}
-
 void InGameScene::DrawBackGroundCSV() const
 {
 
@@ -504,53 +299,9 @@ void InGameScene::DrawBackGroundCSV() const
 //プレイヤーとおなじレーンにいるかどうか
 void InGameScene::testCheckLane()
 {
-	/*for (int i = 0; i < game_enemy_list.size(); i++)
-	{
-		if (game_enemy_list[i]->GetCollision().now_lane == player->GetCollision().now_lane)
-		{
-			game_enemy_list[i]->CheckLane(true);
-		}
-		else
-		{
-			game_enemy_list[i]->CheckLane(false);
-		}
-	}*/
-
-	//リストの分だけfor分を回す
 	for (int i = 0; i < game_enemy_list.size(); i++)
 	{
-		//エネミーの削除フラグがtrueだったら削除する
-		if (game_enemy_list[i]->GetDeleteFlag())
-		{
-			//消す敵のレーン情報を取得
-			eNowLane lane = game_enemy_list[i]->GetCollision().now_lane;
 
-			//対応するレーンにいる敵の数を減らす
-			switch (lane)
-			{
-			case eLEFT:
-				enemy_count[0]--;
-				break;
-
-			case eMID:
-				enemy_count[1]--;
-				break;
-
-			case eRIGHT:
-				enemy_count[2]--;
-				break;
-
-			default:
-				break;
-			}
-
-			game_enemy_list.erase(game_enemy_list.begin() + i);
-
-			//もう一度処理を実行する
-			continue;
-		}
-
-		//同じレーンかどうかの判定を送る
 		if (game_enemy_list[i]->GetCollision().now_lane == player->GetCollision().now_lane)
 		{
 			game_enemy_list[i]->CheckLane(true);
@@ -560,6 +311,22 @@ void InGameScene::testCheckLane()
 			game_enemy_list[i]->CheckLane(false);
 		}
 	}
+
+	//リストの分だけfor分を回す
+	//for (int i = 0; i < game_enemy_list.size(); i++)
+	//{
+	//	
+
+	//	//同じレーンかどうかの判定を送る
+	//	if (game_enemy_list[i]->GetCollision().now_lane == player->GetCollision().now_lane)
+	//	{
+	//		game_enemy_list[i]->CheckLane(true);
+	//	}
+	//	else
+	//	{
+	//		game_enemy_list[i]->CheckLane(false);
+	//	}
+	//}
 }
 
 //void InGameScene::DrawBackGroundCSV() const
