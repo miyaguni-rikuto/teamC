@@ -7,7 +7,7 @@ void ResultScene::Initialize()
 {
 	ResourceManager* rm = ResourceManager::GetInstance();
 	//result_image = rm->GetImageResource("Resource/Images/Resulet_image.png")[0];
-	result_field = rm->GetImageResource("Resource/Images/Result_display.png")[0];
+	result_field = rm->GetImageResource("Resource/Images/Result_Field.png")[0];
 	replay_image = rm->GetImageResource("Resource/Images/Restart.png")[0];
 	title_image = rm->GetImageResource("Resource/Images/Titleexit.png")[0];
 
