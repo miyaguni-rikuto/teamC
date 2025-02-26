@@ -6,6 +6,8 @@ class Table : public BackImageBase
 private:
 	std::vector<int> table_image;		// 背景画像
 
+	bool hit_enemy_flag;						//エネミーに当たっているかどうか
+
 public:
 	Table();
 	~Table();

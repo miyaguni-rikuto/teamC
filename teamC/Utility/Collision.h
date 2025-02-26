@@ -8,7 +8,8 @@ enum eObjectType
 	eNone,
 	ePlayer,
 	eEnemy,
-	eTable
+	eTable,
+	eSord
 };
 
 //Œ»İ‚ÌƒŒ[ƒ“ˆÊ’u

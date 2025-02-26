@@ -1,5 +1,7 @@
 #include "Table.h"
 #include "../../Utility/ResourceManager.h"
+#include"../../Objects/Effect/Sord.h"
+#include"../../Objects/GameObject.h"
 
 Table::Table()
 {
@@ -42,6 +44,7 @@ void Table::Initialize()
 void Table::Update(float delta_second)
 {
 	
+	hit_flag = false;
 }
 
 /// <summary>
@@ -51,7 +54,10 @@ void Table::Update(float delta_second)
 void Table::Draw(const Vector2D& screen_offset) const
 {
 	// 親クラスの描画処理を呼び出す
-	__super::Draw(screen_offset);
+	if (hit_flag == true)
+	{
+		__super::Draw(screen_offset);
+	}
 }
 
 /// <summary>

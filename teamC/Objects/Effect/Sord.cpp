@@ -15,6 +15,8 @@ Sord::~Sord()
 
 void Sord::Initialize()
 {
+
+	collision.object_type = eObjectType::eSord;
 	//•Ší‚Ì‰æ‘œ‚Ì“Ç‚Ýž‚Ý
 	ResourceManager* rm = ResourceManager::GetInstance();
 	image = rm->GetImageResource("Resource/item/Enemy_sword.png")[0];
@@ -42,4 +44,5 @@ void Sord::Finalize()
 
 void Sord::OnHitCollision(GameObject* target)
 {
+	
 }

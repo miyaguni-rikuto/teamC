@@ -4,6 +4,7 @@
 #include "../../Utility/ResourceManager.h"
 #include "../../Utility/ScoreManager.h"
 #include"../../Utility/Application.h"
+#include "../Effect/Effect.h"
 #include"DxLib.h"
 
 #define D_ENEMY_SPEED (20.f)
@@ -97,6 +98,9 @@ void Enemy::Initialize()
 		//ƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½‚çHP‚ðí‚é
 		if (input->GetButtonState(XINPUT_BUTTON_A) == Pressed)
 		{
+			GameObjectManager* obm = GameObjectManager::GetInstance();
+			obm->CreateGameObject<Effect>(Vector2D(this->location.x + 16, location.y + 55.0f));
+
 			hit_point--;
 			ScoreManager::GetInstance().UpdateButtonCount(50);
 		}
