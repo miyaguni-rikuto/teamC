@@ -1,6 +1,7 @@
 #include "ResultScene.h"
 #include "../../Utility/InputManager.h"
 #include "../../Utility/ResourceManager.h"
+#include "../../Utility/ScoreManager.h"
 #include "DxLib.h"
 
 void ResultScene::Initialize()
@@ -12,23 +13,31 @@ void ResultScene::Initialize()
 	title_image = rm->GetImageResource("Resource/Images/Titleexit.png")[0];
 
 	select = false;
+
+	// スコアとボタン回数を取得
+	ScoreManager& sm = ScoreManager::GetInstance();
+	score = sm.GetScore(); // スコア取得
+	enemy_count = sm.GetCount(); //客を帰した数の取得
 }
 
 eSceneType ResultScene::Update(float delta_second)
 {
 	InputManager* input = InputManager::GetInstance();
 
-	if (input->GetKeyState(KEY_INPUT_LEFT) == eInputState::Pressed)
+	if (input->GetKeyState(KEY_INPUT_LEFT) == eInputState::Pressed ||
+		input->GetButtonState(XINPUT_BUTTON_DPAD_LEFT) == eInputState::Pressed)
 	{
 		select = false;
 	}
 
-	if (input->GetKeyState(KEY_INPUT_RIGHT) == eInputState::Pressed)
+	if (input->GetKeyState(KEY_INPUT_RIGHT) == eInputState::Pressed ||
+		input->GetButtonState(XINPUT_BUTTON_DPAD_RIGHT) == eInputState::Pressed)
 	{
 		select = true;
 	}
 
-	if (input->GetKeyState(KEY_INPUT_SPACE) == eInputState::Pressed)
+	if (input->GetKeyState(KEY_INPUT_SPACE) == eInputState::Pressed ||
+		input->GetButtonState(XINPUT_BUTTON_A) == eInputState::Pressed)
 	{
 		return eSceneType::eTitle;
 	}
@@ -44,11 +53,11 @@ void ResultScene::Draw() const
 
 	DrawRotaGraph(320, 220, 1.5, 0.0, result_field, TRUE, FALSE);
 
-	//DrawFormatString(320, 220, GetColor(255,255,255), "ボタンを押した回数");
-	DrawFormatString(280, 150, GetColor(255,255,255), "%d回", 1000);
+	DrawFormatString(190, 80, GetColor(255,255,255), "今回のスコア");
+	DrawFormatString(230, 150, GetColor(255,255,255), "SCORE:%d", score);
 
-	//DrawFormatString(320, 300, GetColor(255, 255, 255), "敵を帰した数");
-	DrawFormatString(280, 320, GetColor(255, 255, 255), "%d人", 100);
+	DrawFormatString(190, 250, GetColor(255, 255, 255), "帰した客の数");
+	DrawFormatString(280, 320, GetColor(255, 255, 255), "%d人", enemy_count);
 
 	//リスタート画像
 	DrawRotaGraph(240, 440, 1.0, 0.0, replay_image, TRUE, FALSE);

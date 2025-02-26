@@ -74,7 +74,7 @@ eSceneType InGameScene::Update(float delta_second)
 	//}
 
 	//４秒経過したら敵を生成する
-	if (enemy_timer > 4)
+	if (enemy_timer > 2)
 	{
 		int random = GetRand(2);
 
@@ -508,8 +508,19 @@ void InGameScene::testCheckLane()
 		}
 	}*/
 
+
 	for (int i = 0; i < game_enemy_list.size(); i++)
 	{
+
+		//エネミーの削除フラグがtrueだったら削除する
+		if (game_enemy_list[i]->GetDeleteFlag())
+		{
+			game_enemy_list.erase(game_enemy_list.begin() + i);
+
+			continue;
+		}
+
+		//同じレーンかどうかの判定を送る
 		if (game_enemy_list[i]->GetCollision().now_lane == player->GetCollision().now_lane)
 		{
 			game_enemy_list[i]->CheckLane(true);
