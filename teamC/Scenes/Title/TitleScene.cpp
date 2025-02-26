@@ -1,12 +1,20 @@
 #include "TitleScene.h"
 #include "../../Utility/InputManager.h"
 #include "../../Utility/ResourceManager.h"
+#include "../../Utility/Vector2D.h"
 #include "DxLib.h"
 
 void TitleScene::Initialize()
 {
 	__super::Initialize();
 
+	// îwåiâÊëúÇÃì«Ç›çûÇ›
+	ResourceManager* rm = ResourceManager::GetInstance();
+	std::vector<int> tmp;
+
+	back_ground_image = rm->GetImageResource("Resource/Images/title.png")[0];
+	
+	
 	select_menu = eNONE;
 
 	pickup_color = GetColor(255, 0, 0);
@@ -65,6 +73,7 @@ eSceneType TitleScene::Update(float delta_second)
 void TitleScene::Draw() const
 {
 	//É^ÉCÉgÉãîwåiâÊëúÇÃï`âÊ;
+	//DrawRotaGraph(0, 0,1.0,1.0, back_ground_image, TRUE);
 
 	SetFontSize(60);
 
@@ -76,28 +85,28 @@ void TitleScene::Draw() const
 	switch (select_menu)
 	{
 	case eNONE:
-		DrawFormatString(210, 200, dropoff_color, "PLAY STSRT");
+		DrawFormatString(210, 200, dropoff_color, "PLAY START");
 		DrawFormatString(210, 250, dropoff_color, "HELP");
 		DrawFormatString(210, 300, dropoff_color, "RANKING");
 		DrawFormatString(210, 350, dropoff_color, "EXIT");
 		break;
 
 	case ePLAY:
-		DrawFormatString(210, 200, pickup_color, "PLAY STSRT");
+		DrawFormatString(210, 200, pickup_color, "PLAY START");
 		DrawFormatString(210, 250, dropoff_color, "HELP");
 		DrawFormatString(210, 300, dropoff_color, "RANKING");
 		DrawFormatString(210, 350, dropoff_color, "EXIT");
 		break;
 
 	case eHELP:
-		DrawFormatString(210, 200, dropoff_color, "PLAY STSRT");
+		DrawFormatString(210, 200, dropoff_color, "PLAY START");
 		DrawFormatString(210, 250, pickup_color, "HELP");
 		DrawFormatString(210, 300, dropoff_color, "RANKING");
 		DrawFormatString(210, 350, dropoff_color, "EXIT");
 		break;
 
 	case eRanking:
-		DrawFormatString(210, 200, dropoff_color, "PLAY STSRT");
+		DrawFormatString(210, 200, dropoff_color, "PLAY START");
 		DrawFormatString(210, 250, dropoff_color, "HELP");
 		DrawFormatString(210, 300, pickup_color, "RANKING");
 		DrawFormatString(210, 350, dropoff_color, "EXIT");
