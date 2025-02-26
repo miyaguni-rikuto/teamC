@@ -12,7 +12,8 @@ void TitleScene::Initialize()
 	ResourceManager* rm = ResourceManager::GetInstance();
 	std::vector<int> tmp;
 
-	back_ground_image = rm->GetImageResource("Resource/Images/title.png")[0];
+	
+	back_ground_image = rm->GetImageResource("Resource/Images/Title.png")[0];
 	
 	
 	select_menu = eNONE;
@@ -73,7 +74,7 @@ eSceneType TitleScene::Update(float delta_second)
 void TitleScene::Draw() const
 {
 	//ƒ^ƒCƒgƒ‹”wŒi‰æ‘œ‚Ì•`‰æ;
-	//DrawRotaGraph(0, 0,1.0,1.0, back_ground_image, TRUE);
+	DrawGraph(0, 0,back_ground_image, TRUE);
 
 	SetFontSize(60);
 
