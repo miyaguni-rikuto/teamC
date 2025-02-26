@@ -36,6 +36,8 @@ private:
 	int time_add;
 	int now_count;
 
+	int mainbgm;//ƒQ[ƒ€ƒƒCƒ“‚ÌBG‚l
+
 public:
 	virtual void Initialize() override;
 	virtual eSceneType Update(float delta_second) override;

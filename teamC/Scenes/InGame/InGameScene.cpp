@@ -23,6 +23,8 @@ void InGameScene::Initialize()
 {
 	ScoreManager::GetInstance().ResetScore();
 
+	ResourceManager* rm = ResourceManager::GetInstance();
+
 	//GameObjectManagerのインスタンス取得
 	objm = GameObjectManager::GetInstance();
 	player = objm->CreateGameObject<Player>(Vector2D(320, 400));		//プレイヤーポインタの取得
@@ -37,11 +39,17 @@ void InGameScene::Initialize()
 	DrawBackGroundCSV();
 
 	//LoadStageMapCSV();
+
+	//SEを読み込む
+	mainbgm = rm->GetSoundResource("Resource/Sounds/BGM/mainbgm.mp3");
+	ChangeVolumeSoundMem(100, mainbgm);
+	PlaySoundMem(mainbgm, DX_PLAYTYPE_LOOP);
 }
 
 eSceneType InGameScene::Update(float delta_second)
 {
 	InputManager* input = InputManager::GetInstance();
+	
 
 	//pause_flgがfalseであれば更新処理を入れる
 	if (!start_flg)
