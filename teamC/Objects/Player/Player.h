@@ -46,6 +46,7 @@ private:
 	int current_lane = 1;
 	float lane_positions[3]{ D_LEFT_LEAN,D_MID_LEAN,D_RIGHT_LEAN };
 	
+	int hammer_sound;	//ハンマーを振り下ろしたときの音
 
 	int food_count;							// コインを取った枚数
 	float animation_time;					// アニメーション時間

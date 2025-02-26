@@ -13,7 +13,7 @@ void TitleScene::Initialize()
 	std::vector<int> tmp;
 
 	
-	back_ground_image = rm->GetImageResource("Resource/Images/Title.png")[0];
+	back_ground_image = rm->GetImageResource("Resource/Images/Title.jpeg")[0];
 	
 	
 	select_menu = eNONE;

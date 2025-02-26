@@ -66,7 +66,7 @@ void Player::Initialize()
 
 	//画像を単体で読み込む
 	int move_image = LoadGraph("Resource/Images/Player/kajiyasan2_syoumen.png");
-		
+	
 	// エラーチェック
 	if (move_image == -1)
 	{
@@ -85,6 +85,10 @@ void Player::Initialize()
 	hammer_animation.push_back(tmp[0]);
 
 	collision.now_lane = eMID;
+
+	//SEを読み込む
+	hammer_sound = rm->GetImageResource("Resouce/Sounds/hanma_se.mp3")[0];
+
 	//int hammer_swing_down = LoadGraph("Resource/Images/Player/kajisan_hriososi.png");
 
 	/*if (hammer_swing_up == -1 || hammer_swing_down == -1)
@@ -149,6 +153,7 @@ void Player::Update(float delta_second)
 		Is_hammering = true;
 		hammer_timer = hammer_duration;
 		image = hammer_animation[1];
+		PlaySoundMem(hammer_sound, DX_PLAYTYPE_BACK);
 	}
 }
 
