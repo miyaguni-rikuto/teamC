@@ -13,9 +13,14 @@ RankingScene::~RankingScene()
 
 }
 
+RankingScene& RankingScene::GetInstance() {
+	static RankingScene instance;
+	return instance;
+}
+
 void RankingScene::Initialize()
 {
-	
+	LoadRanking();
 }
 
 eSceneType RankingScene::Update(float delta_second)
@@ -43,12 +48,27 @@ void RankingScene::Draw() const
 	// 親クラスの描画処理を呼び出す
 	//__super::Draw();
 
-	DrawFormatString(50, 50, GetColor(255, 255, 255), "ランキングです");
+	SetFontSize(50);
+
+	DrawFormatString(150, 20, GetColor(255, 255, 255), "ランキング");
+
+	// ランキングの描画
+	for (size_t i = 0; i < ranking.size(); ++i) {
+		DrawFormatString(100, 100 + i * 50, GetColor(255, 255, 255), "%d位: %d点", i + 1, ranking[i]);
+	}
 
 	// UIの描画
-	//DrawRotaGraph(320, 240, 1.0, 0.0, title_image, TRUE);
 	DrawFormatString(10, 640, GetColor(255, 0, 0), "Space key pressed back title");
-	SetFontSize(16);
+	//SetFontSize(16);
+}
+
+void RankingScene::AddScore(int score) {
+	ranking.push_back(score);
+	std::sort(ranking.rbegin(), ranking.rend()); // 降順ソート
+	if (ranking.size() > MAX_RANKING) {
+		ranking.pop_back(); // 5位より下のスコアを削除
+	}
+	SaveRanking();
 }
 
 void RankingScene::Finalize()
@@ -60,4 +80,25 @@ void RankingScene::Finalize()
 eSceneType RankingScene::GetNowSceneType() const
 {
 	return eSceneType::eRanking;
+}
+
+void RankingScene::SaveRanking() {
+	std::ofstream file("ranking.dat", std::ios::out);
+	if (file.is_open()) {
+		for (int score : ranking) {
+			file << score << "\n";
+		}
+		file.close();
+	}
+}
+
+void RankingScene::LoadRanking() {
+	std::ifstream file("ranking.dat", std::ios::in);
+	ranking.clear(); // 一旦クリア
+	int score;
+	while (file >> score) {
+		ranking.push_back(score);
+	}
+	file.close();
+	std::sort(ranking.rbegin(), ranking.rend()); // 降順ソート
 }

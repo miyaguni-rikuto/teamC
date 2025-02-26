@@ -1,4 +1,5 @@
 #include "ResultScene.h"
+#include "../Ranking/RankingScene.h"
 #include "../../Utility/InputManager.h"
 #include "../../Utility/ResourceManager.h"
 #include "../../Utility/ScoreManager.h"
@@ -89,6 +90,8 @@ void ResultScene::Finalize()
 
 	result_image = NULL;
 	result_field = NULL;
+
+	RankingScene::GetInstance().AddScore(score);
 
 	//GameObjectManager *obm = GameObjectManager::GetInstance();
 
