@@ -180,6 +180,7 @@
   <ItemGroup>
     <ClCompile Include="Objects\BackImageBase.cpp" />
     <ClCompile Include="Objects\Effect\Effect.cpp" />
+    <ClCompile Include="Objects\Effect\Sord.cpp" />
     <ClCompile Include="Objects\Enemy\Enemy.cpp" />
     <ClCompile Include="Objects\Furniture\Floor.cpp" />
     <ClCompile Include="Objects\Furniture\Table.cpp" />
