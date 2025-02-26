@@ -20,6 +20,15 @@ RankingScene& RankingScene::GetInstance() {
 
 void RankingScene::Initialize()
 {
+	__super::Initialize();
+
+	// 背景画像の読み込み
+	ResourceManager* rm = ResourceManager::GetInstance();
+	std::vector<int> tmp;
+
+
+	back_ground_image = rm->GetImageResource("Resource/Images/Title.jpeg")[0];
+
 	LoadRanking();
 }
 
@@ -45,9 +54,9 @@ eSceneType RankingScene::Update(float delta_second)
 
 void RankingScene::Draw() const
 {
-	// 親クラスの描画処理を呼び出す
-	//__super::Draw();
 
+	DrawGraph(0, 0, back_ground_image, TRUE);
+	
 	SetFontSize(50);
 
 	DrawFormatString(180, 20, GetColor(255, 255, 255), "ランキング");
@@ -57,9 +66,7 @@ void RankingScene::Draw() const
 		DrawFormatString(180, 100 + i * 70, GetColor(255, 255, 255), "%d位: %d点", i + 1, ranking[i]);
 	}
 
-	// UIの描画
-	//DrawFormatString(10, 2000, GetColor(255, 255, 255), "Space key pressed back title");
-	//SetFontSize(16);
+	
 }
 
 void RankingScene::AddScore(int score) {

@@ -21,6 +21,8 @@ public:
 	virtual void Draw() const override;
 	virtual void Finalize() override;
 
+	int back_ground_image;	//背景画像
+
 	// 現在のシーンタイプ情報を取得する
 	virtual eSceneType GetNowSceneType() const override;
 

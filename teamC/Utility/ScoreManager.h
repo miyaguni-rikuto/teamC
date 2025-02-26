@@ -2,17 +2,11 @@
 
 #include <DxLib.h>
 
-//enum COUNTDATA {
-//	BUTTON_COUNT,
-//	ENEMY_COUNT
-//};
-
 class ScoreManager
 {
 public:
 		
 private:
-	int g_number[10];
 	int score;
 	int button_count, enemy_count;
 	
@@ -25,7 +19,6 @@ private:
 	bool ButtonState;
 public:
 	static ScoreManager& GetInstance();
-	//void SetCount(COUNTDATA data, int val);
 	int GetCount();
 	int GetScore();
 	void AddCount(int val);
@@ -33,7 +26,5 @@ public:
 	void UpdateButtonCount(int val);
 	void ResetScore();
 
-	void SaveScore();
-	void LoadScore();
 };
 
