@@ -9,12 +9,12 @@
 
 class ScoreManager
 {
-	public:
-		int score;
-		int button_count, enemy_count;
+public:
+		
 private:
 	int g_number[10];
-
+	int score;
+	int button_count, enemy_count;
 	
 
 private:
