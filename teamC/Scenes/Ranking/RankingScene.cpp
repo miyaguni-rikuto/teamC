@@ -28,7 +28,8 @@ eSceneType RankingScene::Update(float delta_second)
 	{
 		return eSceneType::eTitle;
 	}
-	if (input->GetButtonState(XINPUT_BUTTON_START) == Pressed)
+	if (input->GetButtonState(XINPUT_BUTTON_START) == Pressed ||
+		input->GetButtonState(XINPUT_BUTTON_A) == eInputState::Pressed)
 	{
 		return eSceneType::eTitle;
 	}

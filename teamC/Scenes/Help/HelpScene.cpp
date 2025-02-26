@@ -12,7 +12,8 @@ eSceneType HelpScene::Update(float delta_second)
 
 	InputManager* input = InputManager::GetInstance();
 
-	if (input->GetKeyState(KEY_INPUT_SPACE) == eInputState::Pressed)
+	if (input->GetKeyState(KEY_INPUT_SPACE) == eInputState::Pressed ||
+		input->GetButtonState(XINPUT_BUTTON_A) == eInputState::Pressed)
 	{
 		return eSceneType::eTitle;
 	}
