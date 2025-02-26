@@ -2,6 +2,7 @@
 #include "../../Objects/GameObject.h"
 #include"../../Utility/InputManager.h"
 #include "../../Utility/ResourceManager.h"
+#include "../../Utility/ScoreManager.h"
 #include"../../Utility/Application.h"
 #include"DxLib.h"
 
@@ -95,6 +96,7 @@ void Enemy::Initialize()
 		if (input->GetButtonState(XINPUT_BUTTON_A) == Pressed)
 		{
 			hit_point--;
+			ScoreManager::GetInstance().UpdateButtonCount(50);
 		}
 		
 		//HP‚ª0‚É‚È‚Á‚½‚çÁ‚·
@@ -103,6 +105,7 @@ void Enemy::Initialize()
 			GameObjectManager* obm = GameObjectManager::GetInstance();
 			is_delete_flg = true;
 			obm->DestroyGameObject(this);
+			ScoreManager::GetInstance().AddCount(100);
 		}
     }
 

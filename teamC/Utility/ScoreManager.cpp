@@ -65,11 +65,8 @@ void ScoreManager::UpdateButtonCount(int val) {
     
     InputManager* input = InputManager::GetInstance();
 
-    if (input->GetKeyState(KEY_INPUT_Z) == eInputState::Pressed)
-    {
         button_count++;
         score += val;  // ƒXƒRƒA‚ğ100’Ç‰Á
-    }
     
 }
 

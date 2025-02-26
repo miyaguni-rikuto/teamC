@@ -37,8 +37,6 @@ void InGameScene::Initialize()
 eSceneType InGameScene::Update(float delta_second)
 {
 	InputManager* input = InputManager::GetInstance();
-
-	ScoreManager::GetInstance().UpdateButtonCount(100);
 	
 
 #ifndef DEBUG_MODE
