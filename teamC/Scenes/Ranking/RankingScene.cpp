@@ -63,7 +63,7 @@ void RankingScene::Draw() const
 
 	// ランキングの描画
 	for (size_t i = 0; i < ranking.size(); ++i) {
-		DrawFormatString(180, 100 + i * 70, GetColor(255, 255, 255), "%d位: %d点", i + 1, ranking[i]);
+		DrawFormatString(250, 100 + i * 70, GetColor(255, 255, 255), "%d位: %d点", i + 1, ranking[i]);
 	}
 
 	
